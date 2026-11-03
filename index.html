@@ -3,10 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#ffb6d9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="星星宠物岛">
-<meta name="theme-color" content="#ffb6d9">
+<meta name="application-name" content="星星宠物岛">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/splash-750x1334.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1242x2208.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1125x2436.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="splash/splash-828x1792.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1242x2688.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1080x2340.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1170x2532.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1179x2556.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1284x2778.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1290x2796.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1206x2622.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1320x2868.png">
 <title>星星宠物岛 Star Pet Island</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
@@ -133,8 +152,30 @@ pre{white-space:pre-wrap;word-break:break-all;font-size:11px;background:#f6f0fb;
 .zcard.lockc{background:#f1ecf5;color:#a99ab8}
 </style>
 
+<style>
+/* ---- PWA: safe areas & standalone ---- */
+html{background:#ffe1f0;-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh}
+#app{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+.modal{padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+.modal .card{max-height:calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px);overflow:auto}
+@media (display-mode: standalone){
+ body{overscroll-behavior-y:none}
+ #app{padding-top:calc(14px + env(safe-area-inset-top));padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+}
+#spiSplash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+ background:radial-gradient(circle at 30% 18%,#fff6d8 0,#ffd1e8 40%,#ffb3d6 75%,#cdb8ff 140%);transition:opacity .45s ease;
+ padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+#spiSplash.out{opacity:0;pointer-events:none}
+#spiSplash img{width:46vw;max-width:220px;aspect-ratio:1;border-radius:23%;box-shadow:0 14px 34px rgba(190,80,140,.28),0 4px 0 #fff inset;animation:spiPop .6s cubic-bezier(.3,1.5,.6,1)}
+#spiSplash b{font-size:clamp(30px,9vw,44px);font-weight:900;color:#ff5fa2;text-shadow:0 3px 0 #fff;margin-top:18px;letter-spacing:2px}
+#spiSplash span{font-size:clamp(16px,4.6vw,22px);font-weight:800;color:#3fa3f5;text-shadow:0 2px 0 #fff}
+#spiSplash i{position:absolute;bottom:calc(36px + env(safe-area-inset-bottom));font-style:normal;color:#b07aa0;font-size:14px;font-weight:700}
+@keyframes spiPop{0%{transform:scale(.6);opacity:0}100%{transform:none;opacity:1}}
+</style>
 </head>
 <body>
+<div id="spiSplash" aria-hidden="true"><img src="icon-512.png" alt=""><b>星星宠物岛</b><span>⭐ Star Pet Island ⭐</span><i>养宠物 · 学英语</i></div>
 <div id="app"></div>
 <div id="toast" class="toast"></div>
 <script>
@@ -1019,6 +1060,16 @@ function testPanel(){
 }
 render();
 
+</script>
+<script>
+// launch splash (~1s), tap to skip
+(function(){var sp=document.getElementById('spiSplash');if(!sp)return;var t0=Date.now();
+ function hide(){if(document.documentElement.dataset.holdSplash)return;sp.classList.add('out');setTimeout(function(){sp.remove()},500)}
+ sp.addEventListener('click',hide);setTimeout(hide,Math.max(0,1000-(Date.now()-t0)));})();
+// service worker (offline support). Skipped for file:// previews.
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+ window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(e){console.warn('SW register failed',e)})});
+}
 </script>
 </body>
 </html>
