@@ -1,5 +1,5 @@
-/* Star Pet Island service worker. Bump CACHE when shipping a new version. */
-const CACHE = 'spi-v1';
+/* Wordmallow (词团子) service worker. Bump CACHE when shipping a new version. */
+const CACHE = 'spi-v3';
 const PRECACHE = [
   './',
   './index.html',

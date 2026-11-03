@@ -7,8 +7,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="星星宠物岛">
-<meta name="application-name" content="星星宠物岛">
+<meta name="apple-mobile-web-app-title" content="词团子">
+<meta name="application-name" content="词团子">
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -26,7 +26,7 @@
 <link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1290x2796.png">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1206x2622.png">
 <link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="splash/splash-1320x2868.png">
-<title>星星宠物岛 Star Pet Island</title>
+<title>词团子 Wordmallow</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 html,body{margin:0;height:100%}
@@ -170,12 +170,13 @@ body{min-height:100vh;min-height:100dvh}
 #spiSplash img{width:46vw;max-width:220px;aspect-ratio:1;border-radius:23%;box-shadow:0 14px 34px rgba(190,80,140,.28),0 4px 0 #fff inset;animation:spiPop .6s cubic-bezier(.3,1.5,.6,1)}
 #spiSplash b{font-size:clamp(30px,9vw,44px);font-weight:900;color:#ff5fa2;text-shadow:0 3px 0 #fff;margin-top:18px;letter-spacing:2px}
 #spiSplash span{font-size:clamp(16px,4.6vw,22px);font-weight:800;color:#3fa3f5;text-shadow:0 2px 0 #fff}
+#spiSplash .spiStar{width:1.05em;height:1.05em;vertical-align:-.14em}
 #spiSplash i{position:absolute;bottom:calc(36px + env(safe-area-inset-bottom));font-style:normal;color:#b07aa0;font-size:14px;font-weight:700}
 @keyframes spiPop{0%{transform:scale(.6);opacity:0}100%{transform:none;opacity:1}}
 </style>
 </head>
 <body>
-<div id="spiSplash" aria-hidden="true"><img src="icon-512.png" alt=""><b>星星宠物岛</b><span>⭐ Star Pet Island ⭐</span><i>养宠物 · 学英语</i></div>
+<div id="spiSplash" aria-hidden="true"><img src="icon-512.png" alt=""><b>词团子</b><span><svg class="spiStar" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.5.9-4.7 4.5 1.1 6.4L12 17.3l-5.7 3 1.1-6.4-4.7-4.5 6.5-.9z" fill="#ffd25e" stroke="#f2b23a" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="9.6" cy="9.4" rx="1.6" ry="1" fill="#fff6cf"/></svg> Wordmallow <svg class="spiStar" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.5.9-4.7 4.5 1.1 6.4L12 17.3l-5.7 3 1.1-6.4-4.7-4.5 6.5-.9z" fill="#ffd25e" stroke="#f2b23a" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="9.6" cy="9.4" rx="1.6" ry="1" fill="#fff6cf"/></svg></span><i>养宠物 · 学英语</i></div>
 <div id="app"></div>
 <div id="toast" class="toast"></div>
 <script>
@@ -267,7 +268,7 @@ const SP={
  deer:{zh:"小鹿",en:"deer",nm:"鹿鹿",c:["#fbe6cf","#e6b88a","#c18c5c"],f:["#fffaf3","#f5e3cf"],ears:"side",tail:"puff",nose:"dark",x:["antlerS","spots"]},
  seal:{zh:"海豹",en:"seal",nm:"噗噗",c:["#f2f5f9","#cdd7e3","#9eadc2"],ears:"none",tail:"none",nose:"dark",x:["whisk","nofeet"]},
  bear:{zh:"小熊",en:"bear cub",nm:"熊熊",c:["#f3dcc3","#c99a6c","#9a6c44"],f:["#fff3e6","#efd5b8"],ears:"round",tail:"none",nose:"bmuzzle",face:false},
- frog:{zh:"青蛙",en:"frog",nm:"呱呱",c:["#eafbdc","#aee08a","#74bb55"],f:["#fbffe8","#e8f5c0"],ears:"none",face:false,tail:"none",nose:"none",eyeX:[72,128],eyeY:56,wide:true,x:["frogeyes"]},
+ frog:{zh:"青蛙",en:"frog",nm:"呱呱",c:["#e9fbf4","#a3e2cf","#5fb39c"],f:["#fffbe2","#fbe9a8"],ears:"none",tail:"none",nose:"dots",eyeY:93,mouth:"o",blushC:"#ffc65c",feet:"#7fcbb5",x:["freckles","lilypad"]},
  raccoon:{zh:"浣熊",en:"raccoon",nm:"小浣",c:["#f1f2f5","#c3c7d1","#8f95a5"],f:["#ffffff","#eceef2"],dk:["#5e6474","#2e3240"],ears:"pointy",tail:"ringed",ringC:"#4a4f5e",nose:"dark",x:["mask","whisk"]},
  elephant:{zh:"小象",en:"elephant",nm:"象象",c:["#eef1fa","#c5cde6","#93a0c8"],ears:"elephant",tail:"thin",tailC:"#93a0c8",nose:"trunk",face:false},
  lion:{zh:"小狮子",en:"lion cub",nm:"狮狮",c:["#fff2d6","#ffd38a","#e9a95a"],f:["#fffbf0","#f8ebd2"],ears:"round",tail:"tuft",nose:"pink",x:["lmane","whisk"]},
@@ -278,9 +279,9 @@ const SP={
  alpaca:{zh:"羊驼",en:"alpaca",nm:"驼驼",c:["#fffaf2","#f4e6d2","#dcc5a6"],ears:"tufts",tail:"puff",nose:"muzzle",x:["wool"]},
  qilin:{zh:"小麒麟",en:"qilin",nm:"麟麟",c:["#f4fde8","#c4ecb0","#7fc792"],f:["#fffbe6","#f7e3a0"],ears:"pointy",tail:"flame",nose:"dots",x:["antler","scales","sparkle"],rare:true},
  pegasus:{zh:"天马",en:"pegasus",nm:"云朵",c:["#ffffff","#eef5ff","#c9d9f2"],f:["#ffffff","#f3f6fb"],ears:"pointy",tail:"rainbow",nose:"muzzle",maneC:"#b9d4ff",x:["wings","mane","sparkle"],rare:true},
- ninefox:{zh:"九尾灵狐",en:"nine-tailed fox",nm:"灵灵",c:["#f6f3ff","#d8ddff","#a9b4f0"],f:["#ffffff","#eef0ff"],ears:"pointy",tail:"nine",tipWhite:true,nose:"pink",x:["whisk","gem","sparkle"],rare:true},
+ ninefox:{zh:"九尾灵狐",en:"nine-tailed fox",nm:"灵灵",c:["#fff6e6","#ffd6a4","#eea56b"],f:["#fffaf1","#ffe8cf"],ears:"pointy",tail:"nine",tipG:["#f6eaff","#b79cf0"],nose:"pink",gemC:["#e6d6ff","#a98ae8"],x:["whisk","gem","sparkle"],rare:true},
  starwhale:{zh:"星空鲸",en:"star whale",nm:"星河",c:["#c9d4ff","#7f8fe0","#4f5aa8"],f:["#eef2ff","#c9d2f5"],ears:"none",tail:"fluke",nose:"none",x:["nofeet","spout","stars","sparkle"],rare:true},
- rainbowcat:{zh:"彩虹猫龙",en:"rainbow dragon-cat",nm:"彩彩",c:["#fff4fb","#ffd1ec","#e9a6d6"],ears:"pointy",tail:"rainbow",nose:"pink",x:["dwings","antler","whisk","sparkle"],rare:true},
+ rainbowcat:{zh:"彩虹猫龙",en:"rainbow dragon-cat",nm:"彩彩",c:["#fff4fb","#ffd1ec","#e9a6d6"],ears:"pointy",tail:"dtail",nose:"pink",rwings:true,x:["dwings","rmane","antler","whisk","sparkle"],rare:true},
  phoenix:{zh:"小凤凰",en:"phoenix",nm:"焰焰",c:["#fff2c4","#ffb35c","#ff6f5a"],f:["#fffbe8","#ffe6a8"],ears:"none",face:false,nose:"beak",feet:"#ffd25e",tail:"phoenix",x:["crest","sparkle"],rare:true}
 };
 for(const k in SP)SP[k].k=k;
@@ -299,7 +300,9 @@ function clay(sp,st){
  <radialGradient id="${I("f")}" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="${f[0]}"/><stop offset="1" stop-color="${f[1]}"/></radialGradient>
  <radialGradient id="${I("d")}" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="${dk[0]}"/><stop offset="1" stop-color="${dk[1]}"/></radialGradient>
  <radialGradient id="${I("e")}" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#6b5a6e"/><stop offset="1" stop-color="#2c2130"/></radialGradient>
- <radialGradient id="${I("k")}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff98a8" stop-opacity=".7"/><stop offset="1" stop-color="#ff98a8" stop-opacity="0"/></radialGradient>
+ <radialGradient id="${I("k")}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${sp.blushC||"#ff98a8"}" stop-opacity=".7"/><stop offset="1" stop-color="${sp.blushC||"#ff98a8"}" stop-opacity="0"/></radialGradient>
+ <radialGradient id="${I("t")}" cx="40%" cy="30%" r="75%"><stop offset="0" stop-color="${(sp.tipG||["#fff","#fff"])[0]}"/><stop offset="1" stop-color="${(sp.tipG||["#fff","#fff"])[1]}"/></radialGradient>
+ <linearGradient id="${I("w")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc2dc"/><stop offset=".35" stop-color="#e0ccff"/><stop offset=".7" stop-color="#bfe3ff"/><stop offset="1" stop-color="#c9f2d6"/></linearGradient>
  <radialGradient id="${I("i")}" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#ffe3e8"/><stop offset="1" stop-color="#f6b9c7"/></radialGradient>
  <radialGradient id="${I("g")}" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#fff6cf"/><stop offset="1" stop-color="#f3c44f"/></radialGradient>
  <filter id="${I("s")}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
@@ -332,10 +335,11 @@ function clay(sp,st){
   ringed:`<path d="M134 170 C170 180 188 150 172 124" stroke="${c[1]}" stroke-width="15" fill="none" stroke-linecap="round"/><path d="M134 170 C170 180 188 150 172 124" stroke="${sp.ringC||"#fff"}" stroke-width="15" fill="none" stroke-dasharray="7 10"/>`,
   phoenix:`<path d="M132 160 C170 150 196 120 186 84 C178 120 160 136 132 150Z" fill="#ffcf5e"/><path d="M134 168 C178 172 198 150 196 118 C184 150 162 160 134 160Z" fill="#ff9a5a"/><path d="M134 174 C170 190 190 182 196 160 C178 176 156 176 134 168Z" fill="#ff6f6f"/><circle cx="188" cy="88" r="5" fill="#fff6c0"/><circle cx="195" cy="122" r="4" fill="#fff6c0"/>`,
   flame:`<path d="M132 168 C166 168 186 146 180 116 C172 140 156 152 132 156Z" fill="#ffd25e"/><path d="M134 174 C168 182 188 168 192 146 C178 164 158 168 134 166Z" fill="#9fe0a8"/><circle cx="181" cy="114" r="5" fill="#fff6c0"/>`,
-  nine:Array.from({length:9},(_,i)=>{const a=-100+i*25,r=a*Math.PI/180,cx=100+58*Math.sin(r),cy=150-54*Math.cos(r);return `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="13" ry="34" transform="rotate(${a} ${cx.toFixed(1)} ${cy.toFixed(1)})" fill="${B}"/><ellipse cx="${(100+86*Math.sin(r)).toFixed(1)}" cy="${(150-80*Math.cos(r)).toFixed(1)}" rx="8" ry="10" transform="rotate(${a} ${(100+86*Math.sin(r)).toFixed(1)} ${(150-80*Math.cos(r)).toFixed(1)})" fill="#fff"/>`}).join(""),
+  nine:Array.from({length:9},(_,i)=>{const a=-100+i*25,r=a*Math.PI/180,cx=100+58*Math.sin(r),cy=150-54*Math.cos(r);return `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="13" ry="34" transform="rotate(${a} ${cx.toFixed(1)} ${cy.toFixed(1)})" fill="${B}"/><ellipse cx="${(100+86*Math.sin(r)).toFixed(1)}" cy="${(150-80*Math.cos(r)).toFixed(1)}" rx="8" ry="10" transform="rotate(${a} ${(100+86*Math.sin(r)).toFixed(1)} ${(150-80*Math.cos(r)).toFixed(1)})" fill="url(#${I("t")})"/>`}).join(""),
+  dtail:`<path d="M134 170 C164 180 184 166 180 140" stroke="${c[1]}" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M180 122 L192 140 L180 150 L168 140Z" fill="#d8c4ff" stroke="#c4aef5" stroke-width="3" stroke-linejoin="round"/>`,
   none:""}[sp.tail]||"")}
  if(x("wings"))back=`<g filter="${DR}">${[-1,1].map(d=>[0,1,2].map(i=>`<ellipse cx="${100+d*(62+i*8)}" cy="${118+i*12}" rx="${30-i*5}" ry="12" transform="rotate(${d*(-35+i*18)} ${100+d*(62+i*8)} ${118+i*12})" fill="${F}"/>`).join("")).join("")}</g>`+back;
- if(x("dwings"))back=`<path d="M64 140 C30 120 18 96 26 82 C36 96 44 92 50 104 C54 92 62 98 64 110Z" fill="#d8c4ff"/><path d="M136 140 C170 120 182 96 174 82 C164 96 156 92 150 104 C146 92 138 98 136 110Z" fill="#d8c4ff"/>`+back;
+ if(x("dwings")){const WF=sp.rwings?`url(#${I("w")})`:"#d8c4ff";back=`<path d="M64 140 C30 120 18 96 26 82 C36 96 44 92 50 104 C54 92 62 98 64 110Z" fill="${WF}"/><path d="M136 140 C170 120 182 96 174 82 C164 96 156 92 150 104 C146 92 138 98 136 110Z" fill="${WF}"/>`+back}
  if(x("shell"))back+=`<ellipse cx="100" cy="150" rx="58" ry="42" fill="#8fc873" filter="${DR}"/><ellipse cx="100" cy="146" rx="50" ry="34" fill="#a6d78a"/><circle cx="80" cy="140" r="9" fill="#8fc873"/><circle cx="120" cy="140" r="9" fill="#8fc873"/><circle cx="100" cy="128" r="9" fill="#8fc873"/>${hi(80,126,18,8,.45)}`;
  const ER={
   bigRound:`<circle cx="46" cy="54" r="27" fill="${B}"/><circle cx="154" cy="54" r="27" fill="${B}"/><circle cx="48" cy="56" r="16" fill="${IN}"/><circle cx="152" cy="56" r="16" fill="${IN}"/>`,
@@ -359,7 +363,7 @@ function clay(sp,st){
  if(x("spout"))top+=`<path d="M100 38 C100 26 96 18 88 14 M100 38 C100 26 104 18 112 14 M100 38 V12" stroke="#a8dcff" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="86" cy="12" r="4" fill="#cdeeff"/><circle cx="114" cy="12" r="4" fill="#cdeeff"/><circle cx="100" cy="8" r="4" fill="#cdeeff"/>`;
  if(x("fin"))top+=`<path d="M90 42 Q112 4 128 44Z" fill="${B}"/>`;
  if(x("antlerS"))top+=`<g stroke="#b07c50" stroke-width="7" stroke-linecap="round" fill="none"><path d="M80 44 l-10 -26 M74 30 l-12 -4 M120 44 l10 -26 M126 30 l12 -4"/></g>`;
- if(x("frogeyes"))top+=`<circle cx="72" cy="56" r="23" fill="${B}"/><circle cx="128" cy="56" r="23" fill="${B}"/>`;
+ if(x("lilypad"))top+=`<path d="M104 46 C96 22 128 10 146 24 C140 30 134 32 128 30 C134 38 128 46 104 46Z" fill="#8fd18a" stroke="#6fb66d" stroke-width="3" stroke-linejoin="round"/><path d="M110 42 C118 32 128 26 138 24" stroke="#6fb66d" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="126" cy="20" r="6" fill="#ffc2dc"/><circle cx="133" cy="16" r="5" fill="#ffd6e7"/><circle cx="119" cy="16" r="5" fill="#ffd6e7"/><circle cx="126" cy="12" r="5" fill="#ffd6e7"/><circle cx="126" cy="17" r="3" fill="#ffe08a"/>`;
  if(x("crest"))top+=`<path d="M100 42 C88 26 94 10 104 2 C102 18 114 24 108 42Z" fill="#ff9a5a"/><path d="M90 44 C78 34 80 20 86 14 C88 28 96 32 96 44Z" fill="#ffcf5e"/><path d="M110 44 C122 34 122 22 116 16 C116 28 106 32 104 44Z" fill="#ffcf5e"/>`;
  if(x("spines")){let sp2="";for(let a=-175;a<=-5;a+=17){const r=a*Math.PI/180,cx=100+66*Math.cos(r),cy=96+60*Math.sin(r),tx=100+92*Math.cos(r),ty=96+84*Math.sin(r),px=-Math.sin(r)*11,py=Math.cos(r)*11;
   sp2+=`<path d="M${(cx+px).toFixed(1)} ${(cy+py).toFixed(1)} L${tx.toFixed(1)} ${ty.toFixed(1)} L${(cx-px).toFixed(1)} ${(cy-py).toFixed(1)}Z" fill="${D}" stroke="${dk[0]}" stroke-width="5" stroke-linejoin="round"/>`}top+=sp2}
@@ -371,7 +375,8 @@ function clay(sp,st){
  if(x("wool"))fx+=`<circle cx="84" cy="46" r="13" fill="${F}"/><circle cx="100" cy="40" r="15" fill="${F}"/><circle cx="116" cy="46" r="13" fill="${F}"/>`;
  if(x("tuft"))fx+=`<path d="M96 40 q-6 -16 8 -18 q-4 6 2 12z" fill="${B}"/>`;
  if(x("spots"))fx+=`<g fill="#fff" opacity=".8"><circle cx="70" cy="64" r="4.5"/><circle cx="82" cy="52" r="3.5"/><circle cx="128" cy="54" r="4.5"/><circle cx="138" cy="68" r="3.5"/></g>`;
- if(x("gem"))fx+=`<path d="M100 50 l7 8 -7 9 -7 -9z" fill="#bfe6ff" stroke="#8fc8f5" stroke-width="2" stroke-linejoin="round"/>`;
+ if(x("gem"))fx+=`<path d="M100 50 l7 8 -7 9 -7 -9z" fill="${(sp.gemC||["#bfe6ff"])[0]}" stroke="${(sp.gemC||[0,"#8fc8f5"])[1]}" stroke-width="2" stroke-linejoin="round"/>`;
+ if(x("freckles"))fx+=`<g fill="#e9b84a" opacity=".75"><circle cx="66" cy="70" r="3"/><circle cx="74" cy="62" r="2.4"/><circle cx="60" cy="80" r="2.2"/><circle cx="134" cy="70" r="3"/><circle cx="126" cy="62" r="2.4"/><circle cx="140" cy="80" r="2.2"/></g>`;
  if(x("scales"))fx+=`<g fill="#ffe08a" opacity=".85"><circle cx="72" cy="60" r="4"/><circle cx="84" cy="50" r="3.5"/><circle cx="128" cy="58" r="4"/><circle cx="116" cy="50" r="3.5"/></g>`;
  if(x("stars"))fx+=`<g fill="#fff">${[[66,62,4],[84,48,3],[132,56,4],[120,46,2.5],[146,78,3],[52,82,2.5]].map(([a,b,r])=>`<path d="M${a} ${b-r*2} L${a+r*.6} ${b-r*.6} L${a+r*2} ${b} L${a+r*.6} ${b+r*.6} L${a} ${b+r*2} L${a-r*.6} ${b+r*.6} L${a-r*2} ${b} L${a-r*.6} ${b-r*.6}Z"/>`).join("")}</g>`;
  if(x("tstripes"))fx+=`<g stroke="#e0883f" stroke-width="5" stroke-linecap="round" fill="none" opacity=".85"><path d="M100 42 v12 M86 46 l4 10 M114 46 l-4 10 M42 92 h11 M44 103 h8 M158 92 h-11 M156 103 h-8"/></g>`;
@@ -405,7 +410,7 @@ function clay(sp,st){
   case"trunk":nose=`<path d="M100 104 C100 132 96 148 110 150" stroke="${c[1]}" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M93 116h14M93 126h14M94 136h12" stroke="${c[2]}" stroke-width="2" opacity=".5"/>`;my=0;break;
   case"beak":nose=`<path d="M88 108 Q100 100 112 108 Q100 126 88 108z" fill="#ffb347" stroke="#f3a03a" stroke-width="2" stroke-linejoin="round"/>`;my=0;break;
  }
- const mouth=sp.wide?`<path d="M74 112 q26 20 52 0" stroke="#4a6a3a" stroke-width="4" fill="none" stroke-linecap="round"/>`:my?`<path d="M90 ${my} q10 10 20 0" stroke="#5a3d40" stroke-width="3.5" fill="none" stroke-linecap="round"/>`:"";
+ const mouth=sp.mouth==="o"?`<ellipse cx="100" cy="123" rx="6.5" ry="5.5" fill="#7a4656"/><ellipse cx="100" cy="125.5" rx="3.6" ry="2.2" fill="#ff9fb4"/>`:sp.wide?`<path d="M74 112 q26 20 52 0" stroke="#4a6a3a" stroke-width="4" fill="none" stroke-linecap="round"/>`:my?`<path d="M90 ${my} q10 10 20 0" stroke="#5a3d40" stroke-width="3.5" fill="none" stroke-linecap="round"/>`:"";
  let ff="";
  if(x("whisk"))ff+=`<g stroke="#9a8a90" stroke-width="2" stroke-linecap="round" opacity=".55"><path d="M60 112 l-20 -4 M60 119 l-20 2 M140 112 l20 -4 M140 119 l20 2"/></g>`;
  if(x("wattle"))ff+=`<ellipse cx="100" cy="128" rx="6" ry="8" fill="#ff8a8a"/>`;
@@ -547,11 +552,11 @@ function render(){({home,learn:renderLearn,challenge:renderChallenge,wardrobe,ch
 
 // ---------- splash / zodiac picker / placement ----------
 function splash(){screen="home";scrollTo(0,0);
- app.innerHTML=`<div class="splash"><div style="font-size:40px">⭐ 🏝️ ⭐</div><h1>星星宠物岛</h1><div style="font-size:20px;font-weight:800;color:#3fa3f5">Star Pet Island</div>
+ app.innerHTML=`<div class="splash"><div style="font-size:40px">⭐ 🍡 ⭐</div><h1>词团子</h1><div style="font-size:20px;font-weight:800;color:#3fa3f5">Wordmallow</div>
  <div style="width:220px;height:220px;margin:16px auto" class="petIdle">${mini("monkey",2,220)}</div>
  <p style="font-size:17px">选一只生肖宠物，学英语，喂它长大！</p>
  <button class="btn full" id="go" style="font-size:22px;min-height:64px">🚀 开始冒险 Start</button></div>`;
- $("#go").onclick=()=>{S.started=true;save();say("Welcome to Star Pet Island!",1);zodiacPicker(false)};
+ $("#go").onclick=()=>{S.started=true;save();say("Welcome to Wordmallow!",1);zodiacPicker(false)};
 }
 let zSel="monkey";
 function zodiacPicker(unlock){
@@ -609,7 +614,7 @@ function home(){
  const pct=nxt?Math.min(100,(p.growth-cur.need)/(nxt.need-cur.need)*100):100;
  const checked=!!S.checkins[dk()];
  app.innerHTML=`
- <div class="top"><div class="chip">⚡ <span id="en">${S.energy}</span></div><div class="title">⭐ 星星宠物岛</div><button class="chip" id="lvl" style="font-size:13px;min-height:48px">${starStr(S.level)}</button></div>
+ <div class="top"><div class="chip">⚡ <span id="en">${S.energy}</span></div><div class="title">⭐ 词团子</div><button class="chip" id="lvl" style="font-size:13px;min-height:48px">${starStr(S.level)}</button></div>
  <div class="nav">
   <button id="nCk">📅<small>打卡</small>${checked?"":'<i class="dot"></i>'}</button>
   <button id="nPets">🐾<small>宠物</small>${S.eggList.some(e=>!eggLeft(e))||S.zodiacTickets?'<i class="dot"></i>':""}</button>
@@ -632,7 +637,8 @@ function home(){
   <small>已记住 ${k}/${u.words.length} 个单词</small><div class="bar" style="height:12px;margin-top:4px"><i style="width:${k/u.words.length*100}%"></i></div></span><span style="font-size:28px">▶️</span></button>
   <button class="btn ${un?"green":"gray"} full" style="margin-top:8px" data-c="${u.id}" ${un?"":"disabled"}>${un?"🏆 关卡大挑战"+(wins?` (已胜 ${wins} 次)`:""):`🔒 记住 ${UNLOCK_N} 个单词解锁大挑战 (${k}/${UNLOCK_N})`}</button></div>`}).join("")}</div>
  <div class="center" style="margin-top:22px"><button class="btn gray" id="snd" style="font-size:16px">${S.sound?"🔊 声音开":"🔇 声音关"}</button> <button class="btn gray" id="reset" style="font-size:16px">🔄 重新开始</button></div>
- <p class="muted center">家长提示：用图片、例句和真人式发音学英语，不靠中文翻译死记。</p>`;
+ <p class="muted center">家长提示：用图片、例句和真人式发音学英语，不靠中文翻译死记。</p>
+ <p class="muted center" style="font-size:12px;opacity:.8;margin:6px 0 0;line-height:1.5">本应用不收集任何个人数据，进度只保存在本设备 / No personal data collected; progress is stored only on this device.<br>© 2026 Wordmallow 词团子. All rights reserved.</p>`;
  $("#feed").onclick=feed;
  $("#nCk").onclick=checkinScreen;$("#nPets").onclick=petsScreen;$("#nWd").onclick=wardrobe;$("#nSum").onclick=summary;$("#nTest").onclick=testPanel;
  $("#lvl").onclick=()=>toast(`${S.level} 星 · ${LV[S.level].nm}<br><small>再赢 ${2-S.levelWins} 次大挑战升星</small>`,1600);
@@ -1032,7 +1038,8 @@ function testPanel(){
  <div class="card"><h2>🥚 蛋 / 宠物</h2><div class="tgrid">${B("tHatch","🐣 立即孵化神秘蛋","")}${B("tEgg","🥚 送 1 个新蛋","green")}${B("tMax","🌟 当前宠物直接满级","")}${B("tAllZ","🐲 集齐并满级 11 只生肖","")}${B("tE","+100 能量","orange")}${B("tG","+100 成长","orange")}${B("tItems","👗 送全部装扮","green")}</div></div>
  <div class="card"><h2>📚 学习</h2><div class="tgrid">${B("tKnow","记住 8 个/主题 (解锁挑战)","green")}${B("tMiss","制造 3 个错题","gray")}${B("tPlace","🎯 重新做星级测验","")}${B("tPick","🐾 重新选首个宠物","")}</div>
   <div style="margin-top:10px" class="row">${Array.from({length:MAXLV},(_,i)=>i+1).map(n=>`<button class="btn ${S.level===n?"":"gray"}" style="flex:1;padding:6px;font-size:14px" data-lv="${n}">${n}⭐</button>`).join("")}</div></div>
- <div class="card"><div class="tgrid">${B("tReset","🔄 清空全部进度","gray")}${B("tHome","🏠 回首页","")}</div><pre id="js"></pre></div>`;
+ <div class="card"><div class="tgrid">${B("tReset","🔄 清空全部进度","gray")}${B("tHome","🏠 回首页","")}</div><pre id="js"></pre></div>
+ <p class="muted center" style="font-size:12px;opacity:.8;margin:6px 0 0;line-height:1.5">本应用不收集任何个人数据，进度只保存在本设备 / No personal data collected; progress is stored only on this device.<br>© 2026 Wordmallow 词团子. All rights reserved.</p>`;
  $("#js").textContent=JSON.stringify({today:dk(),level:S.level,energy:S.energy,totalCheckins:totalCk(),eggList:S.eggList.map(e=>({got:e.got,left:eggLeft(e)})),makeLog:S.makeLog,pets:S.pets.map(q=>q.sp+":"+q.growth+(q.maxed?"★":"")),zodiacTickets:S.zodiacTickets,poolTickets:S.poolTickets,checkins:S.checkins,todayLog:todayLog()},null,1);
  back(home);
  const R=msg=>{save();toast(msg,1000);testPanel()};
