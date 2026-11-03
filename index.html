@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="星星宠物岛">
+<meta name="theme-color" content="#ffb6d9">
+<title>星星宠物岛 Star Pet Island</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,sans-serif;background:linear-gradient(160deg,#ffe1f0,#e0f0ff 50%,#e6ffe0);color:#4a3b5c;overscroll-behavior:none}
+#app{max-width:440px;margin:0 auto;min-height:100%;padding:calc(10px + env(safe-area-inset-top)) 14px calc(20px + env(safe-area-inset-bottom));position:relative}
+button{font-family:inherit;border:none;cursor:pointer;touch-action:manipulation}
+.btn{min-height:52px;padding:12px 18px;border-radius:26px;font-size:19px;font-weight:700;color:#fff;background:linear-gradient(#ff8fc1,#ff5fa2);box-shadow:0 5px 0 #d9458a;transition:transform .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #d9458a}
+.btn.blue{background:linear-gradient(#7cc8ff,#3fa3f5);box-shadow:0 5px 0 #2a7fc8}
+.btn.green{background:linear-gradient(#8ee07a,#4cc23a);box-shadow:0 5px 0 #359a27}
+.btn.orange{background:linear-gradient(#ffc15e,#ff9a1f);box-shadow:0 5px 0 #d07a0c}
+.btn.gray{background:#c9c2d3;box-shadow:0 5px 0 #a199ad}
+.btn:disabled{opacity:.5}
+.btn.full{width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.chip{background:#fff;border-radius:20px;padding:8px 14px;font-weight:800;font-size:17px;box-shadow:0 3px 0 #e8d8f0}
+.iconbtn{width:52px;height:52px;border-radius:50%;background:#fff;font-size:26px;box-shadow:0 3px 0 #e8d8f0}
+.card{background:#fff;border-radius:28px;padding:16px;box-shadow:0 6px 0 #ecdcf5;margin:12px 0}
+h1{font-size:24px;margin:6px 0;text-align:center}
+h2{font-size:20px;margin:4px 0 10px}
+.petStage{position:relative;height:250px;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(ellipse 48% 14% at 50% 90%,#c9f2b5 0 98%,transparent 100%)}
+.petWrap{position:relative;transition:transform .4s}
+.petWrap.bounce{animation:bounce .6s}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-30px) scale(1.08,.94)}60%{transform:translateY(0) scale(.95,1.06)}}
+.petIdle{animation:idle 2.4s ease-in-out infinite}
+@keyframes idle{0%,100%{transform:scale(1,1)}50%{transform:scale(1.03,.97)}}
+.deco{position:absolute;left:50%;transform:translateX(-50%);pointer-events:none;line-height:1}
+.bar{height:22px;background:#f1e6f7;border-radius:11px;overflow:hidden;position:relative}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#ffd84d,#ff9a1f);border-radius:11px;transition:width .5s}
+.bar.xp>i{background:linear-gradient(90deg,#8ee07a,#3fbf9f)}
+.bar span{position:absolute;inset:0;text-align:center;font-size:13px;font-weight:800;line-height:22px;color:#5a4a6a}
+.row{display:flex;gap:10px;align-items:center}
+.units{display:grid;gap:12px}
+.unit{display:flex;align-items:center;gap:12px;background:#fff;border-radius:24px;padding:12px;box-shadow:0 5px 0 #ecdcf5;min-height:76px;width:100%;text-align:left;color:inherit}
+.unit:active{transform:translateY(3px)}
+.unit .em{font-size:40px;width:56px;text-align:center}
+.unit b{font-size:19px;display:block}
+.unit small{color:#8a7a9a;font-size:14px}
+.pill{font-size:13px;background:#fff3c4;color:#b07a00;padding:3px 8px;border-radius:10px;font-weight:800;display:inline-block;margin-top:3px}
+.bigPic{font-size:110px;text-align:center;line-height:1.15;min-height:130px;display:flex;align-items:center;justify-content:center}
+.word{font-size:46px;font-weight:900;text-align:center;letter-spacing:1px;color:#ff5fa2}
+.sent{font-size:22px;text-align:center;margin:8px 0;line-height:1.4}
+.sent b{color:#3fa3f5}
+.zh{text-align:center;color:#a99ab8;font-size:15px;min-height:22px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.opt{min-height:110px;border-radius:24px;background:#fff;box-shadow:0 5px 0 #ecdcf5;font-size:60px;display:flex;align-items:center;justify-content:center;color:#4a3b5c;padding:6px}
+.opt.txt{font-size:26px;font-weight:800;min-height:80px}
+.opt:active{transform:translateY(3px)}
+.opt.ok{background:#c9f7c0;box-shadow:0 5px 0 #6fcf5f}
+.opt.bad{background:#ffd0d8;box-shadow:0 5px 0 #f07a8e;animation:shake .4s}
+.opt.sel{outline:4px solid #3fa3f5}
+.opt.done{opacity:.35;pointer-events:none}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.swatch{display:inline-block;width:1em;height:1em;border-radius:50%;border:3px solid rgba(0,0,0,.12);vertical-align:middle}
+.speak{display:block;margin:6px auto;width:72px;height:72px;border-radius:50%;font-size:36px;background:linear-gradient(#7cc8ff,#3fa3f5);box-shadow:0 5px 0 #2a7fc8;color:#fff}
+.speak:active{transform:translateY(4px);box-shadow:0 1px 0 #2a7fc8}
+.prog{display:flex;gap:4px;justify-content:center;margin:6px 0}
+.prog i{width:14px;height:14px;border-radius:50%;background:#eadff2}
+.prog i.on{background:#ff8fc1}
+.blank{display:inline-block;min-width:80px;border-bottom:4px dashed #ff8fc1;color:#ff5fa2}
+.tiles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0;min-height:60px}
+.tile{min-height:52px;min-width:52px;padding:8px 16px;border-radius:16px;background:#fff3c4;box-shadow:0 4px 0 #e8c86a;font-size:22px;font-weight:800;color:#6a4a00}
+.tile.used{visibility:hidden}
+.answer{background:#f6f0fb;border-radius:18px;min-height:70px;padding:8px}
+.hearts{font-size:24px}
+.toast{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%) scale(.6);background:#fff;padding:18px 26px;border-radius:26px;font-size:26px;font-weight:900;box-shadow:0 10px 30px rgba(120,60,140,.3);opacity:0;pointer-events:none;transition:all .25s;z-index:50;text-align:center;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.fly{position:fixed;font-size:44px;z-index:40;pointer-events:none;transition:all .7s cubic-bezier(.5,-0.3,.7,1)}
+.heart{position:absolute;font-size:30px;animation:up 1s forwards;pointer-events:none}
+@keyframes up{to{transform:translateY(-90px);opacity:0}}
+.modal{position:fixed;inset:0;background:rgba(80,40,90,.45);display:flex;align-items:center;justify-content:center;z-index:60;padding:20px}
+.modal .card{max-width:400px;width:100%;text-align:center}
+.prize{font-size:100px;animation:spin 1s}
+@keyframes spin{from{transform:rotate(-200deg) scale(.2)}to{transform:none}}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.witem{min-height:96px;border-radius:20px;background:#fff;box-shadow:0 4px 0 #ecdcf5;font-size:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#4a3b5c}
+.witem small{font-size:12px;font-weight:700}
+.witem.on{background:#d8f0ff;outline:4px solid #3fa3f5}
+.witem.lock{opacity:.35;filter:grayscale(1)}
+.center{text-align:center}
+.muted{color:#8a7a9a;font-size:14px}
+.hide{display:none!important}
+</style><style>
+.title{font-weight:900;font-size:19px;color:#ff5fa2;text-shadow:0 2px 0 #fff}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0 2px}
+.nav button{min-height:62px;border-radius:20px;background:#fff;box-shadow:0 4px 0 #ecdcf5;font-size:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;color:#4a3b5c}
+.nav button small{font-size:12px;font-weight:800}
+.nav button:active{transform:translateY(3px)}
+.dot{position:absolute;top:4px;right:8px;width:12px;height:12px;border-radius:50%;background:#ff4d6d;border:2px solid #fff}
+.speak.sm{width:56px;height:56px;font-size:26px}
+.bigPic.mid{font-size:76px;min-height:86px}
+.zgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.zcard{background:#fff;border-radius:22px;box-shadow:0 4px 0 #ecdcf5;padding:6px 4px;display:flex;flex-direction:column;align-items:center;min-height:120px;color:#4a3b5c}
+.zcard.sel{outline:4px solid #ff8fc1;background:#fff3f9}
+.zcard.own{opacity:.4;filter:grayscale(.8)}
+.zcard b{font-size:15px}.zcard small{font-size:11px;color:#8a7a9a}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal .wd{font-size:13px;color:#8a7a9a;font-weight:800}
+.cal button,.cal span.c{min-height:48px;border-radius:14px;background:#f6f0fb;font-size:15px;font-weight:800;color:#4a3b5c;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;line-height:1.1}
+.cal span.c.ck{background:#c9f7c0}.cal span.c.mk{background:#ffe9b0}.cal .c.today{outline:3px solid #ff8fc1}.cal span.c.today:not(.ck):not(.mk){background:#fff}
+.cal button.miss{background:#eee8f2;color:#a99ab8;border:2px dashed #d5c6e2}.cal .fut{opacity:.4}
+.cal i{font-style:normal;font-size:12px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#fff;border-radius:20px;padding:12px;text-align:center;box-shadow:0 4px 0 #ecdcf5}
+.stat b{font-size:26px;display:block;color:#ff5fa2}.stat small{color:#8a7a9a;font-weight:700}
+.chart{display:flex;align-items:flex-end;gap:8px;height:120px;padding-top:10px}
+.chart div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:12px;color:#8a7a9a}
+.chart i{display:block;width:100%;border-radius:8px 8px 4px 4px;background:linear-gradient(#ffc15e,#ff8fc1);min-height:4px}
+.wchip{display:inline-flex;align-items:center;gap:4px;min-height:48px;padding:6px 12px;margin:4px;border-radius:16px;background:#f6f0fb;font-weight:800;font-size:17px;color:#4a3b5c}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tgrid .btn{font-size:15px;min-height:52px;padding:8px}
+pre{white-space:pre-wrap;word-break:break-all;font-size:11px;background:#f6f0fb;border-radius:14px;padding:10px;max-height:220px;overflow:auto;user-select:text}
+.eggBox{position:relative;width:200px;height:200px;margin:0 auto}
+.eggBox>*{position:absolute;inset:0}
+.shake{animation:eggshake .5s}
+@keyframes eggshake{20%{transform:rotate(-8deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(4deg)}}
+.pop{animation:pop .6s}
+@keyframes pop{0%{transform:scale(.2)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.confetti{position:absolute;font-size:26px;animation:up 1.4s forwards;pointer-events:none}
+.banner{display:flex;align-items:center;gap:10px;width:100%;background:linear-gradient(90deg,#fff3c4,#ffe0f0);border-radius:20px;padding:12px;min-height:60px;font-weight:800;font-size:16px;color:#7a4a00;box-shadow:0 4px 0 #f0d58a;margin-top:10px;text-align:left}
+.splash{text-align:center;padding-top:30px}
+.splash h1{font-size:34px;color:#ff5fa2;margin:10px 0 0}
+.zcard.lockc{background:#f1ecf5;color:#a99ab8}
+</style>
+
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" class="toast"></div>
+<script>
+"use strict";
+const UNITS=[
+ {id:"animals",name:"动物王国",en:"Animals",em:"🦁",words:[
+  {w:"cat",p:"🐱",s:"The cat says meow.",zh:"猫"},
+  {w:"dog",p:"🐶",s:"My dog likes to run.",zh:"狗"},
+  {w:"bird",p:"🐦",s:"The bird can fly.",zh:"鸟"},
+  {w:"fish",p:"🐟",s:"A fish swims in the water.",zh:"鱼"},
+  {w:"rabbit",p:"🐰",s:"The rabbit can jump.",zh:"兔子"},
+  {w:"duck",p:"🦆",s:"The duck says quack.",zh:"鸭子"},
+  {w:"cow",p:"🐮",s:"The cow gives us milk.",zh:"奶牛"},
+  {w:"pig",p:"🐷",s:"The pig is pink.",zh:"猪"},
+  {w:"lion",p:"🦁",s:"The lion is big.",zh:"狮子"},
+  {w:"monkey",p:"🐵",s:"The monkey eats a banana.",zh:"猴子"}]},
+ {id:"food",name:"美食小厨房",en:"Food",em:"🍎",words:[
+  {w:"apple",p:"🍎",s:"I eat an apple.",zh:"苹果"},
+  {w:"banana",p:"🍌",s:"The banana is yellow.",zh:"香蕉"},
+  {w:"bread",p:"🍞",s:"I like bread for breakfast.",zh:"面包"},
+  {w:"milk",p:"🥛",s:"I drink milk every day.",zh:"牛奶"},
+  {w:"egg",p:"🥚",s:"The egg is white.",zh:"鸡蛋"},
+  {w:"cake",p:"🍰",s:"Happy birthday! Here is your cake.",zh:"蛋糕"},
+  {w:"rice",p:"🍚",s:"We eat rice for lunch.",zh:"米饭"},
+  {w:"pizza",p:"🍕",s:"The pizza is hot.",zh:"披萨"},
+  {w:"carrot",p:"🥕",s:"The rabbit eats a carrot.",zh:"胡萝卜"},
+  {w:"ice cream",p:"🍦",s:"The ice cream is cold.",zh:"冰淇淋"}]},
+ {id:"colors",name:"彩虹颜色",en:"Colors",em:"🌈",words:[
+  {w:"red",c:"#ff4d4d",s:"The apple is red.",zh:"红色"},
+  {w:"blue",c:"#3f8cff",s:"The sky is blue.",zh:"蓝色"},
+  {w:"yellow",c:"#ffd60a",s:"The sun is yellow.",zh:"黄色"},
+  {w:"green",c:"#3cc23a",s:"The grass is green.",zh:"绿色"},
+  {w:"orange",c:"#ff9a1f",s:"The carrot is orange.",zh:"橙色"},
+  {w:"purple",c:"#9b5de5",s:"I have a purple hat.",zh:"紫色"},
+  {w:"pink",c:"#ff8fc1",s:"The pig is pink.",zh:"粉色"},
+  {w:"black",c:"#222222",s:"The night is black.",zh:"黑色"},
+  {w:"white",c:"#ffffff",s:"The snow is white.",zh:"白色"},
+  {w:"brown",c:"#8b5a2b",s:"The bear is brown.",zh:"棕色"}]}
+];
+const ITEMS=[
+ {id:"crown",e:"👑",n:"皇冠",slot:"head"},{id:"tophat",e:"🎩",n:"礼帽",slot:"head"},
+ {id:"cap",e:"🧢",n:"棒球帽",slot:"head"},{id:"bow",e:"🎀",n:"蝴蝶结",slot:"head"},
+ {id:"star",e:"🌟",n:"星星发卡",slot:"head"},{id:"flower",e:"🌸",n:"小花",slot:"head"},
+ {id:"glasses",e:"👓",n:"眼镜",slot:"eyes"},{id:"sun",e:"🕶️",n:"墨镜",slot:"eyes"},
+ {id:"tshirt",e:"👕",n:"T恤",slot:"body"},{id:"dress",e:"👗",n:"小裙子",slot:"body"},
+ {id:"kimono",e:"👘",n:"和服",slot:"body"},{id:"scarf",e:"🧣",n:"围巾",slot:"neck"},
+ {id:"tie",e:"👔",n:"衬衫领带",slot:"body"},{id:"medal",e:"🏅",n:"奖牌",slot:"neck"},
+ {id:"balloon",e:"🎈",n:"气球",slot:"hand"},{id:"wand",e:"🪄",n:"魔法棒",slot:"hand"}];
+const SLOTN={head:"头饰",eyes:"眼镜",body:"衣服",neck:"脖子",hand:"手持"};
+const UNLOCK_N=8,ENERGY_PER_WORD=10,FEED_COST=10,GOAL=3,EGG_AT=7,EGG_HATCH=3,MAKEUP_WEEK=2,MAXLV=6;
+const STAGES=[{need:0,name:"宝宝",en:"Baby"},{need:70,name:"小可爱",en:"Kid"},{need:190,name:"少年",en:"Teen"},{need:370,name:"大明星",en:"Star"}]; // no egg stage: pets arrive as babies
+const ART=st=>st+1; // growth stage -> art stage (art 0 = egg drawing, used only for eggs)
+const MAXST=STAGES.length-1;
+const INTERVALS=[0,60e3,10*60e3,24*3600e3,3*24*3600e3];
+// ⭐ levels: difficulty, not age
+const LV=[null,
+ {nm:"萌芽",opts:2,types:["hear"],ch:[["match",3],["match",3]]},
+ {nm:"起步",opts:3,types:["hear","see"],ch:[["match",4],["fill",1]]},
+ {nm:"进阶",opts:4,types:["hear","see","sent"],ch:[["match",4],["fill",2],["order",1]]},
+ {nm:"高手",opts:4,types:["hear","see","sent","spell"],ch:[["match",4],["fill",2],["order",2]]},
+ {nm:"达人",opts:4,types:["see","sent","spell"],extra:1,ch:[["match",4],["fill",2],["order",2],["spell",1]]},
+ {nm:"超级明星",opts:4,types:["see","sent","spell"],extra:2,noPic:true,ch:[["match",4],["fill",2],["order",2],["spell",2]]}];
+const starStr=n=>"⭐".repeat(n)+'<span style="opacity:.25">'+"⭐".repeat(MAXLV-n)+"</span>";
+// ---------- species (shared clay template; monkey has bespoke art) ----------
+const SP={
+ monkey:{z:"猴",zh:"小猴子",en:"monkey",ze:"Monkey",nm:"皮皮"},
+ rat:{z:"鼠",zh:"小老鼠",en:"mouse",ze:"Mouse",nm:"吱吱",c:["#fbf9fc","#e3dce9","#b9aec6"],ears:"bigRound",tail:"thin",tailC:"#f2b8c6",nose:"pink",x:["whisk"]},
+ ox:{z:"牛",zh:"小牛",en:"ox",ze:"Ox",nm:"牛牛",c:["#fdf2e4","#ecd0ae","#c99f74"],f:["#fff3ea","#f6d3c2"],ears:"side",tail:"tuft",nose:"muzzle",x:["ohorns"]},
+ tiger:{z:"虎",zh:"小老虎",en:"tiger",ze:"Tiger",nm:"虎虎",c:["#fff0d6","#ffcb8a","#eea05a"],f:["#fffdf8","#f6e9de"],ears:"round",tail:"stripe",nose:"pink",x:["tstripes","whisk"]},
+ rabbit:{z:"兔",zh:"小兔子",en:"rabbit",ze:"Rabbit",nm:"跳跳",c:["#ffffff","#f5f0f5","#d8cbdc"],ears:"long",tail:"puff",nose:"pink"},
+ dragon:{z:"龙",zh:"小龙",en:"dragon",ze:"Dragon",nm:"龙龙",c:["#eafbe0","#b2e39c","#78bf66"],f:["#fffbe8","#f6e2a8"],ears:"none",tail:"spike",nose:"dots",x:["antler"]},
+ snake:{z:"蛇",zh:"小蛇",en:"snake",ze:"Snake",nm:"小青",c:["#e9f8ee","#addfbc","#73bb8a"],f:["#fffbe8","#f3e6b0"],ears:"none",tail:"snake",nose:"none",x:["nolimbs","tongue"]},
+ horse:{z:"马",zh:"小马",en:"horse",ze:"Horse",nm:"奔奔",c:["#fbe8d6","#e3b892","#bb8660"],f:["#fff3ea","#f3d6c2"],ears:"pointy",tail:"horse",nose:"muzzle",x:["mane"]},
+ goat:{z:"羊",zh:"小羊",en:"sheep",ze:"Sheep",nm:"咩咩",c:["#ffffff","#f6f1ea","#dacfbf"],ears:"floppy",tail:"puff",nose:"pink",x:["ghorns","wool"]},
+ rooster:{z:"鸡",zh:"小鸡",en:"chick",ze:"Rooster",nm:"喔喔",c:["#fffdf3","#fff1c9","#f1d690"],ears:"none",tail:"feather",nose:"beak",face:false,feet:"#ffb35c",x:["comb","wattle"]},
+ dog:{z:"狗",zh:"小狗",en:"puppy",ze:"Dog",nm:"旺旺",c:["#fff4e2","#f1d3a5","#d2a670"],dk:["#c99668","#94643c"],ears:"floppy",earDark:true,tail:"wag",nose:"dark",x:["dogspot"]},
+ pig:{z:"猪",zh:"小猪",en:"pig",ze:"Pig",nm:"噜噜",c:["#fff0f5","#ffcadb","#f0a0ba"],f:["#fff4f8","#ffd9e5"],ears:"pointy",tail:"curl",nose:"snout",face:false},
+ kitten:{zh:"小猫",en:"kitten",nm:"咪咪",c:["#fff4e6","#ffd6a6","#f0ac6c"],ears:"pointy",tail:"thin",tailC:"#f0ac6c",nose:"pink",x:["whisk"]},
+ turtle:{zh:"小乌龟",en:"turtle",nm:"慢慢",c:["#effbe6","#c6e9ae","#93c97a"],f:["#fffbe3","#f5e7a8"],ears:"none",tail:"none",nose:"none",x:["shell"]},
+ panda:{zh:"熊猫",en:"panda",nm:"团团",c:["#ffffff","#f7f7f7","#dddddd"],ears:"roundDark",limbDark:true,nose:"dark",tail:"none",x:["patches"]},
+ penguin:{zh:"企鹅",en:"penguin",nm:"啾啾",c:["#8796b0","#5d6b86","#3e4a62"],f:["#ffffff","#eef0f5"],mface:true,ears:"none",tail:"none",nose:"beak",feet:"#ffb35c"},
+ hamster:{zh:"仓鼠",en:"hamster",nm:"糯米",c:["#fff4e6","#ffdcb0","#efb57a"],f:["#fffdf8","#fbeee0"],ears:"small",tail:"none",nose:"pink",x:["pouch"]},
+ koala:{zh:"考拉",en:"koala",nm:"抱抱",c:["#f1f3f7","#cdd2dc","#a1a8b7"],f:["#ffffff","#eef0f4"],ears:"fluffy",tail:"none",nose:"bignose",face:false},
+ fox:{zh:"小狐狸",en:"fox",nm:"橙橙",c:["#ffe9d6","#ffb877","#ec8a43"],f:["#fffdf9","#f6ece4"],ears:"pointy",tail:"bushy",tipWhite:true,nose:"dark",x:["whisk"]},
+ owl:{zh:"猫头鹰",en:"owl",nm:"咕咕",c:["#f1e4d6","#d2b394","#a5815e"],f:["#fff8ee","#f1dfc6"],ears:"tufts",face:false,nose:"beak",feet:"#ffc266",tail:"none",x:["owleyes"]},
+ hedgehog:{zh:"刺猬",en:"hedgehog",nm:"球球",c:["#fbeedd","#eacfa9","#c9a57a"],dk:["#a8805c","#6e4e34"],ears:"small",tail:"none",nose:"dark",x:["spines"]},
+ duckling:{zh:"小鸭子",en:"duckling",nm:"嘎嘎",c:["#fffbe0","#ffe98a","#f5cc4a"],ears:"none",face:false,nose:"bill",feet:"#ffb35c",tail:"none",x:["tuft"]},
+ squirrel:{zh:"松鼠",en:"squirrel",nm:"栗栗",c:["#fbe3cc","#e2a671","#b9774a"],f:["#fffaf2","#f6e4d0"],ears:"pointy",tail:"bushy",nose:"pink",x:["pouch"]},
+ deer:{zh:"小鹿",en:"deer",nm:"鹿鹿",c:["#fbe6cf","#e6b88a","#c18c5c"],f:["#fffaf3","#f5e3cf"],ears:"side",tail:"puff",nose:"dark",x:["antlerS","spots"]},
+ seal:{zh:"海豹",en:"seal",nm:"噗噗",c:["#f2f5f9","#cdd7e3","#9eadc2"],ears:"none",tail:"none",nose:"dark",x:["whisk","nofeet"]},
+ bear:{zh:"小熊",en:"bear cub",nm:"熊熊",c:["#f3dcc3","#c99a6c","#9a6c44"],f:["#fff3e6","#efd5b8"],ears:"round",tail:"none",nose:"bmuzzle",face:false},
+ frog:{zh:"青蛙",en:"frog",nm:"呱呱",c:["#eafbdc","#aee08a","#74bb55"],f:["#fbffe8","#e8f5c0"],ears:"none",face:false,tail:"none",nose:"none",eyeX:[72,128],eyeY:56,wide:true,x:["frogeyes"]},
+ raccoon:{zh:"浣熊",en:"raccoon",nm:"小浣",c:["#f1f2f5","#c3c7d1","#8f95a5"],f:["#ffffff","#eceef2"],dk:["#5e6474","#2e3240"],ears:"pointy",tail:"ringed",ringC:"#4a4f5e",nose:"dark",x:["mask","whisk"]},
+ elephant:{zh:"小象",en:"elephant",nm:"象象",c:["#eef1fa","#c5cde6","#93a0c8"],ears:"elephant",tail:"thin",tailC:"#93a0c8",nose:"trunk",face:false},
+ lion:{zh:"小狮子",en:"lion cub",nm:"狮狮",c:["#fff2d6","#ffd38a","#e9a95a"],f:["#fffbf0","#f8ebd2"],ears:"round",tail:"tuft",nose:"pink",x:["lmane","whisk"]},
+ unicorn:{zh:"独角兽",en:"unicorn",nm:"星星",c:["#ffffff","#f7f2ff","#dccff3"],ears:"pointy",tail:"rainbow",nose:"pink",x:["uhorn","rmane"]},
+ dolphin:{zh:"小海豚",en:"dolphin",nm:"浪浪",c:["#e6f4ff","#a9d6f5","#6fb0e0"],f:["#ffffff","#eaf4fb"],ears:"none",tail:"fluke",nose:"none",x:["fin","nofeet"]},
+ redpanda:{zh:"小熊猫",en:"red panda",nm:"火火",c:["#ffe2cc","#f0a06a","#c9683a"],dk:["#7a4a36","#4a2a1e"],limbDark:true,ears:"pointy",tail:"ringed",ringC:"#fff1e0",nose:"dark",face:false,x:["rpface"]},
+ octopus:{zh:"小章鱼",en:"octopus",nm:"墨墨",c:["#ffeaf3","#ffb6d3","#ee86b0"],ears:"none",face:false,tail:"none",nose:"none",x:["tentacles","spots"]},
+ alpaca:{zh:"羊驼",en:"alpaca",nm:"驼驼",c:["#fffaf2","#f4e6d2","#dcc5a6"],ears:"tufts",tail:"puff",nose:"muzzle",x:["wool"]},
+ qilin:{zh:"小麒麟",en:"qilin",nm:"麟麟",c:["#f4fde8","#c4ecb0","#7fc792"],f:["#fffbe6","#f7e3a0"],ears:"pointy",tail:"flame",nose:"dots",x:["antler","scales","sparkle"],rare:true},
+ pegasus:{zh:"天马",en:"pegasus",nm:"云朵",c:["#ffffff","#eef5ff","#c9d9f2"],f:["#ffffff","#f3f6fb"],ears:"pointy",tail:"rainbow",nose:"muzzle",maneC:"#b9d4ff",x:["wings","mane","sparkle"],rare:true},
+ ninefox:{zh:"九尾灵狐",en:"nine-tailed fox",nm:"灵灵",c:["#f6f3ff","#d8ddff","#a9b4f0"],f:["#ffffff","#eef0ff"],ears:"pointy",tail:"nine",tipWhite:true,nose:"pink",x:["whisk","gem","sparkle"],rare:true},
+ starwhale:{zh:"星空鲸",en:"star whale",nm:"星河",c:["#c9d4ff","#7f8fe0","#4f5aa8"],f:["#eef2ff","#c9d2f5"],ears:"none",tail:"fluke",nose:"none",x:["nofeet","spout","stars","sparkle"],rare:true},
+ rainbowcat:{zh:"彩虹猫龙",en:"rainbow dragon-cat",nm:"彩彩",c:["#fff4fb","#ffd1ec","#e9a6d6"],ears:"pointy",tail:"rainbow",nose:"pink",x:["dwings","antler","whisk","sparkle"],rare:true},
+ phoenix:{zh:"小凤凰",en:"phoenix",nm:"焰焰",c:["#fff2c4","#ffb35c","#ff6f5a"],f:["#fffbe8","#ffe6a8"],ears:"none",face:false,nose:"beak",feet:"#ffd25e",tail:"phoenix",x:["crest","sparkle"],rare:true}
+};
+for(const k in SP)SP[k].k=k;
+const ZORDER=["monkey","rat","ox","tiger","rabbit","dragon","snake","horse","goat","rooster","dog","pig"]; // monkey first/default
+const HATCH=["kitten","turtle","panda","penguin","hamster","koala","fox","owl","hedgehog","duckling","squirrel","deer","seal","bear","frog","raccoon","elephant","lion","unicorn","dolphin","redpanda","octopus","alpaca","phoenix","qilin","pegasus","ninefox","starwhale","rainbowcat"];
+// weighted draw without replacement: 23 commons weight 1, 6 rares weight 0.426 -> with all available, rares ≈10% combined (≈1.7% each), commons ≈90%
+const WT=k=>SP[k].rare?0.426:1;
+function drawPool(n){let left=HATCH.filter(k=>!ownedSp(k)),out=[];
+ while(out.length<n&&left.length){const tot=left.reduce((a,k)=>a+WT(k),0);let r=Math.random()*tot,ch=left[left.length-1];
+  for(const k of left){r-=WT(k);if(r<0){ch=k;break}}out.push(ch);left=left.filter(k=>k!==ch)}return out}
+const EGG="M100 24c42 0 68 62 68 100s-28 62-68 62-68-24-68-62 26-100 68-100z";
+function clay(sp,st){
+ const k=sp.k,c=sp.c,f=sp.f||["#fffaf3","#f3dcc6"],I=s=>k+"-"+s,dk=sp.dk||["#6a5f70","#2f2836"];
+ const defs=`<defs>
+ <radialGradient id="${I("b")}" cx="36%" cy="28%" r="80%"><stop offset="0" stop-color="${c[0]}"/><stop offset=".4" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></radialGradient>
+ <radialGradient id="${I("f")}" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="${f[0]}"/><stop offset="1" stop-color="${f[1]}"/></radialGradient>
+ <radialGradient id="${I("d")}" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="${dk[0]}"/><stop offset="1" stop-color="${dk[1]}"/></radialGradient>
+ <radialGradient id="${I("e")}" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#6b5a6e"/><stop offset="1" stop-color="#2c2130"/></radialGradient>
+ <radialGradient id="${I("k")}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff98a8" stop-opacity=".7"/><stop offset="1" stop-color="#ff98a8" stop-opacity="0"/></radialGradient>
+ <radialGradient id="${I("i")}" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#ffe3e8"/><stop offset="1" stop-color="#f6b9c7"/></radialGradient>
+ <radialGradient id="${I("g")}" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#fff6cf"/><stop offset="1" stop-color="#f3c44f"/></radialGradient>
+ <filter id="${I("s")}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+ <filter id="${I("p")}" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#6a4a7a" flood-opacity=".22"/></filter>
+ </defs>`;
+ const B=`url(#${I("b")})`,F=`url(#${I("f")})`,D=`url(#${I("d")})`,E=`url(#${I("e")})`,K=`url(#${I("k")})`,IN=`url(#${I("i")})`,G=`url(#${I("g")})`,SO=`url(#${I("s")})`,DR=`url(#${I("p")})`;
+ const x=n=>!!(sp.x&&sp.x.includes(n));
+ const hi=(cx,cy,rx,ry,o)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#fff" opacity="${o||.5}" filter="${SO}"/>`;
+ const shadow=`<ellipse cx="100" cy="188" rx="58" ry="9" fill="#6a4a7a" opacity=".18" filter="${SO}"/>`;
+ if(st===0){return `<svg viewBox="0 0 200 200" width="170" height="170">${defs}${shadow}<g filter="${DR}"><path d="${EGG}" fill="${F}"/></g>
+  <ellipse cx="72" cy="84" rx="12" ry="10" fill="${c[1]}"/><ellipse cx="130" cy="140" rx="16" ry="12" fill="${c[1]}"/><ellipse cx="124" cy="64" rx="8" ry="7" fill="${c[2]}" opacity=".7"/><ellipse cx="74" cy="150" rx="9" ry="7" fill="${c[2]}" opacity=".7"/>
+  ${hi(78,60,16,24,.6)}<ellipse cx="87" cy="114" rx="5" ry="6" fill="${E}"/><ellipse cx="113" cy="114" rx="5" ry="6" fill="${E}"/>
+  <ellipse cx="76" cy="125" rx="10" ry="6" fill="${K}"/><ellipse cx="124" cy="125" rx="10" ry="6" fill="${K}"/><path d="M94 124q6 5 12 0" stroke="#5a3d40" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`}
+ let back="",ears="",earsF="",top="",face="";
+ const tc=sp.tailC||c[2];
+ if(st>=2){back+=({
+  thin:`<path d="M136 172 C168 178 188 158 178 134" stroke="${tc}" stroke-width="6" fill="none" stroke-linecap="round"/>`,
+  curl:`<path d="M136 168 c16 2 22 -16 9 -19 c-10 -2 -10 11 -1 10" stroke="${c[2]}" stroke-width="6" fill="none" stroke-linecap="round"/>`,
+  stripe:`<path d="M134 170 C170 180 188 150 172 126" stroke="${c[1]}" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M134 170 C170 180 188 150 172 126" stroke="#d9773a" stroke-width="11" fill="none" stroke-dasharray="5 11"/>`,
+  puff:`<circle cx="142" cy="172" r="13" fill="${F}" filter="${DR}"/>`,
+  tuft:`<path d="M134 170 C160 176 176 160 176 140" stroke="${c[2]}" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="176" cy="136" r="8" fill="${D}"/>`,
+  horse:`<path d="M134 160 C178 158 190 184 170 192" stroke="#a26d48" stroke-width="15" fill="none" stroke-linecap="round"/>`,
+  rainbow:`<path d="M134 160 C178 156 190 184 172 192" stroke="#ffb3d1" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M136 166 C172 166 182 186 166 192" stroke="#cdb3ff" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M136 172 C164 174 172 188 160 192" stroke="#a8d8ff" stroke-width="7" fill="none" stroke-linecap="round"/>`,
+  spike:`<path d="M132 170 C168 182 188 156 176 128" stroke="${B}" stroke-width="13" fill="none" stroke-linecap="round"/><path d="M168 176l8 6 -2 -10zM182 154l9 3 -5 -9zM180 136l8 -2 -7 -6z" fill="#ffd37a"/>`,
+  wag:`<path d="M136 166 C160 160 170 140 160 124" stroke="${c[2]}" stroke-width="11" fill="none" stroke-linecap="round"/>`,
+  feather:`<ellipse cx="152" cy="140" rx="12" ry="26" transform="rotate(30 152 140)" fill="#ffb07a"/><ellipse cx="160" cy="152" rx="11" ry="24" transform="rotate(55 160 152)" fill="#9fdca0"/><ellipse cx="146" cy="132" rx="9" ry="20" transform="rotate(8 146 132)" fill="#ff8f8f"/>`,
+  snake:`<path d="M150 176 C176 174 186 158 180 146" stroke="${c[2]}" stroke-width="10" fill="none" stroke-linecap="round"/>`,
+  bushy:`<ellipse cx="160" cy="138" rx="24" ry="44" transform="rotate(25 160 138)" fill="${B}" filter="${DR}"/>${sp.tipWhite?`<ellipse cx="176" cy="104" rx="14" ry="16" transform="rotate(25 176 104)" fill="${F}"/>`:""}`,
+  fluke:`<path d="M134 172 C160 180 174 172 178 158" stroke="${c[2]}" stroke-width="11" fill="none" stroke-linecap="round"/><ellipse cx="172" cy="150" rx="7" ry="15" transform="rotate(-40 172 150)" fill="${B}"/><ellipse cx="186" cy="160" rx="7" ry="15" transform="rotate(50 186 160)" fill="${B}"/>`,
+  ringed:`<path d="M134 170 C170 180 188 150 172 124" stroke="${c[1]}" stroke-width="15" fill="none" stroke-linecap="round"/><path d="M134 170 C170 180 188 150 172 124" stroke="${sp.ringC||"#fff"}" stroke-width="15" fill="none" stroke-dasharray="7 10"/>`,
+  phoenix:`<path d="M132 160 C170 150 196 120 186 84 C178 120 160 136 132 150Z" fill="#ffcf5e"/><path d="M134 168 C178 172 198 150 196 118 C184 150 162 160 134 160Z" fill="#ff9a5a"/><path d="M134 174 C170 190 190 182 196 160 C178 176 156 176 134 168Z" fill="#ff6f6f"/><circle cx="188" cy="88" r="5" fill="#fff6c0"/><circle cx="195" cy="122" r="4" fill="#fff6c0"/>`,
+  flame:`<path d="M132 168 C166 168 186 146 180 116 C172 140 156 152 132 156Z" fill="#ffd25e"/><path d="M134 174 C168 182 188 168 192 146 C178 164 158 168 134 166Z" fill="#9fe0a8"/><circle cx="181" cy="114" r="5" fill="#fff6c0"/>`,
+  nine:Array.from({length:9},(_,i)=>{const a=-100+i*25,r=a*Math.PI/180,cx=100+58*Math.sin(r),cy=150-54*Math.cos(r);return `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="13" ry="34" transform="rotate(${a} ${cx.toFixed(1)} ${cy.toFixed(1)})" fill="${B}"/><ellipse cx="${(100+86*Math.sin(r)).toFixed(1)}" cy="${(150-80*Math.cos(r)).toFixed(1)}" rx="8" ry="10" transform="rotate(${a} ${(100+86*Math.sin(r)).toFixed(1)} ${(150-80*Math.cos(r)).toFixed(1)})" fill="#fff"/>`}).join(""),
+  none:""}[sp.tail]||"")}
+ if(x("wings"))back=`<g filter="${DR}">${[-1,1].map(d=>[0,1,2].map(i=>`<ellipse cx="${100+d*(62+i*8)}" cy="${118+i*12}" rx="${30-i*5}" ry="12" transform="rotate(${d*(-35+i*18)} ${100+d*(62+i*8)} ${118+i*12})" fill="${F}"/>`).join("")).join("")}</g>`+back;
+ if(x("dwings"))back=`<path d="M64 140 C30 120 18 96 26 82 C36 96 44 92 50 104 C54 92 62 98 64 110Z" fill="#d8c4ff"/><path d="M136 140 C170 120 182 96 174 82 C164 96 156 92 150 104 C146 92 138 98 136 110Z" fill="#d8c4ff"/>`+back;
+ if(x("shell"))back+=`<ellipse cx="100" cy="150" rx="58" ry="42" fill="#8fc873" filter="${DR}"/><ellipse cx="100" cy="146" rx="50" ry="34" fill="#a6d78a"/><circle cx="80" cy="140" r="9" fill="#8fc873"/><circle cx="120" cy="140" r="9" fill="#8fc873"/><circle cx="100" cy="128" r="9" fill="#8fc873"/>${hi(80,126,18,8,.45)}`;
+ const ER={
+  bigRound:`<circle cx="46" cy="54" r="27" fill="${B}"/><circle cx="154" cy="54" r="27" fill="${B}"/><circle cx="48" cy="56" r="16" fill="${IN}"/><circle cx="152" cy="56" r="16" fill="${IN}"/>`,
+  round:`<circle cx="56" cy="48" r="17" fill="${B}"/><circle cx="144" cy="48" r="17" fill="${B}"/><circle cx="57" cy="50" r="9" fill="${IN}"/><circle cx="143" cy="50" r="9" fill="${IN}"/>`,
+  small:`<circle cx="62" cy="46" r="12" fill="${B}"/><circle cx="138" cy="46" r="12" fill="${B}"/><circle cx="63" cy="47" r="6" fill="${IN}"/><circle cx="137" cy="47" r="6" fill="${IN}"/>`,
+  roundDark:`<circle cx="54" cy="48" r="19" fill="${D}"/><circle cx="146" cy="48" r="19" fill="${D}"/>`,
+  pointy:`<path d="M48 70 Q42 24 86 42 Z" fill="${B}" stroke="${c[1]}" stroke-width="6" stroke-linejoin="round"/><path d="M152 70 Q158 24 114 42 Z" fill="${B}" stroke="${c[1]}" stroke-width="6" stroke-linejoin="round"/><path d="M56 60 Q54 36 78 46Z" fill="${IN}"/><path d="M144 60 Q146 36 122 46Z" fill="${IN}"/>`,
+  long:`<ellipse cx="76" cy="26" rx="14" ry="34" transform="rotate(-12 76 26)" fill="${B}"/><ellipse cx="124" cy="26" rx="14" ry="34" transform="rotate(12 124 26)" fill="${B}"/><ellipse cx="76" cy="28" rx="7" ry="24" transform="rotate(-12 76 28)" fill="${IN}"/><ellipse cx="124" cy="28" rx="7" ry="24" transform="rotate(12 124 28)" fill="${IN}"/>`,
+  fluffy:`<circle cx="44" cy="60" r="29" fill="${B}"/><circle cx="156" cy="60" r="29" fill="${B}"/><circle cx="47" cy="62" r="17" fill="${F}"/><circle cx="153" cy="62" r="17" fill="${F}"/>`,
+  side:`<ellipse cx="40" cy="78" rx="22" ry="11" transform="rotate(-25 40 78)" fill="${B}"/><ellipse cx="160" cy="78" rx="22" ry="11" transform="rotate(25 160 78)" fill="${B}"/><ellipse cx="42" cy="78" rx="12" ry="5" transform="rotate(-25 42 78)" fill="${IN}"/><ellipse cx="158" cy="78" rx="12" ry="5" transform="rotate(25 158 78)" fill="${IN}"/>`,
+  tufts:`<path d="M60 56 L48 18 L84 42Z" fill="${B}" stroke="${c[1]}" stroke-width="5" stroke-linejoin="round"/><path d="M140 56 L152 18 L116 42Z" fill="${B}" stroke="${c[1]}" stroke-width="5" stroke-linejoin="round"/>`,
+  elephant:`<ellipse cx="34" cy="96" rx="30" ry="38" fill="${B}"/><ellipse cx="166" cy="96" rx="30" ry="38" fill="${B}"/><ellipse cx="36" cy="98" rx="18" ry="26" fill="${IN}"/><ellipse cx="164" cy="98" rx="18" ry="26" fill="${IN}"/>`,
+  none:""};
+ if(sp.ears==="floppy")earsF=`<ellipse cx="44" cy="98" rx="17" ry="30" transform="rotate(18 44 98)" fill="${sp.earDark?D:B}" filter="${DR}"/><ellipse cx="156" cy="98" rx="17" ry="30" transform="rotate(-18 156 98)" fill="${sp.earDark?D:B}" filter="${DR}"/>`;
+ else ears=ER[sp.ears]||"";
+ if(x("ohorns"))top+=`<path d="M58 52 Q36 46 40 20 Q52 40 72 42 Z" fill="#fff3d6" stroke="#ead7aa" stroke-width="3" stroke-linejoin="round"/><path d="M142 52 Q164 46 160 20 Q148 40 128 42 Z" fill="#fff3d6" stroke="#ead7aa" stroke-width="3" stroke-linejoin="round"/>`;
+ if(x("ghorns"))top+=`<path d="M66 46 C46 28 26 50 44 62 C54 68 60 56 52 54" stroke="#e9d3a8" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M134 46 C154 28 174 50 156 62 C146 68 140 56 148 54" stroke="#e9d3a8" stroke-width="10" fill="none" stroke-linecap="round"/>`;
+ if(x("antler"))top+=`<path d="M80 44 Q70 18 82 8 Q86 24 94 40Z" fill="${G}"/><path d="M120 44 Q130 18 118 8 Q114 24 106 40Z" fill="${G}"/>`;
+ if(x("uhorn"))top+=`<path d="M92 42 L100 0 L108 42 Z" fill="${G}" stroke="#f0c04a" stroke-width="3" stroke-linejoin="round"/><path d="M95 30 l10 -4 M97 18 l7 -3" stroke="#f0b93d" stroke-width="3" stroke-linecap="round"/>`;
+ if(x("comb"))top+=`<circle cx="88" cy="42" r="11" fill="#ff8a8a"/><circle cx="100" cy="33" r="13" fill="#ff7a7a"/><circle cx="112" cy="42" r="11" fill="#ff8a8a"/>`;
+ if(x("spout"))top+=`<path d="M100 38 C100 26 96 18 88 14 M100 38 C100 26 104 18 112 14 M100 38 V12" stroke="#a8dcff" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="86" cy="12" r="4" fill="#cdeeff"/><circle cx="114" cy="12" r="4" fill="#cdeeff"/><circle cx="100" cy="8" r="4" fill="#cdeeff"/>`;
+ if(x("fin"))top+=`<path d="M90 42 Q112 4 128 44Z" fill="${B}"/>`;
+ if(x("antlerS"))top+=`<g stroke="#b07c50" stroke-width="7" stroke-linecap="round" fill="none"><path d="M80 44 l-10 -26 M74 30 l-12 -4 M120 44 l10 -26 M126 30 l12 -4"/></g>`;
+ if(x("frogeyes"))top+=`<circle cx="72" cy="56" r="23" fill="${B}"/><circle cx="128" cy="56" r="23" fill="${B}"/>`;
+ if(x("crest"))top+=`<path d="M100 42 C88 26 94 10 104 2 C102 18 114 24 108 42Z" fill="#ff9a5a"/><path d="M90 44 C78 34 80 20 86 14 C88 28 96 32 96 44Z" fill="#ffcf5e"/><path d="M110 44 C122 34 122 22 116 16 C116 28 106 32 104 44Z" fill="#ffcf5e"/>`;
+ if(x("spines")){let sp2="";for(let a=-175;a<=-5;a+=17){const r=a*Math.PI/180,cx=100+66*Math.cos(r),cy=96+60*Math.sin(r),tx=100+92*Math.cos(r),ty=96+84*Math.sin(r),px=-Math.sin(r)*11,py=Math.cos(r)*11;
+  sp2+=`<path d="M${(cx+px).toFixed(1)} ${(cy+py).toFixed(1)} L${tx.toFixed(1)} ${ty.toFixed(1)} L${(cx-px).toFixed(1)} ${(cy-py).toFixed(1)}Z" fill="${D}" stroke="${dk[0]}" stroke-width="5" stroke-linejoin="round"/>`}top+=sp2}
+ if(x("lmane")){let m="";for(let a=0;a<360;a+=30){const r=a*Math.PI/180;m+=`<circle cx="${(100+62*Math.cos(r)).toFixed(1)}" cy="${(92+56*Math.sin(r)).toFixed(1)}" r="20" fill="${a%60?"#e9a24e":"#f2b866"}"/>`}top+=m}
+ // front-of-head extras
+ let fx="";
+ if(x("mane"))fx+=`<circle cx="100" cy="42" r="12" fill="${sp.maneC||"#a26d48"}"/><circle cx="86" cy="47" r="10" fill="${sp.maneC||"#b27c55"}"/><circle cx="114" cy="47" r="10" fill="${sp.maneC||"#b27c55"}"/>`;
+ if(x("rmane"))fx+=`<circle cx="84" cy="46" r="11" fill="#ffc2dc"/><circle cx="98" cy="41" r="11" fill="#d8c4ff"/><circle cx="112" cy="46" r="10" fill="#b5e0ff"/>`;
+ if(x("wool"))fx+=`<circle cx="84" cy="46" r="13" fill="${F}"/><circle cx="100" cy="40" r="15" fill="${F}"/><circle cx="116" cy="46" r="13" fill="${F}"/>`;
+ if(x("tuft"))fx+=`<path d="M96 40 q-6 -16 8 -18 q-4 6 2 12z" fill="${B}"/>`;
+ if(x("spots"))fx+=`<g fill="#fff" opacity=".8"><circle cx="70" cy="64" r="4.5"/><circle cx="82" cy="52" r="3.5"/><circle cx="128" cy="54" r="4.5"/><circle cx="138" cy="68" r="3.5"/></g>`;
+ if(x("gem"))fx+=`<path d="M100 50 l7 8 -7 9 -7 -9z" fill="#bfe6ff" stroke="#8fc8f5" stroke-width="2" stroke-linejoin="round"/>`;
+ if(x("scales"))fx+=`<g fill="#ffe08a" opacity=".85"><circle cx="72" cy="60" r="4"/><circle cx="84" cy="50" r="3.5"/><circle cx="128" cy="58" r="4"/><circle cx="116" cy="50" r="3.5"/></g>`;
+ if(x("stars"))fx+=`<g fill="#fff">${[[66,62,4],[84,48,3],[132,56,4],[120,46,2.5],[146,78,3],[52,82,2.5]].map(([a,b,r])=>`<path d="M${a} ${b-r*2} L${a+r*.6} ${b-r*.6} L${a+r*2} ${b} L${a+r*.6} ${b+r*.6} L${a} ${b+r*2} L${a-r*.6} ${b+r*.6} L${a-r*2} ${b} L${a-r*.6} ${b-r*.6}Z"/>`).join("")}</g>`;
+ if(x("tstripes"))fx+=`<g stroke="#e0883f" stroke-width="5" stroke-linecap="round" fill="none" opacity=".85"><path d="M100 42 v12 M86 46 l4 10 M114 46 l-4 10 M42 92 h11 M44 103 h8 M158 92 h-11 M156 103 h-8"/></g>`;
+ // limbs & body
+ const noL=x("nolimbs"),FT=sp.feet||(sp.limbDark?D:F),AR=sp.limbDark?D:B;
+ const nf=x("nofeet");
+ let body=x("tentacles")?Array.from({length:6},(_,i)=>`<ellipse cx="${55+i*18}" cy="168" rx="10" ry="24" transform="rotate(${(i-2.5)*12} ${55+i*18} 168)" fill="${B}"/>`).join("")
+  :noL?`<ellipse cx="100" cy="176" rx="60" ry="15" fill="${B}"/><ellipse cx="100" cy="158" rx="46" ry="22" fill="${B}"/>`
+  :`<ellipse cx="100" cy="160" rx="42" ry="30" fill="${B}"/>${nf?"":`<ellipse cx="78" cy="185" rx="16" ry="9" fill="${FT}"/><ellipse cx="122" cy="185" rx="16" ry="9" fill="${FT}"/>`}
+   <ellipse cx="62" cy="164" rx="12" ry="17" transform="rotate(28 62 164)" fill="${AR}"/><ellipse cx="138" cy="164" rx="12" ry="17" transform="rotate(-28 138 164)" fill="${AR}"/>`;
+ const tummy=x("tentacles")?"":noL?`<ellipse cx="100" cy="162" rx="26" ry="12" fill="${F}"/>`:x("shell")?`<ellipse cx="100" cy="164" rx="26" ry="19" fill="#fff1b8"/><path d="M80 160h40M84 170h32" stroke="#efd98a" stroke-width="3"/>`:`<ellipse cx="100" cy="164" rx="25" ry="18" fill="${F}"/>`;
+ // face
+ if(sp.mface)face+=`<circle cx="81" cy="94" r="24" fill="${F}"/><circle cx="119" cy="94" r="24" fill="${F}"/><ellipse cx="100" cy="116" rx="38" ry="24" fill="${F}"/>`;
+ else if(sp.face!==false)face+=`<ellipse cx="100" cy="108" rx="44" ry="33" fill="${F}"/>`;
+ if(x("pouch"))face+=`<ellipse cx="62" cy="120" rx="19" ry="15" fill="${F}"/><ellipse cx="138" cy="120" rx="19" ry="15" fill="${F}"/>`;
+ if(x("patches"))face+=`<ellipse cx="82" cy="97" rx="14" ry="18" transform="rotate(30 82 97)" fill="${D}"/><ellipse cx="118" cy="97" rx="14" ry="18" transform="rotate(-30 118 97)" fill="${D}"/>`;
+ if(x("rpface"))face+=`<ellipse cx="66" cy="118" rx="17" ry="13" fill="#fff6ec"/><ellipse cx="134" cy="118" rx="17" ry="13" fill="#fff6ec"/><ellipse cx="100" cy="118" rx="14" ry="12" fill="#fff6ec"/><ellipse cx="82" cy="76" rx="8" ry="5" fill="#fff6ec"/><ellipse cx="118" cy="76" rx="8" ry="5" fill="#fff6ec"/>`;
+ if(x("mask"))face+=`<path d="M50 94 Q100 66 150 94 Q144 114 120 106 Q100 100 80 106 Q56 114 50 94Z" fill="${D}"/>`;
+ if(x("owleyes"))face+=`<circle cx="82" cy="95" r="21" fill="${F}"/><circle cx="118" cy="95" r="21" fill="${F}"/>`;
+ if(x("dogspot"))face+=`<ellipse cx="118" cy="92" rx="17" ry="15" fill="${c[2]}" opacity=".55"/>`;
+ let my=119,nose="";
+ switch(sp.nose){
+  case"pink":nose=`<ellipse cx="100" cy="110" rx="5.5" ry="4" fill="#ff9fb4"/>`;break;
+  case"dark":nose=`<ellipse cx="100" cy="110" rx="7" ry="5" fill="${E}"/>`;break;
+  case"dots":nose=`<ellipse cx="95.5" cy="111" rx="2.4" ry="1.8" fill="#5a7a50"/><ellipse cx="104.5" cy="111" rx="2.4" ry="1.8" fill="#5a7a50"/>`;break;
+  case"bignose":nose=`<ellipse cx="100" cy="112" rx="11" ry="13" fill="${D}"/>`;my=129;break;
+  case"snout":nose=`<ellipse cx="100" cy="116" rx="17" ry="12" fill="#ffb3c8" filter="${DR}"/><ellipse cx="94" cy="116" rx="2.8" ry="4" fill="#d9708f"/><ellipse cx="106" cy="116" rx="2.8" ry="4" fill="#d9708f"/>`;my=133;break;
+  case"muzzle":nose=`<ellipse cx="100" cy="120" rx="27" ry="17" fill="${F}" filter="${DR}"/><ellipse cx="91" cy="116" rx="3" ry="4" fill="#8a5a50"/><ellipse cx="109" cy="116" rx="3" ry="4" fill="#8a5a50"/>`;my=124;break;
+  case"bill":nose=`<ellipse cx="100" cy="114" rx="17" ry="8" fill="#ffb347"/><ellipse cx="96" cy="111" rx="6" ry="2" fill="#fff" opacity=".5"/>`;my=0;break;
+  case"bmuzzle":nose=`<ellipse cx="100" cy="118" rx="24" ry="17" fill="${F}" filter="${DR}"/><ellipse cx="100" cy="110" rx="8" ry="5.5" fill="#4a3530"/>`;my=122;break;
+  case"trunk":nose=`<path d="M100 104 C100 132 96 148 110 150" stroke="${c[1]}" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M93 116h14M93 126h14M94 136h12" stroke="${c[2]}" stroke-width="2" opacity=".5"/>`;my=0;break;
+  case"beak":nose=`<path d="M88 108 Q100 100 112 108 Q100 126 88 108z" fill="#ffb347" stroke="#f3a03a" stroke-width="2" stroke-linejoin="round"/>`;my=0;break;
+ }
+ const mouth=sp.wide?`<path d="M74 112 q26 20 52 0" stroke="#4a6a3a" stroke-width="4" fill="none" stroke-linecap="round"/>`:my?`<path d="M90 ${my} q10 10 20 0" stroke="#5a3d40" stroke-width="3.5" fill="none" stroke-linecap="round"/>`:"";
+ let ff="";
+ if(x("whisk"))ff+=`<g stroke="#9a8a90" stroke-width="2" stroke-linecap="round" opacity=".55"><path d="M60 112 l-20 -4 M60 119 l-20 2 M140 112 l20 -4 M140 119 l20 2"/></g>`;
+ if(x("wattle"))ff+=`<ellipse cx="100" cy="128" rx="6" ry="8" fill="#ff8a8a"/>`;
+ if(x("tongue"))ff+=`<path d="M100 126 v8 l-3 4 M100 134 l3 4" stroke="#ff6b81" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+ return `<svg viewBox="0 0 200 200" width="190" height="190">${defs}${shadow}
+ ${back}<g filter="${DR}">${top}${ears}${body}<ellipse cx="100" cy="90" rx="60" ry="53" fill="${B}"/></g>
+ ${tummy}${face}${earsF}${fx}
+ ${hi(72,58,22,11,.55)}${hi(100,100,24,10,.3)}
+${[ (sp.eyeX||[84,116])[0],(sp.eyeX||[84,116])[1] ].map(ex=>{const ey=sp.eyeY||95;return `<ellipse cx="${ex}" cy="${ey}" rx="8.5" ry="10.5" fill="${E}"/><circle cx="${ex+3}" cy="${ey-4.5}" r="3.4" fill="#fff" opacity=".95"/><circle cx="${ex-2}" cy="${ey+4}" r="1.6" fill="#fff" opacity=".7"/>`}).join("")}
+ <ellipse cx="66" cy="116" rx="12" ry="8" fill="${K}"/><ellipse cx="134" cy="116" rx="12" ry="8" fill="${K}"/>
+ ${nose}${mouth}${ff}
+ ${x("sparkle")?`<circle cx="100" cy="110" r="96" fill="#fff3a0" opacity=".18" filter="${SO}"/><text x="18" y="70" font-size="18">✨</text><text x="168" y="64" font-size="16">✨</text><text x="22" y="176" font-size="14">✨</text>`:""}
+ ${st>=4?`<text x="40" y="44" font-size="20">✨</text><text x="146" y="40" font-size="18">✨</text>`:""}</svg>`;
+}
+function mysteryEgg(){return `<svg viewBox="0 0 200 200" width="170" height="170"><defs><radialGradient id="mye" cx="36%" cy="28%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#fdf3ff"/><stop offset="1" stop-color="#e2cff5"/></radialGradient><filter id="myb"><feGaussianBlur stdDeviation="5"/></filter><filter id="myd" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#6a4a7a" flood-opacity=".22"/></filter></defs>
+ <ellipse cx="100" cy="188" rx="58" ry="9" fill="#6a4a7a" opacity=".18" filter="url(#myb)"/><g filter="url(#myd)"><path d="${EGG}" fill="url(#mye)"/></g>
+ <circle cx="74" cy="86" r="11" fill="#ffc2dc"/><circle cx="128" cy="134" r="14" fill="#b5e0ff"/><circle cx="122" cy="66" r="8" fill="#c9f2b5"/><circle cx="78" cy="148" r="8" fill="#ffe08a"/><circle cx="104" cy="104" r="7" fill="#d8c4ff"/>
+ <text x="100" y="128" font-size="30" text-anchor="middle" fill="#c9b3e6" font-weight="900">?</text>
+ <ellipse cx="78" cy="60" rx="16" ry="24" fill="#fff" opacity=".6" filter="url(#myb)"/></svg>`}
+function crackSVG(n){const P=["M70 92 l10 8 l-6 10 l12 6","M128 84 l-8 10 l8 8 l-10 10","M90 150 l8 -10 l8 8 l8 -10","M100 40 l-6 14 l8 6 l-6 12"];
+ return `<svg viewBox="0 0 200 200" width="170" height="170" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">${P.slice(0,n).map(d=>`<path d="${d}" stroke="#8a6a50" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`).join("")}</svg>`}
+function petSVGAny(st,k){k=k||P().sp;return k==="monkey"?monkeySVG(st):clay(SP[k],st)}
+function DECO(st){return st===0?{head:{top:-14,fs:58},eyes:{top:84,fs:58},body:{top:140,fs:50},neck:{top:130,fs:42},hand:{top:110,fs:46,left:"88%"}}
+ :{head:{top:-22,fs:60},eyes:{top:63,fs:60},body:{top:138,fs:46},neck:{top:126,fs:40},hand:{top:130,fs:42,left:"16%"}}}
+function monkeyDefs(){return `<defs>
+ <radialGradient id="mg" cx="36%" cy="28%" r="80%"><stop offset="0" stop-color="#fbe3c8"/><stop offset=".35" stop-color="#e9b98c"/><stop offset="1" stop-color="#c78c5f"/></radialGradient>
+ <radialGradient id="mf" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#fff7ee"/><stop offset=".5" stop-color="#ffe6d0"/><stop offset="1" stop-color="#f3c7a4"/></radialGradient>
+ <radialGradient id="mi" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#ffe0d6"/><stop offset="1" stop-color="#f5b9ac"/></radialGradient>
+ <radialGradient id="me" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#6e5546"/><stop offset="1" stop-color="#2e211c"/></radialGradient>
+ <radialGradient id="mk" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff98a8" stop-opacity=".7"/><stop offset="1" stop-color="#ff98a8" stop-opacity="0"/></radialGradient>
+ <radialGradient id="mgg" cx="36%" cy="28%" r="80%"><stop offset="0" stop-color="#fffaf0"/><stop offset=".3" stop-color="#fbe9cf"/><stop offset="1" stop-color="#e8c79e"/></radialGradient>
+ <linearGradient id="mt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3ae80"/><stop offset="1" stop-color="#c38658"/></linearGradient>
+ <radialGradient id="ml" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#d9f5c4"/><stop offset="1" stop-color="#8fcf7a"/></radialGradient>
+ <filter id="msoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+ <filter id="mdrop" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#8a5a3a" flood-opacity=".25"/></filter>
+</defs>`}
+function monkeySVG(st){
+ const hi=(x,y,rx,ry,o)=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#fff" opacity="${o||.5}" filter="url(#msoft)"/>`;
+ const shadow=`<ellipse cx="100" cy="188" rx="58" ry="9" fill="#8a5a3a" opacity=".2" filter="url(#msoft)"/>`;
+ if(st===0){return `<svg viewBox="0 0 200 200" width="170" height="170">${monkeyDefs()}${shadow}
+  <g filter="url(#mdrop)"><path d="M100 24c42 0 68 62 68 100s-28 62-68 62-68-24-68-62 26-100 68-100z" fill="url(#mgg)"/></g>
+  <ellipse cx="72" cy="84" rx="11" ry="9" fill="#e9b98c" opacity=".8"/><ellipse cx="130" cy="140" rx="15" ry="11" fill="#e9b98c" opacity=".8"/><ellipse cx="124" cy="66" rx="7" ry="6" fill="#e9b98c" opacity=".8"/><ellipse cx="74" cy="148" rx="8" ry="6" fill="#e9b98c" opacity=".8"/>
+  <path d="M100 26q-6 -10 4 -14" stroke="#8fcf7a" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="110" cy="14" rx="9" ry="5" transform="rotate(-25 110 14)" fill="url(#ml)"/>
+  ${hi(78,60,16,24,.6)}
+  <ellipse cx="87" cy="114" rx="5" ry="6" fill="url(#me)"/><ellipse cx="113" cy="114" rx="5" ry="6" fill="url(#me)"/>
+  <ellipse cx="76" cy="125" rx="10" ry="6" fill="url(#mk)"/><ellipse cx="124" cy="125" rx="10" ry="6" fill="url(#mk)"/>
+  <path d="M94 124q6 5 12 0" stroke="#5a3d30" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`}
+ const tail=st>=2,leaf=st>=3,star=st>=4;
+ return `<svg viewBox="0 0 200 200" width="190" height="190">${monkeyDefs()}${shadow}
+ ${tail?`<path d="M132 170 C170 176 184 146 170 128 C160 116 146 124 152 134 C156 140 164 136 162 130" stroke="url(#mt)" stroke-width="11" fill="none" stroke-linecap="round" filter="url(#mdrop)"/>`:""}
+ <g filter="url(#mdrop)">
+  <ellipse cx="100" cy="160" rx="42" ry="30" fill="url(#mg)"/>
+  <ellipse cx="78" cy="185" rx="16" ry="9" fill="url(#mf)"/><ellipse cx="122" cy="185" rx="16" ry="9" fill="url(#mf)"/>
+  <ellipse cx="62" cy="164" rx="12" ry="17" transform="rotate(28 62 164)" fill="url(#mg)"/><ellipse cx="138" cy="164" rx="12" ry="17" transform="rotate(-28 138 164)" fill="url(#mg)"/>
+  <circle cx="44" cy="96" r="23" fill="url(#mg)"/><circle cx="156" cy="96" r="23" fill="url(#mg)"/>
+  <ellipse cx="100" cy="90" rx="60" ry="53" fill="url(#mg)"/>
+ </g>
+ <ellipse cx="100" cy="164" rx="25" ry="18" fill="url(#mf)"/>
+ <ellipse cx="56" cy="170" rx="7" ry="6" fill="url(#mf)"/><ellipse cx="144" cy="170" rx="7" ry="6" fill="url(#mf)"/>
+ <circle cx="44" cy="97" r="13" fill="url(#mi)"/><circle cx="156" cy="97" r="13" fill="url(#mi)"/>
+ <path d="M86 44 q-2 -16 12 -16 q-6 4 -2 12z" fill="url(#mg)" filter="url(#mdrop)"/>
+ <path d="M98 42 q4 -18 18 -12 q-8 2 -6 12z" fill="url(#mg)" filter="url(#mdrop)"/>
+ ${leaf?`<path d="M104 38 q2 -10 -2 -16" stroke="#7cbf68" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="112" cy="20" rx="11" ry="6" transform="rotate(-30 112 20)" fill="url(#ml)"/>`:""}
+ <g>
+  <circle cx="81" cy="94" r="24" fill="url(#mf)"/><circle cx="119" cy="94" r="24" fill="url(#mf)"/>
+  <ellipse cx="100" cy="116" rx="38" ry="24" fill="url(#mf)"/>
+ </g>
+ ${hi(72,58,22,11,.55)}${hi(100,104,24,10,.35)}
+ <ellipse cx="84" cy="95" rx="8.5" ry="10.5" fill="url(#me)"/><ellipse cx="116" cy="95" rx="8.5" ry="10.5" fill="url(#me)"/>
+ <circle cx="87" cy="90.5" r="3.4" fill="#fff" opacity=".95"/><circle cx="119" cy="90.5" r="3.4" fill="#fff" opacity=".95"/>
+ <circle cx="82" cy="99" r="1.6" fill="#fff" opacity=".7"/><circle cx="114" cy="99" r="1.6" fill="#fff" opacity=".7"/>
+ <ellipse cx="68" cy="114" rx="12" ry="8" fill="url(#mk)"/><ellipse cx="132" cy="114" rx="12" ry="8" fill="url(#mk)"/>
+ <ellipse cx="95.5" cy="111" rx="2.4" ry="1.8" fill="#8a5a46"/><ellipse cx="104.5" cy="111" rx="2.4" ry="1.8" fill="#8a5a46"/>
+ <path d="M88 119 q12 13 24 0 q-12 5 -24 0z" fill="#ff9fa8" stroke="#6a4636" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+ ${star?`<text x="40" y="44" font-size="20">✨</text><text x="146" y="40" font-size="18">✨</text>`:""}
+ </svg>`}
+// ================= STATE =================
+const KEY="starPetIsland.v1";
+function fresh(){return {v:1,noEgg:true,started:false,pets:[],active:0,energy:0,words:{},challenges:{},items:[],level:1,levelWins:0,placed:false,
+ eggList:[],eggsGiven:0,makeLog:[],unitDone:{},checkins:{},zodiacTickets:0,poolTickets:0,poolOffer:null,log:{},dayOffset:0,sound:true,totalCorrect:0,totalWrong:0}}
+let S;
+try{S=Object.assign(fresh(),JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){S=fresh()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+if(!S.noEgg){(S.pets||[]).forEach(p=>p.growth=Math.max(0,p.growth-30));S.noEgg=true} // migrate old saves (egg stage removed)
+const P=()=>S.pets[S.active]||S.pets[0];
+function ws(unit,w){const k=unit.id+":"+w.w;return S.words[k]||(S.words[k]={box:0,due:0,ok:0,miss:0,known:false})}
+function knownCount(unit){return unit.words.filter(w=>ws(unit,w).known).length}
+function stageIdx(p){p=p||P();let i=0;STAGES.forEach((s,j)=>{if(p.growth>=s.need)i=j});return i}
+const pad=n=>String(n).padStart(2,"0");
+function nowD(){return new Date(Date.now()+(S.dayOffset||0)*864e5)}
+function dk(off){const d=new Date(Date.now()+((S.dayOffset||0)+(off||0))*864e5);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function todayLog(){return S.log[dk()]||(S.log[dk()]={learned:0,correct:0,wrong:0})}
+function logAdd(f,v,uniq){const t=todayLog();t[f]=t[f]||[];if(!uniq||!t[f].includes(v))t[f].push(v)}
+function logLv(i,n){const t=todayLog();t.lv=t.lv||{};t.lv[i]=(t.lv[i]||0)+n}
+const totalCk=()=>Object.keys(S.checkins).length;
+const eggLeft=e=>Math.max(0,EGG_HATCH-(totalCk()-e.got));
+function eggCheck(){ // cumulative check-in days (never reset): every 7 days -> 1 egg; egg hatches after 3 more check-in days
+ const total=totalCk(),should=Math.floor(total/EGG_AT);let msg="";
+ while(S.eggsGiven<should){S.eggsGiven++;S.eggList.push({got:total});msg="🥚 累计打卡 "+total+" 天！<br>获得一个神秘蛋，再打卡 "+EGG_HATCH+" 天就能孵化"}
+ S.eggList.forEach(e=>{if(!e.told&&eggLeft(e)===0){e.told=true;msg="🐣 神秘蛋可以孵化啦！<br>去「宠物」看看吧"}});
+ if(msg)setTimeout(()=>toast(msg,2200),1300)}
+function weekKeys(off){const t=new Date(Date.now()+((S.dayOffset||0)+(off||0))*864e5),dow=(t.getDay()+6)%7;return Array.from({length:7},(_,i)=>dk((off||0)+i-dow))}
+function makeupsLeft(){const wk=weekKeys();return Math.max(0,MAKEUP_WEEK-S.makeLog.filter(m=>wk.includes(m.at)).length)}
+function streak(){let n=0,o=S.checkins[dk()]?0:-1;while(S.checkins[dk(o)]){n++;o--}return n}
+const ownedSp=k=>S.pets.some(p=>p.sp===k);
+function newPet(k,growth){S.pets.push({sp:k,name:SP[k].nm,growth:growth||0,equip:{},maxed:false});S.active=S.pets.length-1;logAdd("pets",k)}
+
+// ================= HELPERS =================
+const $=s=>document.querySelector(s);
+const app=$("#app");
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(a,n)=>shuffle(a).slice(0,n);
+function pic(w){return w.c?`<span class="swatch" style="background:${w.c}"></span>`:w.p}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function hl(s,word){const re=new RegExp("\\b("+word.replace(/ /g,"\\s")+")\\b","i");return esc(s).replace(re,"<b>$1</b>")}
+function blankS(w){return esc(w.s).replace(new RegExp("\\b"+w.w+"\\b","i"),'<span class="blank">&nbsp;?&nbsp;</span>')}
+let voice=null;
+function pickVoice(){if(!window.speechSynthesis)return;const v=speechSynthesis.getVoices();voice=v.find(x=>/en[-_]US/i.test(x.lang)&&/Samantha|Google|Natural|Aria|Jenny/i.test(x.name))||v.find(x=>/en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null}
+if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+function say(text,rate){if(!S.sound||!window.speechSynthesis)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="en-US";if(voice)u.voice=voice;u.rate=rate||0.85;u.pitch=1.1;speechSynthesis.speak(u)}catch(e){}}
+let toastT;
+function toast(t,ms){const el=$("#toast");el.innerHTML=t;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),ms||1100)}
+function praise(){return pick(["Great job! 太棒了","Awesome! 真厉害","Yes! 答对啦","Super! 好棒","Well done! 干得好"],1)[0]}
+function modal(html){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="card">${html}</div>`;document.body.appendChild(m);return m}
+function back(fn){const b=$("#back");if(b)b.onclick=fn||home}
+const BACK=`<button class="iconbtn" id="back" aria-label="返回">🏠</button>`;
+
+function petHTML(p,big){
+ p=p||P();const st=ART(stageIdx(p)),scale=big?(0.8+st*0.07):0.55,sz=st===0?170:190,pos=DECO(st);
+ let deco="";for(const slot in p.equip){const it=ITEMS.find(i=>i.id===p.equip[slot]);if(!it)continue;const q=pos[slot];
+  deco+=`<div class="deco" style="top:${q.top}px;font-size:${q.fs}px;${q.left?"left:"+q.left:""}">${it.e}</div>`}
+ return `<div class="petWrap" id="pet" style="width:${sz}px;height:${sz}px;transform:scale(${scale});transform-origin:50% 100%"><div class="petIdle" style="position:relative;width:100%;height:100%">${petSVGAny(st,p.sp)}${deco}</div></div>`}
+function mini(k,st,size){return petSVGAny(st,k).replace(/width="\d+" height="\d+"/,`width="${size}" height="${size}"`)}
+function buddy(msg){return `<div class="row" style="justify-content:center;margin-top:10px"><div style="width:86px;height:86px;flex:none" class="petIdle">${mini(P().sp,ART(stageIdx()),86)}</div><div style="background:#fff;border-radius:18px;padding:10px 14px;font-weight:800;box-shadow:0 3px 0 #ecdcf5">${msg}</div></div>`}
+
+// ================= ROUTER =================
+let screen="home";scrollTo(0,0);
+function render(){({home,learn:renderLearn,challenge:renderChallenge,wardrobe,checkin:checkinScreen,summary,pets:petsScreen,album,makeup:checkinScreen,test:testPanel}[screen]||home)()}
+
+// ---------- splash / zodiac picker / placement ----------
+function splash(){screen="home";scrollTo(0,0);
+ app.innerHTML=`<div class="splash"><div style="font-size:40px">⭐ 🏝️ ⭐</div><h1>星星宠物岛</h1><div style="font-size:20px;font-weight:800;color:#3fa3f5">Star Pet Island</div>
+ <div style="width:220px;height:220px;margin:16px auto" class="petIdle">${mini("monkey",2,220)}</div>
+ <p style="font-size:17px">选一只生肖宠物，学英语，喂它长大！</p>
+ <button class="btn full" id="go" style="font-size:22px;min-height:64px">🚀 开始冒险 Start</button></div>`;
+ $("#go").onclick=()=>{S.started=true;save();say("Welcome to Star Pet Island!",1);zodiacPicker(false)};
+}
+let zSel="monkey";
+function zodiacPicker(unlock){
+ screen="home";scrollTo(0,0);
+ const avail=ZORDER.filter(k=>!ownedSp(k));
+ if(!avail.includes(zSel))zSel=avail[0];
+ app.innerHTML=`<div class="top">${S.pets.length?BACK:"<span></span>"}<h1 style="margin:0">${unlock?"🎊 解锁新伙伴":"🐾 选择生肖宠物"}</h1><span style="width:52px"></span></div>
+ <p class="center muted" style="margin:4px 0 10px">${unlock?"恭喜！宠物长到满级啦！再选一只还没有的生肖宠物吧":"十二生肖小伙伴，选一只做你的第一个宠物"}</p>
+ <div class="card center" style="padding:10px"><div style="width:150px;height:150px;margin:0 auto" class="petIdle">${mini(zSel,2,150)}</div>
+ <b style="font-size:22px">${SP[zSel].z} · ${SP[zSel].zh} ${SP[zSel].ze}</b><div class="muted">名字：${SP[zSel].nm}</div></div>
+ <div class="zgrid">${ZORDER.map(k=>{const own=ownedSp(k);return `<button class="zcard ${k===zSel?"sel":""} ${own?"own":""}" data-z="${k}">${mini(k,2,70)}<b>${SP[k].z} ${SP[k].zh}</b><small>${own?"已拥有 ✅":SP[k].ze}</small></button>`}).join("")}</div>
+ <div style="height:14px"></div><button class="btn full" id="ok" style="min-height:60px">🐾 就选${SP[zSel].zh}！</button>
+ <p class="muted center">还有小猫、独角兽、熊猫等萌宠藏在神秘蛋里，打卡就能获得 🥚</p>`;
+ back(home);
+ app.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{const k=b.dataset.z;if(ownedSp(k)){toast("已经拥有啦 ✅",900);return}zSel=k;say("I am a "+SP[k].en+"!",1);zodiacPicker(unlock)});
+ $("#ok").onclick=()=>{newPet(zSel,0);if(unlock)S.zodiacTickets=Math.max(0,S.zodiacTickets-1);save();say("Hello! I am your little "+SP[zSel].en+"!",1);
+  if(!S.placed)placeIntro();else{home();toast("🐾 新伙伴来啦！<br>学单词赚能量喂它长大吧",1800)}};
+}
+function placeIntro(){screen="home";scrollTo(0,0);
+ app.innerHTML=`<div class="card center"><div style="font-size:60px">🎯</div><h1>星级小测验</h1><p style="font-size:17px">10 道小题，帮你找到最合适的起点<br>⭐1 到 ⭐6</p>
+ <p class="muted">按难度分级，不看年龄。不会也没关系，选你觉得对的就好！</p></div>
+ <button class="btn green full" id="go">开始小测验 ▶</button><div style="height:14px"></div><button class="btn gray full" id="skip">跳过，从 ⭐1 开始</button>`;
+ $("#go").onclick=startPlace;$("#skip").onclick=()=>{S.level=1;S.placed=true;save();home()};
+}
+let PL=null;
+function startPlace(){
+ const all=UNITS.flatMap(u=>u.words.map(w=>({w,u})));
+ const T=[[1,"hear"],[1,"hear"],[2,"see"],[2,"see"],[3,"fill"],[3,"sent"],[4,"order"],[5,"spell"],[6,"fill"],[6,"spell"]];
+ const used=new Set();
+ const qs=T.map(([tier,type])=>{let c=all.filter(x=>!used.has(x.w.w));
+  if(type==="order")c=c.filter(x=>x.w.s.split(" ").length<=5);if(type==="spell")c=c.filter(x=>!x.w.w.includes(" ")&&x.w.w.length<=5);
+  const x=pick(c,1)[0];used.add(x.w.w);return {tier,type,w:x.w,pool:x.u.words,n:tier===1?3:4,once:true,noPic:tier===6,extra:tier===6?2:0}});
+ PL={qs,i:0,res:{1:[],2:[],3:[],4:[],5:[],6:[]}};say("Let's go!",1);renderPlace();
+}
+function renderPlace(){
+ const q=PL.qs[PL.i];
+ app.innerHTML=`<div class="top"><span class="chip">🎯 ${PL.i+1}/${PL.qs.length}</span><span class="chip">${starStr(q.tier)}</span></div><div id="q"></div>`;
+ if(q.type==="hear")say(q.w.w);
+ qRender($("#q"),q,{done:c=>{PL.res[q.tier].push(c);toast(c?"✅ "+praise():"💪 没关系！",900);setTimeout(()=>{PL.i++;PL.i<PL.qs.length?renderPlace():placeResult()},1000)}});
+}
+function placeResult(){
+ let lv=0;for(let t=1;t<=MAXLV;t++){const r=PL.res[t];if(r.filter(Boolean).length*2>=r.length&&r.some(Boolean))lv=t;else break}
+ S.level=Math.max(1,lv);S.levelWins=0;S.placed=true;save();
+ app.innerHTML=`<div class="card center"><div style="font-size:70px">🌟</div><h1>你的起点是</h1><div style="font-size:34px">${starStr(S.level)}</div>
+ <h2>${S.level} 星 · ${LV[S.level].nm}</h2><p class="muted">每个星级的题目难度不同。赢 2 次大挑战就能升星！</p></div>
+ <button class="btn full" id="go">🐾 去见我的宠物</button>`;
+ $("#go").onclick=()=>{say("Let's meet your pet!",1);home()};
+}
+
+// ---------- HOME ----------
+function home(){
+ if(!S.started)return splash();if(!S.pets.length)return zodiacPicker(false);if(!S.placed)return placeIntro();
+ screen="home";scrollTo(0,0);
+ const p=P(),st=stageIdx(p),cur=STAGES[st],nxt=STAGES[st+1],sp=SP[p.sp];
+ const pct=nxt?Math.min(100,(p.growth-cur.need)/(nxt.need-cur.need)*100):100;
+ const checked=!!S.checkins[dk()];
+ app.innerHTML=`
+ <div class="top"><div class="chip">⚡ <span id="en">${S.energy}</span></div><div class="title">⭐ 星星宠物岛</div><button class="chip" id="lvl" style="font-size:13px;min-height:48px">${starStr(S.level)}</button></div>
+ <div class="nav">
+  <button id="nCk">📅<small>打卡</small>${checked?"":'<i class="dot"></i>'}</button>
+  <button id="nPets">🐾<small>宠物</small>${S.eggList.some(e=>!eggLeft(e))||S.zodiacTickets?'<i class="dot"></i>':""}</button>
+  <button id="nWd">👗<small>衣柜</small></button>
+  <button id="nSum">📊<small>总结</small></button>
+  <button id="nTest">⚙️<small>测试</small></button></div>
+ ${S.zodiacTickets?`<button class="banner" id="zt">🎊 宠物满级奖励：可以选一只新的生肖宠物！<span style="margin-left:auto">▶</span></button>`:""}
+ ${S.poolTickets?`<button class="banner" id="pt">🎁 生肖全满级奖励：打开神秘萌宠惊喜！<span style="margin-left:auto">▶</span></button>`:""}
+ ${S.eggList.length?`<button class="banner" id="eg">${S.eggList.some(e=>!eggLeft(e))?"🐣 神秘蛋可以孵化啦！快去看看":"🥚 神秘蛋：再打卡 "+Math.min(...S.eggList.map(eggLeft))+" 天就能孵化"}<span style="margin-left:auto">▶</span></button>`:""}
+ <div class="card" style="padding-bottom:12px">
+  <div class="center"><b style="font-size:20px">${esc(p.name)}</b> · <span class="muted">${sp.z?sp.z+" ":""}${sp.zh} · Lv.${st+1} ${cur.name}</span></div>
+  <div class="petStage" id="stage">${petHTML(p,true)}</div>
+  <div class="bar xp"><i style="width:${pct}%"></i><span>${nxt?`成长 ${p.growth}/${nxt.need} → ${nxt.name}`:`满级大明星！成长 ${p.growth}`}</span></div>
+  <div class="row" style="margin-top:12px"><button class="btn orange full" id="feed" ${S.energy<FEED_COST?"disabled":""}>🍖 喂食 (-${FEED_COST}⚡)</button></div>
+  <p class="muted center" style="margin:8px 0 0">${S.energy<FEED_COST?"去学单词赚能量吧！每记住一个单词 +"+ENERGY_PER_WORD+"⚡":"点一下喂宠物，它会长大哦！"}</p>
+ </div>
+ <h2>📚 选一个主题学习 <span class="muted" style="font-size:14px">当前 ${S.level}星 · ${LV[S.level].nm}</span></h2>
+ <div class="units">${UNITS.map(u=>{const k=knownCount(u),un=k>=UNLOCK_N,wins=S.challenges[u.id]||0;
+  return `<div><button class="unit" data-u="${u.id}"><span class="em">${u.em}</span><span style="flex:1"><b>${u.name} <span class="muted">${u.en}</span></b>
+  <small>已记住 ${k}/${u.words.length} 个单词</small><div class="bar" style="height:12px;margin-top:4px"><i style="width:${k/u.words.length*100}%"></i></div></span><span style="font-size:28px">▶️</span></button>
+  <button class="btn ${un?"green":"gray"} full" style="margin-top:8px" data-c="${u.id}" ${un?"":"disabled"}>${un?"🏆 关卡大挑战"+(wins?` (已胜 ${wins} 次)`:""):`🔒 记住 ${UNLOCK_N} 个单词解锁大挑战 (${k}/${UNLOCK_N})`}</button></div>`}).join("")}</div>
+ <div class="center" style="margin-top:22px"><button class="btn gray" id="snd" style="font-size:16px">${S.sound?"🔊 声音开":"🔇 声音关"}</button> <button class="btn gray" id="reset" style="font-size:16px">🔄 重新开始</button></div>
+ <p class="muted center">家长提示：用图片、例句和真人式发音学英语，不靠中文翻译死记。</p>`;
+ $("#feed").onclick=feed;
+ $("#nCk").onclick=checkinScreen;$("#nPets").onclick=petsScreen;$("#nWd").onclick=wardrobe;$("#nSum").onclick=summary;$("#nTest").onclick=testPanel;
+ $("#lvl").onclick=()=>toast(`${S.level} 星 · ${LV[S.level].nm}<br><small>再赢 ${2-S.levelWins} 次大挑战升星</small>`,1600);
+ if($("#zt"))$("#zt").onclick=()=>zodiacPicker(true);
+ if($("#eg"))$("#eg").onclick=petsScreen;if($("#pt"))$("#pt").onclick=surprisePet;
+ $("#snd").onclick=()=>{S.sound=!S.sound;save();if(S.sound)say("Hello!");home()};
+ $("#reset").onclick=()=>{if(confirm("确定要清空所有进度重新开始吗？")){localStorage.removeItem(KEY);S=fresh();save();home()}};
+ $("#stage").onclick=()=>{bounce();say(pick(["Hi!","I love you!","Let's learn!","Hello, friend!"],1)[0],1)};
+ app.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>startLearn(b.dataset.u));
+ app.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>startChallenge(b.dataset.c));
+}
+function bounce(){const p=$("#pet");if(!p)return;p.classList.remove("bounce");void p.offsetWidth;p.classList.add("bounce");
+ const st=$("#stage");if(!st)return;for(let i=0;i<3;i++){const h=document.createElement("div");h.className="heart";h.textContent=pick(["💖","💕","⭐","✨"],1)[0];h.style.left=(35+Math.random()*30)+"%";h.style.top=(30+Math.random()*30)+"%";h.style.animationDelay=i*.15+"s";st.appendChild(h);setTimeout(()=>h.remove(),1400)}}
+function feed(){
+ if(S.energy<FEED_COST)return;const p=P();
+ const before=stageIdx(p);S.energy-=FEED_COST;p.growth+=FEED_COST;save();
+ const fb=$("#feed").getBoundingClientRect(),pr=$("#pet").getBoundingClientRect();
+ const f=document.createElement("div");f.className="fly";f.textContent=pick(["🍖","🍓","🍪","🥕","🍌"],1)[0];
+ f.style.left=(fb.left+fb.width/2-22)+"px";f.style.top=(fb.top-10)+"px";document.body.appendChild(f);
+ say("Yummy!",1);
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.left=(pr.left+pr.width/2-22)+"px";f.style.top=(pr.top+pr.height*0.45)+"px";f.style.transform="scale(.4)";f.style.opacity=".3"}));
+ setTimeout(()=>{f.remove();afterGrowth(p,before)},700);
+}
+function afterGrowth(p,before){
+ const after=stageIdx(p);if(after>before)logLv(S.pets.indexOf(p),after-before);
+ home();bounce();
+ if(after===MAXST&&!p.maxed)return maxCelebrate(p);
+ if(after>before){toast(`🎉 进化啦！<br>${STAGES[after].name} ${STAGES[after].en}`,2200);say("Wow! I grew up!",1)}
+}
+function maxCelebrate(p){
+ p.maxed=true;
+ const zLeft=ZORDER.filter(k=>!ownedSp(k)).length;
+ const allZ=!zLeft&&ZORDER.every(k=>S.pets.some(q=>q.sp===k&&q.maxed));
+ const pLeft=HATCH.filter(k=>!ownedSp(k)).length;
+ let kind=zLeft?"zodiac":(allZ&&pLeft?"pool":"none");
+ if(kind==="zodiac")S.zodiacTickets++;if(kind==="pool")S.poolTickets++;
+ save();say("I am a super star! Thank you!",1);
+ const msg={zodiac:"🎁 奖励：可以再选一只新的生肖宠物！",pool:"🎁 十二生肖全部满级！奖励：一只神秘萌宠惊喜！",
+  none:zLeft===0&&!allZ?"把其他生肖宠物也养到满级，就能解锁神秘萌宠哦！":"所有宠物都集齐啦！你太厉害了！"}[kind];
+ const m=modal(`<h1>🌟 满级啦！</h1><div class="eggBox pop"><div>${mini(p.sp,ART(MAXST),200)}</div></div><h2>${esc(p.name)} 成为了大明星！</h2>
+ <p>${msg}<br><span class="muted">${esc(p.name)} 会一直留在你的宠物屋里</span></p>
+ ${kind!=="none"?'<button class="btn full" id="ok">'+(kind==="pool"?"🎁 打开惊喜":"🐾 去选新伙伴")+'</button><div style="height:10px"></div><button class="btn gray full" id="later">等会儿再选</button>':'<button class="btn full" id="later">好耶！</button>'}`);
+ const ok=m.querySelector("#ok");if(ok)ok.onclick=()=>{m.remove();kind==="zodiac"?zodiacPicker(true):surprisePet()};
+ m.querySelector("#later").onclick=()=>{m.remove();home()};
+}
+function surprisePet(){ // after all 12 zodiac maxed: ONE random non-zodiac pet, surprise reveal
+ const left=HATCH.filter(k=>!ownedSp(k));S.poolTickets=Math.max(0,S.poolTickets-1);
+ if(!left.length){S.energy+=100;save();toast("萌宠已全部集齐！+100⚡",1600);return home()}
+ const k=drawPool(1)[0];newPet(k,0);save();giftModal(k,()=>{home();bounce()});
+}
+function eggHatch(ei){ // ready mystery egg (3 check-in days after earned): wobble -> tap to crack -> shell pops -> choose 1 of 2
+ ei=ei||0;const eg=S.eggList[ei];if(!eg)return;if(eggLeft(eg)>0){toast(`再打卡 ${eggLeft(eg)} 天就能孵化 🥚`,1400);return}
+ let left=HATCH.filter(k=>!ownedSp(k));
+ if(!left.length){S.eggList.splice(ei,1);S.energy+=100;save();toast("萌宠已全部集齐！+100⚡",1600);return petsScreen()}
+ if(!S.poolOffer||!S.poolOffer.every(k=>left.includes(k)))S.poolOffer=drawPool(2);save();
+ const zig="polygon(0 0,100% 0,100% 52%,88% 46%,76% 55%,64% 46%,52% 55%,40% 46%,28% 55%,16% 46%,0 54%)";
+ const zigB="polygon(0 54%,16% 46%,28% 55%,40% 46%,52% 55%,64% 46%,76% 55%,88% 46%,100% 52%,100% 100%,0 100%)";
+ const m=modal(`<h1 id="ht">🥚 神秘蛋</h1><div class="eggBox" id="hb" style="overflow:visible">
+  <div id="top" style="display:flex;align-items:center;justify-content:center;clip-path:${zig};transition:transform .6s cubic-bezier(.3,1.4,.6,1),opacity .6s">${mysteryEgg()}</div>
+  <div id="bot" style="display:flex;align-items:center;justify-content:center;clip-path:${zigB};transition:transform .6s,opacity .6s">${mysteryEgg()}</div>
+  <div id="ck" style="display:flex;align-items:center;justify-content:center"></div></div>
+  <h2 id="hn">点蛋蛋把它敲开！👆 <span id="tp">0/4</span></h2><div id="choose"></div>`);
+ const hb=m.querySelector("#hb"),top=m.querySelector("#top"),bot=m.querySelector("#bot"),ck=m.querySelector("#ck");let n=0,done=false;
+ const wob=()=>{hb.classList.remove("shake");void hb.offsetWidth;hb.classList.add("shake")};
+ const t=setInterval(wob,1400);wob();
+ hb.onclick=()=>{if(done)return;n++;wob();ck.innerHTML=crackSVG(n);m.querySelector("#tp").textContent=n+"/4";say(n<4?"Knock!":"Wow!",1.1);
+  if(n>=4){done=true;clearInterval(t);
+   setTimeout(()=>{ck.innerHTML="";top.style.transform="translateY(-90px) rotate(-30deg)";top.style.opacity="0";bot.style.transform="translateY(30px)";bot.style.opacity=".0";
+    for(let i=0;i<14;i++){const c=document.createElement("div");c.className="confetti";c.textContent=pick(["✨","⭐","🌟","💫"],1)[0];c.style.inset="auto";c.style.left=(Math.random()*90)+"%";c.style.top=(30+Math.random()*40)+"%";c.style.animationDelay=(i*.05)+"s";hb.appendChild(c)}},300);
+   setTimeout(()=>{hb.style.display="none";m.querySelector("#ht").textContent="✨ 蛋壳打开啦！";m.querySelector("#hn").textContent="两只萌宠都想跟你回家，选一只吧";
+    const ch=m.querySelector("#choose");ch.innerHTML=`<div class="opts">${S.poolOffer.map(k=>`<button class="zcard pop" style="min-height:190px" data-k="${k}">${mini(k,1,120)}<b style="font-size:17px">${SP[k].zh}${SP[k].rare?" 💎":""}</b><small>${SP[k].rare?"稀有 Rare · ":""}${SP[k].en}</small></button>`).join("")}</div>`;
+    ch.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k;newPet(k,0);S.eggList.splice(ei,1);S.poolOffer=null;save();say("Hello! I am a little "+SP[k].en+"!",1);
+     m.querySelector("#ht").textContent="🎉 欢迎新伙伴！";m.querySelector("#hn").textContent=`${SP[k].zh}「${SP[k].nm}」加入了你的宠物屋！`;
+     ch.innerHTML=`<div class="pop petIdle" style="width:170px;height:170px;margin:0 auto">${mini(k,1,170)}</div><button class="btn full" id="ok">太好啦！</button>`;
+     ch.querySelector("#ok").onclick=()=>{m.remove();home();bounce()}})},1100);
+  }};
+}
+function giftBoxSVG(part){ // clay gift box; part "box" or "lid"
+ const d=`<defs><radialGradient id="gbx" cx="35%" cy="25%" r="85%"><stop offset="0" stop-color="#ffe3f0"/><stop offset=".5" stop-color="#ffb3d1"/><stop offset="1" stop-color="#f08cb4"/></radialGradient>
+ <radialGradient id="grb" cx="35%" cy="25%" r="85%"><stop offset="0" stop-color="#fffbe0"/><stop offset="1" stop-color="#ffd25e"/></radialGradient>
+ <filter id="gsd" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#8a4a6a" flood-opacity=".25"/></filter><filter id="gbl"><feGaussianBlur stdDeviation="5"/></filter></defs>`;
+ if(part==="lid")return `<svg viewBox="0 0 200 200" width="200" height="200">${d}<g filter="url(#gsd)">
+  <ellipse cx="78" cy="62" rx="22" ry="14" transform="rotate(-25 78 62)" fill="url(#grb)"/><ellipse cx="122" cy="62" rx="22" ry="14" transform="rotate(25 122 62)" fill="url(#grb)"/><circle cx="100" cy="72" r="10" fill="url(#grb)"/>
+  <rect x="34" y="78" width="132" height="30" rx="14" fill="url(#gbx)"/><rect x="90" y="78" width="20" height="30" rx="4" fill="url(#grb)"/></g>
+  <ellipse cx="66" cy="86" rx="20" ry="5" fill="#fff" opacity=".6" filter="url(#gbl)"/></svg>`;
+ return `<svg viewBox="0 0 200 200" width="200" height="200">${d}<ellipse cx="100" cy="190" rx="62" ry="8" fill="#8a4a6a" opacity=".18" filter="url(#gbl)"/>
+  <g filter="url(#gsd)"><rect x="42" y="104" width="116" height="82" rx="18" fill="url(#gbx)"/><rect x="90" y="104" width="20" height="82" rx="4" fill="url(#grb)"/></g>
+  <ellipse cx="68" cy="122" rx="14" ry="20" fill="#fff" opacity=".45" filter="url(#gbl)"/>
+  <circle cx="64" cy="160" r="6" fill="#fff" opacity=".7"/><circle cx="136" cy="134" r="5" fill="#fff" opacity=".7"/><circle cx="134" cy="168" r="4" fill="#fff" opacity=".7"/></svg>`;
+}
+function giftModal(k,then){
+ const m=modal(`<h1 id="ht">🎁 神秘礼物！</h1><div class="eggBox" id="hb" style="overflow:visible">
+  <div id="pt" style="display:flex;align-items:flex-end;justify-content:center;opacity:0;transform:translateY(40px) scale(.3);transition:all .6s cubic-bezier(.3,1.6,.5,1)">${mini(k,1,170)}</div>
+  <div id="bx" class="shake">${giftBoxSVG("box")}</div><div id="lid" style="transition:transform .5s cubic-bezier(.3,1.5,.6,1),opacity .5s">${giftBoxSVG("lid")}</div></div>
+  <h2 id="hn">点一下礼物盒打开 👆</h2><button class="btn full hide" id="ok">太好啦！</button>`);
+ const bx=m.querySelector("#bx"),lid=m.querySelector("#lid"),pt=m.querySelector("#pt"),hb=m.querySelector("#hb");let opened=false;
+ const wig=()=>{[bx,lid].forEach(e=>{e.classList.remove("shake");void e.offsetWidth;e.classList.add("shake")})};
+ const t=setInterval(wig,1200);
+ const open=()=>{if(opened)return;opened=true;clearInterval(t);wig();say("Surprise!",1);
+  setTimeout(()=>{lid.style.transform="translateY(-120px) rotate(-25deg)";lid.style.opacity="0";
+   for(let i=0;i<14;i++){const c=document.createElement("div");c.className="confetti";c.textContent=pick(["🎉","✨","⭐","🌟","💖","🎊"],1)[0];c.style.inset="auto";c.style.left=(Math.random()*90)+"%";c.style.top=(30+Math.random()*40)+"%";c.style.animationDelay=(i*.05)+"s";hb.appendChild(c)}},500);
+  setTimeout(()=>{bx.style.transition="opacity .4s";bx.style.opacity="0";pt.style.opacity="1";pt.style.transform="none";pt.classList.add("petIdle");
+   m.querySelector("#ht").textContent="🎉 惊喜萌宠！";m.querySelector("#hn").textContent=`${SP[k].rare?"💎 稀有！":""}是${SP[k].zh}「${SP[k].nm}」！ ${SP[k].en}`;m.querySelector("#ok").classList.remove("hide");say("Hello! I am a little "+SP[k].en+"!",1)},900);
+ };
+ hb.onclick=open;m.querySelector("#hn").onclick=open;
+ m.querySelector("#ok").onclick=()=>{m.remove();then&&then()};
+}
+// ---------- generic question renderer ----------
+function qRender(el,q,cb){
+ const w=q.w,n=q.n||4,t=q.type;let first=true,locked=false,markRight=()=>{};
+ const miss=b=>{first=false;if(b){b.classList.add("bad");if(!q.once)setTimeout(()=>b.classList.add("done"),400)}
+  if(q.once){locked=true;markRight();say(w.w);setTimeout(()=>cb.done(false),900);return true}
+  const stop=cb.wrong&&cb.wrong();if(stop){locked=true;return true}say("Try again",1);return false};
+ const win=()=>{locked=true;cb.done(first)};
+ if(["hear","see","sent","fill"].includes(t)){
+  const opts=shuffle([w,...pick(q.pool.filter(x=>x.w!==w.w),n-1)]);
+  const txt=t==="see"||t==="fill";let head="";
+  if(t==="hear")head=`<h2 class="center">👂 听一听，是哪个？</h2><button class="speak" data-say>🔊</button><p class="muted center">Tap 🔊 to listen</p>`;
+  if(t==="see")head=`<h2 class="center">👀 这是什么？ What is it?</h2><div class="bigPic">${pic(w)}</div>`;
+  if(t==="sent")head=`<h2 class="center">📖 读句子，选图片</h2><div class="sent">${blankS(w)}</div><button class="speak sm" data-say>🔊</button>`;
+  if(t==="fill")head=`<h2 class="center">✏️ 填空 Fill in the blank</h2>${q.noPic?"":`<div class="bigPic mid">${pic(w)}</div>`}<div class="sent">${blankS(w)}</div>`;
+  el.innerHTML=`<div class="card">${head}</div><div class="opts ${n===2?"":""}">${opts.map(o=>`<button class="opt ${txt?"txt":""}" data-w="${esc(o.w)}">${txt?esc(o.w):pic(o)}</button>`).join("")}</div>`;
+  const sp=el.querySelector("[data-say]");if(sp)sp.onclick=()=>say(t==="sent"?w.s:w.w,t==="sent"?.8:.85);
+  markRight=()=>{el.querySelectorAll(".opt").forEach(b=>{if(b.dataset.w===w.w)b.classList.add("ok")})};
+  el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(locked)return;
+   if(b.dataset.w===w.w){b.classList.add("ok");const bl=el.querySelector(".blank");if(bl)bl.textContent=w.w;say(t==="fill"||t==="sent"?w.s:w.w,.85);win()}else miss(b)});
+ }else if(t==="order"||t==="spell"){
+  const target=t==="order"?w.s.replace(/[.!?]$/,"").split(" "):w.w.split("");
+  const extra=t==="spell"&&q.extra?pick("abcdefghijklmnopqrstuvwxyz".split("").filter(c=>!target.includes(c)),q.extra):[];
+  const tiles=shuffle([...target,...extra].map((x,i)=>({t:x,i})));let built=[];
+  const draw=()=>{
+   el.innerHTML=`<div class="card center"><h2>${t==="order"?"🧩 排句子 Make a sentence":"🔤 拼一拼 Spell it"}</h2>${q.noPic?"":`<div class="bigPic mid">${pic(w)}</div>`}<button class="speak sm" data-say>🔊</button>
+   <div class="answer tiles">${built.map((x,k)=>`<button class="tile" data-k="${k}">${esc(x.t)}</button>`).join("")||`<span class="muted" style="align-self:center">${t==="order"?"点下面的单词排成句子":"点字母拼出单词"}</span>`}</div>
+   <div class="tiles">${tiles.map((x,k)=>`<button class="tile ${built.includes(x)?"used":""}" data-t="${k}">${esc(x.t)}</button>`).join("")}</div></div>
+   <button class="btn green full" data-chk ${built.length<target.length?"disabled":""}>✅ 检查 Check</button>`;
+   el.querySelector("[data-say]").onclick=()=>say(t==="order"?w.s:w.w,.8);
+   el.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{if(locked)return;const x=tiles[+b.dataset.t];if(!built.includes(x)&&built.length<target.length){built.push(x);say(x.t,1);draw()}});
+   el.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{if(locked)return;built.splice(+b.dataset.k,1);draw()});
+   el.querySelector("[data-chk]").onclick=()=>{if(locked)return;
+    const ok=built.map(x=>x.t).join(" ").toLowerCase()===target.join(" ").toLowerCase();
+    if(ok){say(t==="order"?w.s:w.w,.85);win()}else{built=[];first=false;if(q.once){locked=true;say(w.w);setTimeout(()=>cb.done(false),700);return}
+     const stop=cb.wrong&&cb.wrong();if(stop){locked=true;return}toast(t==="order"?"顺序不对，再试试 🙂":"拼错啦，再试试 🙂",1000);draw()}};
+  };draw();
+ }else if(t==="match"){
+  const words=shuffle(q.ws),pics=shuffle(q.ws);let sel=null,left=words.length;
+  el.innerHTML=`<div class="card center"><h2>🔗 连连看 Match!</h2><p class="muted">先点单词，再点对应的图片</p></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div style="display:grid;gap:12px">${words.map(w=>`<button class="opt txt" style="font-size:22px" data-w="${esc(w.w)}">${esc(w.w)}</button>`).join("")}</div>
+  <div style="display:grid;gap:12px">${pics.map(w=>`<button class="opt" style="min-height:80px;font-size:48px" data-p="${esc(w.w)}">${pic(w)}</button>`).join("")}</div></div>`;
+  el.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{if(locked)return;el.querySelectorAll("[data-w]").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");sel=b;say(b.dataset.w)});
+  el.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{if(locked)return;if(!sel){toast("先点一个单词 👈",900);return}
+   if(b.dataset.p===sel.dataset.w){b.classList.add("ok","done");sel.classList.remove("sel");sel.classList.add("ok","done");sel=null;left--;if(!left)win()}
+   else{b.classList.add("bad");setTimeout(()=>b.classList.remove("bad"),400);first=false;if(cb.wrong&&cb.wrong())locked=true}});
+ }
+}
+
+// ---------- LEARN ----------
+let L=null;
+function startLearn(uid){
+ const u=UNITS.find(x=>x.id===uid),now=Date.now();
+ const due=u.words.filter(w=>{const s=ws(u,w);return (s.known||s.miss>0)&&s.due<=now}).sort((a,b)=>ws(u,a).box-ws(u,b).box);
+ const nw=u.words.filter(w=>{const s=ws(u,w);return !s.known&&s.miss===0});
+ let list=due.slice(0,3).concat(nw.slice(0,5-Math.min(3,due.length)));
+ if(list.length<5)list=list.concat(u.words.filter(w=>!list.includes(w)).sort((a,b)=>ws(u,a).due-ws(u,b).due).slice(0,5-list.length));
+ L={u,queue:list.map(w=>({w,phase:ws(u,w).known?"quiz":"card"})),total:list.length,done:0,earned:0,cur:null,right:0,wrong:0};
+ screen="learn";scrollTo(0,0);nextStep();
+}
+function qTypeFor(w){let ty=LV[S.level].types.slice();if(w.w.includes(" "))ty=ty.filter(x=>x!=="spell");if(!ty.length)ty=["hear"];return pick(ty,1)[0]}
+function nextStep(){if(!L.queue.length)return learnDone();L.cur=L.queue.shift();if(L.cur.phase==="quiz")L.cur.qtype=qTypeFor(L.cur.w);renderLearn();
+ if(L.cur.phase==="card"||L.cur.qtype==="hear")say(L.cur.w.w)}
+function learnHeader(){return `<div class="top">${BACK}<div class="prog">${Array.from({length:L.total},(_,i)=>`<i class="${i<L.done?"on":""}"></i>`).join("")}</div><div class="chip">⚡${S.energy}</div></div>`}
+function renderLearn(){
+ const {w,phase}=L.cur,u=L.u;
+ if(phase==="card"){
+  app.innerHTML=learnHeader()+`<div class="card">
+  <div class="bigPic">${pic(w)}</div><div class="word">${esc(w.w)}</div><button class="speak" id="spk" aria-label="听发音">🔊</button>
+  <div class="sent" id="snt">${hl(w.s,w.w)}</div>
+  <button class="btn blue full" id="spk2" style="font-size:16px;min-height:48px">🗣️ 听例句 Listen to the sentence</button>
+  <div class="zh" id="zh" style="margin-top:10px"><button class="btn gray" style="font-size:14px;min-height:48px;padding:6px 14px" id="zhb">🤔 看提示</button></div>
+  </div><button class="btn full" id="go">我记住了！考考我 ▶</button>${buddy("Say it with me! 跟我读 🗣️")}`;
+  $("#spk").onclick=()=>say(w.w);$("#snt").onclick=$("#spk2").onclick=()=>say(w.s,0.8);
+  $("#zhb").onclick=()=>{$("#zh").textContent="💡 "+w.zh};
+  $("#go").onclick=()=>{L.cur.phase="quiz";L.cur.qtype=qTypeFor(w);renderLearn();if(L.cur.qtype==="hear")say(w.w)};
+ }else{
+  app.innerHTML=learnHeader()+`<div id="q"></div>${buddy("You can do it! 加油 💪")}`;
+  qRender($("#q"),{type:L.cur.qtype,w,pool:u.words,n:LV[S.level].opts,extra:LV[S.level].extra||0},{done:first=>answer(first),wrong:()=>{L.wrong++;S.totalWrong++;todayLog().wrong++;logAdd("bad",u.id+":"+w.w,true);save();return false}});
+ }
+ back(()=>{try{speechSynthesis.cancel()}catch(e){}home()});
+}
+function answer(correct){
+ const s=ws(L.u,L.cur.w),now=Date.now(),tl=todayLog(),wk=L.u.id+":"+L.cur.w.w;logAdd("units",L.u.id,true);logAdd(correct?"ok":"bad",wk,true);
+ if(correct){const was=s.known;s.ok++;s.box=Math.min(4,s.box+1);s.due=now+INTERVALS[s.box];s.known=true;
+  const gain=was?Math.round(ENERGY_PER_WORD/2):ENERGY_PER_WORD;S.energy+=gain;L.earned+=gain;L.done++;L.right++;S.totalCorrect++;tl.correct++;if(!was)tl.learned++;
+  if(knownCount(L.u)===L.u.words.length&&!S.unitDone[L.u.id]){S.unitDone[L.u.id]=dk();logAdd("done",L.u.id,true)}
+  toast(`${praise()}<br>+${gain}⚡`);
+ }else{s.miss++;s.box=0;s.due=now;L.queue.splice(Math.min(2,L.queue.length),0,{w:L.cur.w,phase:"card"});toast("没关系，再看一次 💪<br>It will come back!",1300)}
+ save();
+ const btn=document.createElement("button");btn.className="btn green full";btn.style.marginTop="16px";btn.textContent="下一个 Next ▶";
+ btn.onclick=nextStep;$("#q").appendChild(btn);btn.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function learnDone(){
+ const u=L.u,k=knownCount(u),tl=todayLog();
+ app.innerHTML=`<div class="card center"><div style="font-size:70px">🎉</div><h1>学完一轮啦！</h1>
+ <p style="font-size:20px">本轮获得 <b style="color:#ff9a1f">+${L.earned}⚡</b> 能量</p><p>${u.name}：已记住 ${k}/${u.words.length}</p>
+ ${k>=UNLOCK_N?`<p style="color:#3cc23a;font-weight:800">🏆 关卡大挑战已解锁！</p>`:`<p class="muted">再记住 ${UNLOCK_N-k} 个就能解锁大挑战</p>`}
+ <p class="muted">${S.checkins[dk()]?"✅ 今天已打卡":tl.correct>=GOAL?"📅 今日任务完成，可以去打卡啦！":`今日任务：答对 ${GOAL} 个 (${tl.correct}/${GOAL})`}</p></div>
+ <button class="btn orange full" id="h">🍖 回去喂宠物</button><div style="height:12px"></div>
+ <div class="row"><button class="btn blue full" id="again">📚 再学一轮</button><button class="btn full" id="sm">📊 学习总结</button></div>
+ ${!S.checkins[dk()]&&tl.correct>=GOAL?`<div style="height:12px"></div><button class="btn green full" id="ck">📅 去打卡</button>`:""}
+ ${k>=UNLOCK_N?`<div style="height:12px"></div><button class="btn green full" id="ch">🏆 去挑战</button>`:""}`;
+ $("#h").onclick=home;$("#again").onclick=()=>startLearn(u.id);$("#sm").onclick=summary;if($("#ch"))$("#ch").onclick=()=>startChallenge(u.id);if($("#ck"))$("#ck").onclick=checkinScreen;
+}
+
+// ---------- CHALLENGE ----------
+let C=null;
+function startChallenge(uid){
+ const u=UNITS.find(x=>x.id===uid),pool=u.words.filter(w=>ws(u,w).known),steps=[];
+ for(const [t,n] of LV[S.level].ch){
+  if(t==="match")steps.push({type:"match",ws:pick(pool,n)});
+  else{const cand=t==="order"?u.words.filter(w=>w.s.split(" ").length<=6):t==="spell"?pool.filter(w=>!w.w.includes(" ")):pool;
+   pick(cand,n).forEach(w=>steps.push({type:t,w,pool:u.words,n:4,noPic:!!LV[S.level].noPic&&t==="fill",extra:LV[S.level].extra||0}))}}
+ C={u,steps,i:0,hearts:3};screen="challenge";scrollTo(0,0);say("Big challenge! Let's go!",1);renderChallenge();
+}
+function chHeader(){return `<div class="top">${BACK}<div class="chip">🏆 ${C.i+1}/${C.steps.length}</div><div class="hearts">${"❤️".repeat(C.hearts)}${"🤍".repeat(3-C.hearts)}</div></div>`}
+function loseHeart(){C.hearts--;say("Oops!",1);if(C.hearts<=0){setTimeout(chFail,600);return true}const h=app.querySelector(".hearts");if(h)h.innerHTML="❤️".repeat(C.hearts)+"🤍".repeat(3-C.hearts);return false}
+function renderChallenge(){
+ app.innerHTML=chHeader()+`<div id="q"></div>`;back(home);
+ qRender($("#q"),C.steps[C.i],{wrong:loseHeart,done:()=>{toast(praise());setTimeout(()=>{C.i++;C.i>=C.steps.length?chWin():renderChallenge()},1200)}});
+}
+function chFail(){
+ app.innerHTML=`<div class="card center"><div style="font-size:80px">🥺</div><h1>差一点点！</h1><p>再复习一下单词，然后再来挑战吧！</p></div>
+ <button class="btn blue full" id="r">📚 去复习</button><div style="height:14px"></div><button class="btn green full" id="t">🔁 再挑战一次</button><div style="height:14px"></div><button class="btn gray full" id="h">🏠 回家</button>`;
+ $("#r").onclick=()=>startLearn(C.u.id);$("#t").onclick=()=>startChallenge(C.u.id);$("#h").onclick=home;
+}
+function chWin(){
+ S.challenges[C.u.id]=(S.challenges[C.u.id]||0)+1;S.levelWins++;logAdd("ch",C.u.id);
+ let up=false;if(S.levelWins>=2&&S.level<MAXLV){S.level++;S.levelWins=0;up=true}
+ const p=P(),notOwned=ITEMS.filter(i=>!S.items.includes(i.id));let it,dup=false;
+ if(notOwned.length){it=pick(notOwned,1)[0];S.items.push(it.id);logAdd("items",it.id,true);p.equip[it.slot]=it.id}else{it=pick(ITEMS,1)[0];dup=true;S.energy+=30}
+ S.energy+=20;save();say("You win! Here is a gift!",1);
+ const m=modal(`<h1>🏆 挑战成功！</h1><p>获得随机装扮：</p><div class="prize">${it.e}</div><h2>${it.n}</h2>
+ <p class="muted">${dup?"装扮已集齐！+50⚡":"已自动穿上，+20⚡"}</p>${up?`<p style="font-size:20px;font-weight:900;color:#ff9a1f">⬆️ 升星啦！${starStr(S.level)}</p>`:`<p class="muted">再赢 ${2-S.levelWins} 次升星</p>`}
+ <button class="btn full" id="ok">太好啦！去看看 👀</button>`);
+ m.querySelector("#ok").onclick=()=>{m.remove();home();bounce()};
+}
+
+// ---------- WARDROBE ----------
+function wardrobe(){
+ screen="wardrobe";scrollTo(0,0);const p=P();
+ app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">👗 衣柜</h1><div class="chip">${S.items.length}/${ITEMS.length}</div></div>
+ <div class="card"><div class="petStage" id="stage" style="height:230px">${petHTML(p,true)}</div></div>
+ <p class="muted center">点一下穿上，再点一下脱下。赢得大挑战可以获得更多装扮！</p>
+ <div class="wgrid">${ITEMS.map(i=>{const own=S.items.includes(i.id),on=p.equip[i.slot]===i.id;
+  return `<button class="witem ${own?"":"lock"} ${on?"on":""}" data-i="${i.id}">${own?i.e:"❓"}<small>${own?i.n:"未获得"} · ${SLOTN[i.slot]}</small></button>`}).join("")}</div>`;
+ back(home);
+ app.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{const it=ITEMS.find(x=>x.id===b.dataset.i);
+  if(!S.items.includes(it.id)){toast("赢得大挑战来解锁 🏆",1000);return}
+  if(p.equip[it.slot]===it.id)delete p.equip[it.slot];else p.equip[it.slot]=it.id;save();wardrobe();bounce()});
+}
+
+// ---------- CHECK-IN 打卡 (cumulative, never resets) / 补签 via review quiz ----------
+function checkinScreen(){
+ screen="checkin";scrollTo(0,0);
+ const t=nowD(),y=t.getFullYear(),m=t.getMonth(),today=t.getDate(),days=new Date(y,m+1,0).getDate(),first=new Date(y,m,1).getDay();
+ const key=d=>`${y}-${pad(m+1)}-${pad(d)}`,tl=todayLog(),done=!!S.checkins[dk()],goal=tl.correct>=GOAL,total=totalCk(),left=makeupsLeft();
+ const toNext=EGG_AT-(total%EGG_AT);
+ let cells="";for(let i=0;i<first;i++)cells+="<span></span>";
+ for(let d=1;d<=days;d++){const st=S.checkins[key(d)];
+  if(st)cells+=`<span class="c ${st==="ok"?"ck":"mk"} ${d===today?"today":""}">${d}<i>${st==="ok"?"✅":"🩹"}</i></span>`;
+  else if(d===today)cells+=`<span class="c today">${d}<i>今天</i></span>`;
+  else if(d<today)cells+=`<button class="miss" data-mk="${key(d)}">${d}<i>补签</i></button>`;
+  else cells+=`<span class="c fut">${d}</span>`}
+ const eggs=S.eggList.map(e=>{const l=eggLeft(e);return `<div class="row" style="margin-top:8px"><span style="font-size:30px">${l?"🥚":"🐣"}</span><div style="flex:1"><b>${l?`再打卡 ${l} 天就能孵化`:"可以孵化啦！"}</b><div class="bar" style="height:12px"><i style="width:${(EGG_HATCH-l)/EGG_HATCH*100}%"></i></div></div></div>`}).join("");
+ app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">📅 每日打卡</h1><span style="width:52px"></span></div>
+ <div class="card center"><b style="font-size:18px">今日任务：答对 ${GOAL} 个单词</b>
+  <div class="bar" style="margin:10px 0"><i style="width:${Math.min(100,tl.correct/GOAL*100)}%"></i><span>${Math.min(tl.correct,GOAL)}/${GOAL}</span></div>
+  <button class="btn ${done?"gray":goal?"green":"blue"} full" id="ck" ${done?"disabled":""}>${done?"✅ 今天已打卡":goal?"📅 打卡 (+20⚡)":"📚 去学习完成任务"}</button></div>
+ <div class="stats"><div class="stat"><b>${total}</b><small>📆 累计打卡(天)·永不清零</small></div><div class="stat"><b>${streak()}</b><small>🔥 连续打卡(趣味)</small></div>
+  <div class="stat"><b>${left}/${MAKEUP_WEEK}</b><small>🩹 本周剩余补签</small></div><div class="stat"><b>${total%EGG_AT}/${EGG_AT}</b><small>🥚 下一个蛋(还差${toNext}天)</small></div></div>
+ ${eggs?`<div class="card"><h2>🥚 我的神秘蛋</h2>${eggs}${S.eggList.some(e=>!eggLeft(e))?'<div style="height:10px"></div><button class="btn full" id="gohatch">🐣 去孵化</button>':""}</div>`:""}
+ <div class="card"><h2 class="center">${y}年${m+1}月</h2><div class="cal">${"日一二三四五六".split("").map(x=>`<span class="wd">${x}</span>`).join("")}${cells}</div>
+ <p class="muted center">✅ 已打卡 · 🩹 补签 · 漏掉的日子点「补签」，答对复习小测验 4/5 题就能补上<br>本周还能补签 <b>${left}/${MAKEUP_WEEK}</b> 次（周一到周日）<br>累计打卡 ${EGG_AT} 天得 1 个神秘蛋，再打卡 ${EGG_HATCH} 天孵化</p></div>`;
+ back(home);
+ $("#ck").onclick=()=>{if(done)return;if(!goal){const u=UNITS.find(u=>knownCount(u)<u.words.length)||UNITS[0];return startLearn(u.id)}
+  S.checkins[dk()]="ok";S.energy+=20;eggCheck();save();say("Great! You checked in!",1);toast("📅 打卡成功！+20⚡",1300);checkinScreen()};
+ if($("#gohatch"))$("#gohatch").onclick=petsScreen;
+ app.querySelectorAll("[data-mk]").forEach(b=>b.onclick=()=>startMakeup(b.dataset.mk));
+}
+let MU=null;
+function startMakeup(day){
+ if(makeupsLeft()<=0){toast(`本周补签次数用完啦<br>每周最多 ${MAKEUP_WEEK} 次`,1600);return}
+ const known=UNITS.flatMap(u=>u.words.filter(w=>ws(u,w).known).map(w=>({u,w})));
+ if(known.length<5){toast("先学会至少 5 个单词<br>才能用复习小测验补签哦",1800);return}
+ let types=LV[S.level].types.filter(t=>t!=="spell");if(!types.length)types=["see","sent"];
+ MU={day,qs:pick(known,5).map(x=>({type:pick(types,1)[0],w:x.w,pool:x.u.words,n:Math.max(3,LV[S.level].opts),once:true})),i:0,score:0};
+ screen="makeup";scrollTo(0,0);say("Review time!",1);renderMakeup();
+}
+function renderMakeup(){
+ const q=MU.qs[MU.i];
+ app.innerHTML=`<div class="top">${BACK}<span class="chip">🩹 ${MU.i+1}/5</span><span class="chip">✅ ${MU.score}</span></div>
+ <p class="center muted" style="margin:6px 0">补签 ${MU.day} · 复习学过的单词，答对 4 题就成功</p><div id="q"></div>`;
+ back(checkinScreen);if(q.type==="hear")say(q.w.w);
+ qRender($("#q"),q,{done:c=>{if(c)MU.score++;toast(c?"✅ "+praise():"💪 没关系！",900);setTimeout(()=>{MU.i++;MU.i<MU.qs.length?renderMakeup():makeupResult()},1000)}});
+}
+function makeupResult(){
+ const pass=MU.score>=4;
+ if(pass){S.checkins[MU.day]="mk";S.makeLog.push({day:MU.day,at:dk()});S.energy+=10;eggCheck();save();say("Great! Day added back!",1)}else say("Let's try again!",1);
+ app.innerHTML=`<div class="card center"><div style="font-size:70px">${pass?"🎉":"💪"}</div><h1>${pass?"补签成功！":"差一点点！"}</h1>
+ <p style="font-size:20px">答对 <b>${MU.score}/5</b> ${pass?"":"（需要 4 题）"}</p>
+ <p>${pass?`${MU.day} 已补上 🩹 +10⚡`:"再复习一下，重新挑战吧！不会用掉补签次数哦"}</p><p class="muted">本周剩余补签：${makeupsLeft()}/${MAKEUP_WEEK}</p></div>
+ ${pass?"":'<button class="btn green full" id="retry">🔁 再试一次</button><div style="height:12px"></div>'}<button class="btn blue full" id="bk">📅 回到打卡日历</button>`;
+ if($("#retry"))$("#retry").onclick=()=>startMakeup(MU.day);$("#bk").onclick=checkinScreen;
+}
+
+// ---------- SUMMARY 学习总结 (今天 / 本周 / 本月) ----------
+let sumTab="today";
+function periodDays(tab){if(tab==="today")return [dk()];if(tab==="week")return weekKeys();
+ const t=nowD(),y=t.getFullYear(),m=t.getMonth(),n=new Date(y,m+1,0).getDate();return Array.from({length:n},(_,i)=>`${y}-${pad(m+1)}-${pad(i+1)}`)}
+function periodStats(tab){
+ const days=periodDays(tab),set=f=>{const s=new Set();days.forEach(d=>((S.log[d]||{})[f]||[]).forEach(v=>s.add(v)));return [...s]},list=f=>days.flatMap(d=>(S.log[d]||{})[f]||[]);
+ const studied=[...new Set([...set("ok"),...set("bad")])];
+ const need=studied.filter(k=>{const s=S.words[k];return s&&(!s.known||(s.miss>0&&s.box<2))});
+ const rem=studied.filter(k=>!need.includes(k));
+ const lv={};days.forEach(d=>{const o=(S.log[d]||{}).lv||{};for(const i in o)lv[i]=(lv[i]||0)+o[i]});
+ const ck=days.filter(d=>S.checkins[d]);
+ return {days,rem,need,units:set("units"),done:set("done"),ch:list("ch"),ckOk:ck.filter(d=>S.checkins[d]==="ok").length,ckMk:ck.filter(d=>S.checkins[d]==="mk").length,lv,items:set("items"),pets:list("pets"),correct:days.reduce((a,d)=>a+((S.log[d]||{}).correct||0),0)};
+}
+function wordOf(k){const [uid,w]=k.split(":");const u=UNITS.find(x=>x.id===uid);return u&&u.words.find(x=>x.w===w)}
+function summary(){
+ screen="summary";scrollTo(0,0);
+ const all=UNITS.flatMap(u=>u.words.map(w=>({u,w,s:ws(u,w)})));
+ const known=all.filter(x=>x.s.known),acc=S.totalCorrect+S.totalWrong?Math.round(S.totalCorrect/(S.totalCorrect+S.totalWrong)*100):0;
+ const d7=Array.from({length:7},(_,i)=>{const k=dk(i-6);return {l:k.slice(5).replace("-","/"),v:(S.log[k]||{}).correct||0}}),mx=Math.max(3,...d7.map(d=>d.v));
+ const P_=periodStats(sumTab),uname=id=>{const u=UNITS.find(x=>x.id===id);return u?u.em+" "+u.name:id};
+ const chip=k=>{const w=wordOf(k);return w?`<button class="wchip" data-s="${esc(w.w)}">${pic(w)} ${esc(w.w)}</button>`:""};
+ const lvRows=Object.keys(P_.lv).map(i=>{const p=S.pets[i];return p?`<div class="row" style="margin:4px 0"><div style="width:44px;height:44px">${mini(p.sp,ART(stageIdx(p)),44)}</div><b>${esc(p.name)}</b><span style="margin-left:auto;color:#3cc23a;font-weight:900">+${P_.lv[i]} 级</span><span class="muted">现在 Lv.${stageIdx(p)+1}</span></div>`:""}).join("");
+ const lbl={today:"今天",week:"本周",month:"本月"}[sumTab];
+ app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">📊 学习总结</h1><span style="width:52px"></span></div>
+ <div class="row" style="gap:8px;margin:8px 0">${[["today","今天"],["week","本周"],["month","本月"]].map(([k,n])=>`<button class="btn ${sumTab===k?"":"gray"}" style="flex:1;font-size:17px" data-tab="${k}">${n}</button>`).join("")}</div>
+ <div class="card"><h2>📅 ${lbl} <span class="muted" style="font-size:13px">${P_.days[0].slice(5)}${P_.days.length>1?" ~ "+P_.days[P_.days.length-1].slice(5):""}</span></h2>
+  <div class="stats"><div class="stat"><b>${P_.rem.length}</b><small>⭐ 记住的单词</small></div><div class="stat"><b>${P_.need.length}</b><small>🔁 需要复习</small></div>
+   <div class="stat"><b>${P_.units.length}</b><small>📚 学习的主题</small></div><div class="stat"><b>${P_.done.length}</b><small>🎓 学完的主题</small></div>
+   <div class="stat"><b>${P_.ch.length}</b><small>🏆 通过的大挑战</small></div><div class="stat"><b>+${Object.values(P_.lv).reduce((a,b)=>a+b,0)}</b><small>🐾 宠物升级</small></div>
+   <div class="stat"><b>${P_.ckOk+P_.ckMk}</b><small>📆 打卡天数${P_.ckMk?`(含补签${P_.ckMk})`:""}</small></div><div class="stat"><b>${P_.correct}</b><small>✅ 答对题数</small></div></div>
+  <h3>⭐ 记住了</h3>${P_.rem.map(chip).join("")||'<p class="muted">还没有</p>'}
+  <h3>🔁 需要复习</h3>${P_.need.map(chip).join("")||'<p class="muted">没有，太棒了！</p>'}
+  <h3>📚 主题</h3><p>${P_.units.length?"学习了："+P_.units.map(uname).join("、"):'<span class="muted">还没学习</span>'}${P_.done.length?"<br>✅ 完成："+P_.done.map(uname).join("、"):""}</p>
+  ${P_.ch.length?`<p>🏆 大挑战：${P_.ch.map(uname).join("、")}</p>`:""}
+  <h3>🐾 宠物成长记录</h3>${lvRows||'<p class="muted">还没有升级，去喂宠物吧！</p>'}
+  <h3>👗 获得的装扮</h3><p style="font-size:32px;margin:4px 0">${P_.items.map(id=>(ITEMS.find(i=>i.id===id)||{}).e||"").join(" ")||'<span class="muted" style="font-size:15px">还没有</span>'}</p>
+  <h3>🥚 新伙伴</h3><div class="row" style="flex-wrap:wrap">${P_.pets.map(k=>`<div class="center" style="width:70px"><div style="width:60px;height:60px;margin:0 auto">${mini(k,1,60)}</div><small>${SP[k].zh}</small></div>`).join("")||'<span class="muted">还没有</span>'}</div></div>
+ <div class="card"><h2>🌟 总进度</h2><div class="row"><div style="width:70px;height:70px">${mini(P().sp,ART(stageIdx()),70)}</div><div>${starStr(S.level)}<div class="muted">${S.level}星 · ${LV[S.level].nm} · 答对率 ${acc}% · 记住 ${known.length}/${all.length}</div></div></div>
+  <div class="chart">${d7.map(d=>`<div><span>${d.v||""}</span><i style="height:${d.v/mx*90}%"></i>${d.l}</div>`).join("")}</div>
+  ${UNITS.map(u=>`<div style="margin:8px 0"><b>${u.em} ${u.name}</b> <span class="muted">${knownCount(u)}/${u.words.length}</span><div class="bar" style="height:14px"><i style="width:${knownCount(u)/u.words.length*100}%"></i></div></div>`).join("")}
+  <p class="muted center">📆 累计打卡 ${totalCk()} 天 · 🐾 宠物 ${S.pets.length} · 👗 装扮 ${S.items.length}/${ITEMS.length} · 🥚 神秘蛋 ${S.eggList.length}</p></div>`;
+ back(home);app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>say(b.dataset.s));
+ app.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{sumTab=b.dataset.tab;summary()});
+}
+
+// ---------- PETS 宠物屋 ----------
+function petsScreen(){
+ screen="pets";scrollTo(0,0);
+ const total=totalCk(),toNext=EGG_AT-(total%EGG_AT);
+ const eggs=S.eggList.map((e,i)=>{const l=eggLeft(e);return `<div class="zcard" style="min-height:170px"><div class="${l?"":"shake"}" style="width:100px;height:100px" ${l?"":`data-h="${i}"`}>${mysteryEgg().replace('width="170" height="170"','width="100" height="100"')}</div>
+  ${l?`<b>再打卡 ${l} 天</b><small>就能孵化</small><div class="bar" style="height:10px;width:90%"><i style="width:${(EGG_HATCH-l)/EGG_HATCH*100}%"></i></div>`:`<button class="btn" style="font-size:15px;min-height:48px;padding:6px 14px" data-h="${i}">🐣 孵化！</button>`}</div>`}).join("");
+ app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">🐾 我的宠物屋</h1><div class="chip">${S.pets.length}</div></div>
+ <div class="card center"><h2>🥚 神秘蛋</h2>${eggs?`<div class="opts" style="grid-template-columns:repeat(${Math.min(3,S.eggList.length)},1fr)">${eggs}</div>`:""}
+  <p class="muted">累计打卡 ${EGG_AT} 天得 1 个神秘蛋（下一个还差 ${toNext} 天）<br>得到蛋后再打卡 ${EGG_HATCH} 天就能孵化，二选一带回家！</p>
+  ${S.zodiacTickets?`<button class="banner" id="zt">🎊 可以选一只新的生肖宠物！▶</button>`:""}${S.poolTickets?`<button class="banner" id="pt">🎁 打开神秘萌宠惊喜！▶</button>`:""}</div>
+ <div class="wgrid">${S.pets.map((p,i)=>`<button class="zcard ${i===S.active?"sel":""}" data-p="${i}" style="min-height:150px">${mini(p.sp,ART(stageIdx(p)),80)}<b>${esc(p.name)}</b><small>${SP[p.sp].zh} · ${STAGES[stageIdx(p)].name}${p.maxed?" 🌟":""}</small><small>${i===S.active?"✅ 当前":"点我出战"}</small></button>`).join("")}</div>
+ <div style="height:12px"></div><button class="btn blue full" id="alb">📖 宠物图鉴 (${S.pets.length}/${ZORDER.length+HATCH.length})</button><div style="height:12px"></div><button class="btn gray full" id="rn" style="font-size:16px">✏️ 给 ${esc(P().name)} 改名字</button>
+ <p class="muted center">生肖收集 ${ZORDER.filter(ownedSp).length}/12 · 萌宠收集 ${HATCH.filter(ownedSp).length}/${HATCH.length}</p>`;
+ back(home);
+ app.querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>eggHatch(+b.dataset.h));
+ if($("#zt"))$("#zt").onclick=()=>zodiacPicker(true);if($("#pt"))$("#pt").onclick=surprisePet;
+ app.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{S.active=+b.dataset.p;save();say("Let's go, "+SP[P().sp].en+"!",1);petsScreen()});
+ $("#alb").onclick=album;$("#rn").onclick=()=>{const n=prompt("给宠物起个名字：",P().name);if(n&&n.trim()){P().name=n.trim().slice(0,10);save();petsScreen()}};
+}
+
+// ---------- ALBUM 图鉴 ----------
+function album(){
+ screen="album";scrollTo(0,0);
+ const card=k=>{const own=ownedSp(k),sp=SP[k];return `<div class="zcard ${own?"":"lockc"}" style="min-height:118px">${own?mini(k,2,64):`<div style="font-size:40px;height:64px;line-height:64px">❓</div>`}
+  <b style="font-size:13px">${own?(sp.z?sp.z+" ":"")+sp.zh:"???"}</b><small>${sp.rare?"💎 稀有":own?sp.en:"未解锁"}</small></div>`};
+ app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">📖 宠物图鉴</h1><div class="chip">${S.pets.length}/${ZORDER.length+HATCH.length}</div></div>
+ <div class="card"><h2>🐉 十二生肖 <span class="muted" style="font-size:14px">${ZORDER.filter(ownedSp).length}/12 · 满级后解锁下一只</span></h2><div class="zgrid" style="grid-template-columns:repeat(4,1fr)">${ZORDER.map(card).join("")}</div></div>
+ <div class="card"><h2>🥚 神秘萌宠 <span class="muted" style="font-size:14px">${HATCH.filter(ownedSp).length}/${HATCH.length} · 神秘蛋/惊喜礼物</span></h2><div class="zgrid" style="grid-template-columns:repeat(4,1fr)">${HATCH.map(card).join("")}</div>
+ <p class="muted center">💎 稀有萌宠很难遇到哦（6 只稀有合计约 10%）</p></div>`;
+ back(petsScreen);
+}
+// ---------- TEST PANEL 测试面板 ----------
+function testPanel(){
+ screen="test";scrollTo(0,0);const p=P();
+ const B=(id,t,c)=>`<button class="btn ${c||"blue"}" id="${id}">${t}</button>`;
+ app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">⚙️ 测试面板</h1><span style="width:52px"></span></div>
+ <p class="muted center">家长 / 开发测试用 · 模拟日期：${dk()}（偏移 ${S.dayOffset} 天）<br>累计打卡 ${totalCk()} 天 · 神秘蛋 ${S.eggList.length} · 本周补签剩余 ${makeupsLeft()}/${MAKEUP_WEEK}</p>
+ <div class="card"><h2>📅 打卡 / 日期</h2><div class="tgrid">${B("tCk","✅ 打卡今天 +1 天","green")}${B("tSkip","⏭️ 模拟漏打卡一天","gray")}${B("tCk7","📆 连续打卡 7 天","green")}${B("tPrev","⏪ 前一天","gray")}${B("tGoal","✅ 完成今日任务","green")}${B("tMkReset","🩹 重置本周补签","gray")}</div></div>
+ <div class="card"><h2>🥚 蛋 / 宠物</h2><div class="tgrid">${B("tHatch","🐣 立即孵化神秘蛋","")}${B("tEgg","🥚 送 1 个新蛋","green")}${B("tMax","🌟 当前宠物直接满级","")}${B("tAllZ","🐲 集齐并满级 11 只生肖","")}${B("tE","+100 能量","orange")}${B("tG","+100 成长","orange")}${B("tItems","👗 送全部装扮","green")}</div></div>
+ <div class="card"><h2>📚 学习</h2><div class="tgrid">${B("tKnow","记住 8 个/主题 (解锁挑战)","green")}${B("tMiss","制造 3 个错题","gray")}${B("tPlace","🎯 重新做星级测验","")}${B("tPick","🐾 重新选首个宠物","")}</div>
+  <div style="margin-top:10px" class="row">${Array.from({length:MAXLV},(_,i)=>i+1).map(n=>`<button class="btn ${S.level===n?"":"gray"}" style="flex:1;padding:6px;font-size:14px" data-lv="${n}">${n}⭐</button>`).join("")}</div></div>
+ <div class="card"><div class="tgrid">${B("tReset","🔄 清空全部进度","gray")}${B("tHome","🏠 回首页","")}</div><pre id="js"></pre></div>`;
+ $("#js").textContent=JSON.stringify({today:dk(),level:S.level,energy:S.energy,totalCheckins:totalCk(),eggList:S.eggList.map(e=>({got:e.got,left:eggLeft(e)})),makeLog:S.makeLog,pets:S.pets.map(q=>q.sp+":"+q.growth+(q.maxed?"★":"")),zodiacTickets:S.zodiacTickets,poolTickets:S.poolTickets,checkins:S.checkins,todayLog:todayLog()},null,1);
+ back(home);
+ const R=msg=>{save();toast(msg,1000);testPanel()};
+ const ckToday=()=>{if(!S.checkins[dk()]){S.checkins[dk()]="ok";eggCheck()}};
+ $("#tCk").onclick=()=>{ckToday();S.dayOffset++;R("已打卡，前进到 "+dk())};
+ $("#tSkip").onclick=()=>{S.dayOffset++;R("今天没打卡，前进到 "+dk())};
+ $("#tCk7").onclick=()=>{for(let i=0;i<7;i++){ckToday();S.dayOffset++}R("累计打卡 "+totalCk()+" 天")};
+ $("#tPrev").onclick=()=>{S.dayOffset--;R(dk())};
+ $("#tGoal").onclick=()=>{const t=todayLog();t.correct=Math.max(t.correct,GOAL);R("今日任务完成")};
+ $("#tMkReset").onclick=()=>{const wk=weekKeys();S.makeLog=S.makeLog.filter(m=>!wk.includes(m.at));R("本周补签已重置")};
+ $("#tHatch").onclick=()=>{if(!S.eggList.length)S.eggList.push({got:totalCk()-EGG_HATCH,told:true});else{S.eggList[0].got=totalCk()-EGG_HATCH;S.eggList[0].told=true}save();eggHatch(0)};
+ $("#tEgg").onclick=()=>{S.eggList.push({got:totalCk()});R("+1 🥚（再打卡 3 天孵化）")};
+ $("#tE").onclick=()=>{S.energy+=100;R("+100⚡")};
+ $("#tG").onclick=()=>{const b=stageIdx(p);p.growth+=100;save();afterGrowth(p,b)};
+ $("#tMax").onclick=()=>{const b=stageIdx(p);p.growth=Math.max(p.growth,STAGES[MAXST].need);save();afterGrowth(p,b)};
+ $("#tAllZ").onclick=()=>{ZORDER.forEach(k=>{if(!ownedSp(k))S.pets.push({sp:k,name:SP[k].nm,growth:STAGES[MAXST].need,equip:{},maxed:true})});S.pets.forEach(q=>{if(ZORDER.includes(q.sp)&&q!==p){q.growth=Math.max(q.growth,STAGES[MAXST].need);q.maxed=true}});S.zodiacTickets=0;R("其余生肖已集齐并满级，再点「当前宠物直接满级」")};
+ $("#tItems").onclick=()=>{S.items=ITEMS.map(i=>i.id);R("全部装扮")};
+ $("#tKnow").onclick=()=>{UNITS.forEach(u=>u.words.slice(0,UNLOCK_N).forEach(w=>{const s=ws(u,w);s.known=true;s.box=Math.max(1,s.box)}));R("已解锁全部大挑战")};
+ $("#tMiss").onclick=()=>{UNITS.forEach(u=>{const w=u.words[UNLOCK_N];const s=ws(u,w);s.miss++;s.box=0;s.due=0;logAdd("bad",u.id+":"+w.w,true)});S.totalWrong+=3;R("已添加错题")};
+ $("#tPlace").onclick=()=>{S.placed=false;save();placeIntro()};
+ $("#tPick").onclick=()=>{if(confirm("清空宠物并重新选择？")){S.pets=[];S.active=0;save();zodiacPicker(false)}};
+ app.querySelectorAll("[data-lv]").forEach(b=>b.onclick=()=>{S.level=+b.dataset.lv;S.levelWins=0;R(S.level+"⭐")});
+ $("#tReset").onclick=()=>{if(confirm("确定清空全部进度？")){localStorage.removeItem(KEY);S=fresh();save();home()}};
+ $("#tHome").onclick=home;
+}
+render();
+
+</script>
+</body>
+</html>
