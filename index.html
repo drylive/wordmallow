@@ -120,6 +120,23 @@ h2{font-size:20px;margin:4px 0 10px}
 .famcode{font-size:40px;font-weight:900;letter-spacing:8px;color:#7a5ae0;margin:2px 0 10px;font-family:ui-monospace,Menlo,monospace}.mono{font-family:ui-monospace,Menlo,monospace;letter-spacing:2px}
 .qrbox{display:flex;justify-content:center;margin:6px 0}.reqrow{display:flex;align-items:center;gap:6px;justify-content:space-between;background:#effbea;border-radius:12px;padding:8px;margin:6px 0}
 .emorow{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.emo{font-size:24px;border:0;background:#fff;border-radius:12px;padding:4px 8px}.emo.on{background:#ffe0ef;box-shadow:0 0 0 2px #ff8fc1}
+.nav{grid-template-columns:repeat(7,1fr)!important;gap:4px!important}.nav button{position:relative}
+.nav .dot{position:absolute;top:2px;right:4px;min-width:18px;height:18px;border-radius:9px;background:#ff4d6d;color:#fff;font:800 11px/18px system-ui;font-style:normal;padding:0 4px}
+.mecard{display:flex;align-items:center;gap:12px}.meav{width:64px;height:64px}
+.nlist,.frl{display:flex;flex-direction:column;gap:8px}.nrow,.frow{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:#fff7fb}.frow{margin-top:8px}
+.nrow.new{background:#fff1c9;box-shadow:0 0 0 2px #ffd36b inset}.nav0{width:46px;height:46px;display:flex;align-items:center;justify-content:center;flex:none}.nbig{font-size:28px}
+.newdot{background:#ff4d6d;color:#fff;border-radius:10px;padding:1px 8px;font-size:13px;vertical-align:middle}
+.visitwrap{position:relative;margin:0 0 10px}.visitwrap .scene{pointer-events:none}.vtag{position:absolute;left:10px;top:10px}.vlike{position:absolute;right:10px;top:10px;background:#fff;border-radius:14px;padding:4px 10px;font-weight:800;box-shadow:0 2px 6px #0002}
+.vhead{display:flex;align-items:center;gap:8px;margin-bottom:8px}.vmood{margin-left:auto;font-weight:800;color:#e0457b}
+.stats .stat small{font-size:11px}.stkrow{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}.stkb{font-size:26px;border:0;background:#fff3f8;border-radius:12px;padding:6px 0}.stkb:disabled{opacity:.35}
+#stk{position:absolute;inset:0;pointer-events:none;overflow:hidden}.flystk{position:absolute;bottom:10%;font-size:56px;animation:flyS 1.8s ease-out forwards}
+@keyframes flyS{0%{transform:translateY(0) scale(.4);opacity:0}20%{opacity:1;transform:translateY(-30px) scale(1.2)}100%{transform:translateY(-260px) scale(1);opacity:0}}
+.gpick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:52vh;overflow:auto}.gpi{border:0;background:#fff7fb;border-radius:14px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:2px}.gpi .lz{width:56px;height:56px}.gpi small{font-size:11px}
+.giftbox{font-size:110px;cursor:pointer;animation:gwig 1.2s ease-in-out infinite;margin:6px 0}.giftbox.open{animation:gopen .5s ease-in forwards}.giftItem{animation:gpop .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes gwig{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg) scale(1.05)}75%{transform:rotate(8deg) scale(1.05)}}@keyframes gopen{to{transform:scale(1.6);opacity:0}}@keyframes gpop{from{transform:scale(.2)}to{transform:scale(1)}}
+.nickbig{font-size:28px;font-weight:900;text-align:center;margin:8px 0;color:#7a3cff}.sel{flex:1;font-size:17px;padding:10px;border-radius:12px;border:2px solid #eadcff;background:#fff}
+.bigcode{font-size:34px;font-weight:900;letter-spacing:4px;color:#7a3cff;margin:4px 0}.card.hl{box-shadow:0 0 0 3px #ffd36b}
+.tabs .tab{font-size:13px;padding:8px 6px}
 </style><style>
 .title{font-weight:900;font-size:19px;color:#ff5fa2;text-shadow:0 2px 0 #fff}
 .nav{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0 2px}
@@ -1404,7 +1421,7 @@ function eggHatch(ei){
 
 // ================= ROUTER =================
 let screen="home";scrollTo(0,0);
-function render(){({home,learn:renderLearn,summary,pets:petsScreen,album,gallery:galleryScreen,boxes:boxScreen,deco:decoMode,parent:()=>parentCenter()}[screen]||home)()}
+function render(){({home,learn:renderLearn,summary,pets:petsScreen,album,gallery:galleryScreen,boxes:boxScreen,deco:decoMode,parent:()=>parentCenter(),friends:()=>friendsScreen(),visit:()=>friendsScreen()}[screen]||home)()}
 function mysteryWord(){const k=dk();let h=0;for(const c of k)h=(h*31+c.charCodeAt(0))>>>0;const list=LVW[S.level];return list[h%list.length]}
 // ---------- HOME ----------
 function home(){
@@ -1422,6 +1439,7 @@ function home(){
   <button id="nBox">🎁<small>盒子 ${boxes}</small>${boxes?'<i class="dot"></i>':""}</button>
   <button id="nGal">🎨<small>图鉴</small></button>
   <button id="nSum">📊<small>总结</small></button>
+  <button id="nFr">🤝<small>好友</small></button>
   <button id="nPar">👨‍👩‍👧<small>家长</small></button></div>
  ${S.zodiacTickets?`<button class="banner" id="zt">🎊 宠物满级奖励：可以选一只新的生肖宠物！<span style="margin-left:auto">▶</span></button>`:""}
  ${S.poolTickets?`<button class="banner" id="pt">🎁 生肖全满级奖励：打开神秘萌宠惊喜！<span style="margin-left:auto">▶</span></button>`:""}
@@ -1447,7 +1465,7 @@ function home(){
  <p class="muted center">家长提示：⭐ 星级代表难度（对应 CEFR / 剑桥少儿 / 课标），不代表年龄。</p>
  <p class="muted center" style="font-size:12px;opacity:.8;margin:6px 0 0;line-height:1.5">本应用不收集任何个人数据，进度只保存在本设备 / No personal data collected; progress is stored only on this device.<br>© 2026 Wordmallow 词团子. All rights reserved.</p>`;
  $("#feed").onclick=feed;$("#dec").onclick=decoMode;
- $("#nPets").onclick=petsScreen;$("#nBox").onclick=boxScreen;$("#nGal").onclick=galleryScreen;$("#nSum").onclick=summary;$("#nPar").onclick=()=>parentGate(()=>parentCenter("report"));
+ $("#nPets").onclick=petsScreen;$("#nBox").onclick=boxScreen;$("#nGal").onclick=galleryScreen;$("#nSum").onclick=summary;$("#nFr").onclick=()=>friendsScreen();$("#nPar").onclick=()=>parentGate(()=>parentCenter("report"));
  $("#lvl").onclick=()=>toast(`${lvBadge(lv)} ${LVI[lv].nm}<br><small>${LVI[lv].cefr} · ${LVI[lv].yle}<br>${LVI[lv].kb} · 累计 ≈${LVI[lv].cum} 词</small>`,2200);
  if($("#zt"))$("#zt").onclick=()=>zodiacPicker(true);if($("#eg"))$("#eg").onclick=petsScreen;if($("#pt"))$("#pt").onclick=surprisePet;
  $("#snd").onclick=()=>{S.sound=!S.sound;save();if(S.sound)say("Hello!","c");home()};$("#spd2").onclick=()=>{S.slow=!S.slow;save();say("Hello, friend!","s");home()};
@@ -3934,9 +3952,9 @@ function parentGate(then){const a=6+Math.floor(Math.random()*4),b=3+Math.floor(M
 let PTAB="report",PKID=null;
 function parentCenter(tab){if(tab)PTAB=tab;screen="parent";scrollTo(0,0);
  app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">👨‍👩‍👧 家长中心</h1><span style="width:52px"></span></div>
- <div class="tabs">${[["report","📈 学习报告"],["kids","🧒 孩子"],["sync","🔄 家庭同步"]].map(([k,n])=>`<button class="tab ${PTAB===k?"on":""}" data-pt="${k}">${n}</button>`).join("")}</div><div id="pc"></div>`;
+ <div class="tabs">${[["report","📈 报告"],["kids","🧒 孩子"],["friends","🤝 好友"],["sync","🔄 同步"]].map(([k,n])=>`<button class="tab ${PTAB===k?"on":""}" data-pt="${k}">${n}</button>`).join("")}</div><div id="pc"></div>`;
  back(home);app.querySelectorAll("[data-pt]").forEach(b=>b.onclick=()=>parentCenter(b.dataset.pt));
- ({report:parentReport,kids:kidsPanel,sync:syncPanel})[PTAB]()}
+ ({report:parentReport,kids:kidsPanel,friends:friendsPanel,sync:syncPanel})[PTAB]()}
 const dkOf=off=>{const d=new Date(Date.now()+((S.dayOffset||0)+off)*864e5);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
 const isMastS=x=>!!(x&&x.lc&&(x.cs||0)>=3&&x.fd!=null&&x.ld-x.fd>=1);
 function kidStats(s){const lg=s.log||{},day=k=>lg[k]||{},sum=(ks,f)=>ks.reduce((a,k)=>a+(day(k)[f]||0),0);const t=dkOf(0),wk=Array.from({length:7},(_,i)=>dkOf(i-6));
@@ -4019,6 +4037,154 @@ async function scanQR(){const cam=$("#cam");if(!("BarcodeDetector" in window)||!
  try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});cam.innerHTML=`<video id="vid" playsinline autoplay muted style="width:100%;border-radius:14px;margin-top:8px"></video>`;const v=$("#vid");v.srcObject=stream;const det=new BarcodeDetector({formats:["qr_code"]});
   const stop=()=>stream.getTracks().forEach(t=>t.stop());const loop=async()=>{if(!document.body.contains(v))return stop();try{const c=await det.detect(v);const hit=c.find(x=>x.rawValue&&x.rawValue.startsWith(QR_PREFIX));if(hit){stop();cam.innerHTML="";const code=hit.rawValue.slice(QR_PREFIX.length);$("#jc").value=code;return requestJoin(code)}}catch(e){}requestAnimationFrame(loop)};loop()}
  catch(e){toast("无法打开相机，请输入代码",1500)}}
+
+// ================= FRIENDS · phase 2 (friend codes, both-parent approval, visits, likes/stickers, gifts) =================
+// Privacy: nothing typed by a child ever leaves the device. Public nickname = two indexes into the preset lists below,
+// stickers = preset indexes, visits read a server-sanitised snapshot (pet, placed decorations, a few counts).
+const NICK_A=["快乐","勇敢","聪明","可爱","闪亮","温柔","活泼","好奇","机灵","开心","彩虹","星星","月亮","阳光","甜甜","酷酷","飞快","神奇","软软","暖暖","蹦蹦","笑笑","乖乖","超级"];
+const NICK_B=["小熊","小兔","小猫","小狗","熊猫","企鹅","海豚","狐狸","松鼠","小鹿","考拉","老虎","狮子","小象","长颈鹿","小鸭","海豹","刺猬","猫头鹰","独角兽","小龙","小马","小羊","小猪"];
+const STICKERS=["👍","❤️","🌟","😆","😍","🎉","🌈","🍭"];
+const FR_PREFIX="WMFRD:";
+const nickTxt=n=>n&&n.length===2?(NICK_A[n[0]]||"")+(NICK_B[n[1]]||""):"小伙伴";
+const randNick=()=>[Math.floor(Math.random()*NICK_A.length),Math.floor(Math.random()*NICK_B.length)];
+const fmtCode=c=>c?c.slice(0,4)+"-"+c.slice(4):"";
+const frErr=e=>({not_found:"找不到这个好友代码，请再核对一下",same_family:"这是自己家的孩子哦，不用加好友",rate_limited:"试错太多次了，请一小时后再试",too_many_pending:"等待中的请求太多了，请先处理一下",not_friends:"你们还不是好友",no_profile:"请家长先在 家长中心 → 好友 设置好友名片",no_save:"请先完成一次同步再试",daily_limit:"今天的次数用完啦，明天再来吧",not_owned:"这件装饰已经不在了",placed:"正在房间里摆着的装饰不能送哦",invalid_token:"这台设备已被移出家庭"}[e&&e.message||e]||"网络不太好，稍后再试");
+// ---------- save extensions: gift tombstones survive merging ----------
+// acq[id] = when this child (re)gained an item; giftedOut[id] = when it was given away. Owned  <=> acq > giftedOut.
+function invFix(s){s.acq=s.acq||{};s.giftedOut=s.giftedOut||{};for(const id in s.giftedOut)if((s.acq[id]||0)<=s.giftedOut[id])delete (s.inv||{})[id];return s}
+const _ms1=mergeSave;
+mergeSave=function(a,b){const o=_ms1(a,b);if(!a||!b)return invFix(o);const mx=(x,y)=>{const r={};for(const k of new Set([...Object.keys(x||{}),...Object.keys(y||{})]))r[k]=Math.max((x||{})[k]||0,(y||{})[k]||0);return r};
+ o.acq=mx(a.acq,b.acq);o.giftedOut=mx(a.giftedOut,b.giftedOut);
+ o.gotGifts=[...new Set([...(a.gotGifts||[]),...(b.gotGifts||[])])].sort((x,y)=>x-y).slice(-200);
+ const nm=new Map();[...(a.notif||[]),...(b.notif||[])].forEach(n=>nm.set(n.id,n));o.notif=[...nm.values()].sort((x,y)=>x.id-y.id).slice(-40);
+ o.notifSeen=Math.max(a.notifSeen||0,b.notifSeen||0);
+ const fa=a.fr,fb=b.fr;o.fr=fa&&fb?((b.upd||0)>(a.upd||0)?fb:(a.upd||0)>(b.upd||0)?fa:(JSON.stringify(fa)>=JSON.stringify(fb)?fa:fb)):(fa||fb||undefined);if(!o.fr)delete o.fr;
+ return invFix(o)};
+let _invKeys=new Set(Object.keys(S.inv||{}));
+const _save1=save;
+save=function(){S.acq=S.acq||{};for(const id of Object.keys(S.inv||{}))if(!_invKeys.has(id)&&!(S.acq[id]>(S.giftedOut||{})[id]))S.acq[id]=Date.now();_invKeys=new Set(Object.keys(S.inv||{}));_save1()};
+// ---------- public snapshot (whitelisted again on the server) ----------
+function homeSnap(s){const p=(s.pets||[])[s.active||0]||{};const w=s.w||{};
+ return {sp:p.sp||"monkey",growth:p.growth||0,bond:p.bond||0,level:s.level||1,mastered:W.filter(x=>isMastS(w[x.w])).length,learned:W.filter(x=>w[x.w]&&w[x.w].k).length,
+  pets:(s.pets||[]).length,items:Object.keys(s.inv||{}).length,deco:(p.deco||[]).slice(0,12).map(d=>({i:d.i,x:d.x,y:d.y,r:d.r||0,s:d.s||1,z:d.z||1}))}}
+let GIFTQ=[];
+async function friendsAfterSync(){const st=SYST();if(!st.token)return;
+ for(const k of allKids()){if(!k.fr||!k.fr.kid)continue;const snap=homeSnap(k),js=JSON.stringify(snap),key="wm.snap."+k.cid;
+  if(LS.get(key,"")!==js){try{await rpc("publish_snapshot",{p_token:st.token,p_child:k.cid,p_snap:snap});LS.set(key,js)}catch(e){}}}
+ if(!S.fr||!S.fr.kid)return;
+ let ib;try{ib=await rpc("kid_inbox",{p_token:st.token,p_child:S.cid})}catch(e){return}
+ S.frTot={likes:ib.likes};const ack=[];let changed=false;S.notif=S.notif||[];S.gotGifts=S.gotGifts||[];
+ for(const e of ib.events){ack.push(e.id);if(e.kind==="visit")continue;   // visits leave no trace (server no longer records them)
+  if(e.kind==="gift"){if(S.gotGifts.includes(e.id))continue;S.gotGifts.push(e.id);const owned=S.inv[e.item]&&!(((S.giftedOut||{})[e.item]||0)>=((S.acq||{})[e.item]||0));
+   if(owned||!ITEMS.some(i=>i.id===e.item)){S.dust=(S.dust||0)+30;GIFTQ.push({item:e.item,from:e.from,dust:30})}else{S.inv[e.item]=1;S.acq=S.acq||{};S.acq[e.item]=Date.now();_invKeys.add(e.item);GIFTQ.push({item:e.item,from:e.from})}}
+  if(!S.notif.some(n=>n.id===e.id))S.notif.push({id:e.id,kind:e.kind,sticker:e.sticker,item:e.item,at:e.at,from:e.from?{nick:e.from.nick,sp:e.from.sp}:null});changed=true}
+ S.notif=S.notif.slice(-40);
+ if(changed||ack.length){save();try{await rpc("kid_inbox_ack",{p_token:SYST().token,p_child:S.cid,p_ids:ack})}catch(e){}}
+ frBadge();showGifts()}
+const _sn1=syncNow;
+syncNow=async function(){const r=await _sn1.apply(this,arguments);if(r&&r.ok){try{await friendsAfterSync()}catch(e){}}return r};
+function unseenN(){return (S.notif||[]).filter(n=>n.id>(S.notifSeen||0)&&n.kind!=="gift").length}
+function frBadge(){const b=$("#nFr");if(!b)return;let d=b.querySelector(".dot");const n=unseenN();if(!n){d&&d.remove();return}if(!d){d=document.createElement("i");d.className="dot";b.appendChild(d)}d.textContent=n>9?"9+":n}
+// ---------- gift-opening moment ----------
+function showGifts(){if(!GIFTQ.length||document.querySelector(".modal"))return;if(!["home","friends","visit","pets","boxes","gallery"].includes(screen))return;const g=GIFTQ.shift();const it=ITEMS.find(i=>i.id===g.item);
+ const m=modal(`<div class="giftbox" id="gb">🎁</div><h2>${g.from?esc(nickTxt(g.from.nick)):"好朋友"} 送你一份礼物！</h2><p class="muted">点一下礼物盒打开</p><div id="gr"></div><button class="btn full" id="gx" style="display:none">太棒了！</button>`);
+ m.querySelector("#gb").onclick=()=>{const b=m.querySelector("#gb");if(b.classList.contains("open"))return;b.classList.add("open");sfx&&sfx("fan");setTimeout(()=>{b.style.display="none";
+   m.querySelector("#gr").innerHTML=g.dust?`<div style="font-size:60px">✨</div><p><b>${it?esc(it.zh):"装饰"}</b> 你已经有啦，<br>变成了 <b>30 星尘</b>！</p>`:`<div class="giftItem">${itemSVG(g.item,120)}</div><p><b>${esc(it.zh)}</b> ${tierTag(it.t)}<br><small class="muted">已放进你的装饰收藏</small></p>`;
+   burstAt&&burstAt(m.querySelector("#gr"),18,["🎉","✨","💖","🌟"]);m.querySelector("#gx").style.display=""},520)};
+ m.querySelector("#gx").onclick=()=>{m.remove();setTimeout(showGifts,300)}}
+// ---------- KID SIDE: friends screen ----------
+let FRL=null;
+function friendsScreen(){screen="friends";scrollTo(0,0);const st=SYST();
+ app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">🤝 好朋友</h1><span style="width:52px"></span></div><div id="fs"></div>`;back(home);
+ const box=$("#fs");
+ if(!syncConfigured()||!st.token){box.innerHTML=`<div class="card center"><div style="font-size:54px">🏡</div><h2>和好朋友互相串门</h2><p class="muted">请家长先在 <b>家长中心 → 家庭同步</b> 开启同步，再设置好友名片。</p><button class="btn full" id="gp">👨‍👩‍👧 找家长设置</button></div>`;$("#gp").onclick=()=>parentGate(()=>parentCenter("friends"));return}
+ if(!S.fr||!S.fr.kid){box.innerHTML=`<div class="card center"><div style="font-size:54px">🪪</div><h2>还没有好友名片</h2><p class="muted">请家长在 <b>家长中心 → 好友</b> 给你选一个昵称，就能加好朋友啦。</p><button class="btn full" id="gp">👨‍👩‍👧 找家长设置</button></div>`;$("#gp").onclick=()=>parentGate(()=>parentCenter("friends"));return}
+ const p=P(),tot=S.frTot||{likes:0},seen=S.notifSeen||0,ns=(S.notif||[]).filter(n=>n.kind!=="visit").slice().reverse().slice(0,12);
+ box.innerHTML=`<div class="card mecard"><div class="meav">${mini(p.sp,ART(stageIdx(p)),64)}</div><div style="flex:1"><b style="font-size:19px">${esc(nickTxt(S.fr.nick))}</b><br><small class="muted">${lvBadge(S.level)} · 👍 收到 ${tot.likes} 个赞</small></div></div>
+ <div class="card"><h2>🔔 好朋友的点赞和礼物 ${unseenN()?`<span class="newdot">${unseenN()} 新</span>`:""}</h2>${ns.length?`<div class="nlist">${ns.map(n=>`<div class="nrow ${n.id>seen?"new":""}"><span class="nav0">${n.from?mini(n.from.sp,1,34):"❔"}</span><div style="flex:1"><b>${n.from?esc(nickTxt(n.from.nick)):"小伙伴"}</b><br><small class="muted">${n.kind==="like"?"给你点了赞 👍":n.kind==="sticker"?"送你一个贴纸":"送你一份礼物 🎁"}</small></div><span class="nbig">${n.kind==="sticker"?STICKERS[n.sticker]||"🌟":n.kind==="like"?"👍":n.kind==="gift"?"🎁":"👀"}</span></div>`).join("")}</div>`:`<p class="muted">还没有新消息。去好朋友家串门、点个赞吧！</p>`}</div>
+ <div class="card"><h2>🧑‍🤝‍🧑 我的好朋友</h2><div id="frl"><p class="muted">加载中…</p></div><button class="btn gray full" id="addF" style="margin-top:10px">➕ 加好友（需要家长）</button></div>`;
+ $("#addF").onclick=()=>parentGate(()=>parentCenter("friends"));
+ S.notifSeen=Math.max(S.notifSeen||0,...(S.notif||[]).map(n=>n.id),0);save();frBadge();
+ rpc("list_friends",{p_token:st.token,p_child:S.cid}).then(l=>{FRL=l;const el=$("#frl");if(!el)return;
+  el.innerHTML=l.length?l.map(f=>`<div class="frow"><span class="nav0">${mini(f.sp,2,46)}</span><div style="flex:1"><b>${esc(nickTxt(f.nick))}</b><br><small class="muted">${lvBadge(f.level)} · 👍 ${f.likes}</small></div><button class="btn sm" data-v="${f.kid}">🏡 串门</button></div>`).join(""):`<p class="muted">还没有好朋友。请家长交换好友代码，两边家长都同意后就能互相串门啦。</p>`;
+  el.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>visitHome(b.dataset.v))}).catch(e=>{const el=$("#frl");el&&(el.innerHTML=`<p class="muted">${frErr(e)}</p>`)});
+ showGifts()}
+// ---------- visit a friend's home (read-only) ----------
+let VIS=null;
+async function visitHome(kid){screen="visit";scrollTo(0,0);app.innerHTML=`<div class="top"><button class="iconbtn" id="back" aria-label="返回">⬅️</button><h1 style="margin:0">🏡 串门</h1><span style="width:52px"></span></div><div class="card center"><p class="muted">正在敲门… 🚪</p></div>`;back(friendsScreen);
+ let v;try{v=await rpc("visit_friend",{p_token:SYST().token,p_child:S.cid,p_kid:kid})}catch(e){toast(frErr(e),1600);return friendsScreen()}
+ VIS=Object.assign(v,{kid});renderVisit()}
+function renderVisit(){const v=VIS,s=v.snap,pet={sp:s.sp,growth:s.growth,deco:s.deco.filter(d=>ITEMS.some(i=>i.id===d.i))},sp=SP[s.sp]||SP.monkey;
+ app.innerHTML=`<div class="top"><button class="iconbtn" id="back" aria-label="返回">⬅️</button><h1 style="margin:0;font-size:22px">🏡 ${esc(nickTxt(v.nick))}的家</h1><span style="width:52px"></span></div>
+ <div class="visitwrap">${scene(pet,false)}<div class="vtag">${lvBadge(s.level,true)}</div><div class="vlike">👍 ${v.likes}</div><div id="stk"></div></div>
+ <div class="card"><div class="vhead"><b style="font-size:19px">${esc(sp.zh)}</b> <small class="rt rt${sp.r||0}">${["⭐","⭐⭐","⭐⭐⭐","🌈"][sp.r||0]}</small><span class="vmood">💗 心情 Lv.${(s.bond||0)+1}</span></div>
+  <div class="stats"><div class="stat"><b>${s.mastered}</b><small>🏅 已掌握</small></div><div class="stat"><b>${s.learned}</b><small>📚 已学单词</small></div><div class="stat"><b>${s.pets}</b><small>🐾 宠物</small></div><div class="stat"><b>${s.items}</b><small>🎀 装饰</small></div></div></div>
+ <div class="card"><div class="row"><button class="btn ${v.liked_today?"gray":"pink"}" id="lk" style="flex:1" ${v.liked_today?"disabled":""}>${v.liked_today?"✅ 今天已点赞":"👍 点个赞"}</button><button class="btn ${v.gifts_left>0?"green":"gray"}" id="gf" style="flex:1" ${v.gifts_left>0?"":"disabled"}>${v.gifts_left>0?"🎁 送礼物":"🎁 今天送完啦"}</button></div>
+  <p class="muted" style="margin:8px 0 0;font-size:13px;text-align:right">🎁 今天还能给 TA 送 ${Math.max(0,v.gifts_left||0)} 件礼物</p><p class="muted" style="margin:6px 0 4px;font-size:13px">送一个贴纸（每天 3 个，还剩 ${Math.max(0,3-v.stickers_today)} 个）</p><div class="stkrow">${STICKERS.map((e,i)=>`<button class="stkb" data-s="${i}" ${v.stickers_today>=3?"disabled":""}>${e}</button>`).join("")}</div></div>`;
+ back(friendsScreen);const tok=SYST().token;
+ $("#lk").onclick=async()=>{try{const r=await rpc("react",{p_token:tok,p_child:S.cid,p_kid:v.kid,p_kind:"like"});if(r.ok){v.liked_today=true;v.likes++;sfx&&sfx("ok");renderVisit();burstAt($(".vlike"),12,["👍","💖","✨"])}else toast("今天已经点过赞啦",1200)}catch(e){toast(frErr(e),1400)}};
+ app.querySelectorAll("[data-s]").forEach(b=>b.onclick=async()=>{const i=+b.dataset.s;try{const r=await rpc("react",{p_token:tok,p_child:S.cid,p_kid:v.kid,p_kind:"sticker",p_sticker:i});if(r.ok){v.stickers_today++;renderVisit();flySticker(STICKERS[i])}else toast("今天的贴纸送完啦",1200)}catch(e){toast(frErr(e),1400)}});
+ $("#gf").onclick=()=>giftPicker(v)}
+function flySticker(e){const w=$("#stk");if(!w)return;const s=document.createElement("div");s.className="flystk";s.textContent=e;s.style.left=(20+Math.random()*60)+"%";w.appendChild(s);sfx&&sfx("pop");setTimeout(()=>s.remove(),1800)}
+function spareItems(){const placed=new Set((S.pets||[]).flatMap(p=>(p.deco||[]).map(d=>d.i)));return ITEMS.filter(i=>S.inv[i.id]&&!placed.has(i.id)).sort((a,b)=>a.t-b.t)}
+function giftPicker(v){const items=spareItems();
+ const m=modal(`<h2>🎁 送给 ${esc(nickTxt(v.nick))}</h2><p class="muted" style="font-size:13px">选一件没摆在房间里的装饰（每天给每个好朋友最多送 3 件，今天还能送 ${v.gifts_left} 件）</p>${items.length?`<div class="gpick">${items.slice(0,60).map(i=>`<button class="gpi" data-i="${i.id}"><span class="lz" data-id="${i.id}"></span><small>${esc(i.zh)}</small>${tierTag(i.t)}</button>`).join("")}</div>`:`<p>还没有可以送的装饰哦。开盲盒得到的、没摆出来的装饰可以送人。</p>`}<button class="btn gray full" id="gpx" style="margin-top:10px">取消</button>`);
+ lazySVG(m);m.querySelector("#gpx").onclick=()=>m.remove();
+ m.querySelectorAll("[data-i]").forEach(b=>b.onclick=async()=>{const id=b.dataset.i,it=ITEMS.find(x=>x.id===id);if(!confirm(`把「${it.zh}」送给 ${nickTxt(v.nick)}？送出后就不是你的啦。`))return;
+  try{await syncNow();const r=await rpc("send_gift",{p_token:SYST().token,p_child:S.cid,p_kid:v.kid,p_item:id});if(!r.ok){toast(r.err==="daily_limit"?"今天已经给 TA 送了 3 件啦，明天再送吧":frErr(r.err),1600);return}
+   delete S.inv[id];S.giftedOut=S.giftedOut||{};S.giftedOut[id]=r.gifted_at;_invKeys.delete(id);save();m.remove();v.gifts_left=r.gifts_left??Math.max(0,(v.gifts_left||1)-1);renderVisit();toast(`🎁 已送出「${esc(it.zh)}」！<br><small>好朋友下次打开时就能收到</small>`,1800);syncSoon(300)}catch(e){toast(frErr(e),1500)}})}
+// ---------- PARENT SIDE: 🤝 好友 tab ----------
+let FKID=null,FNICK=null;
+async function friendsPanel(){const st=SYST(),pc=$("#pc");
+ if(!syncConfigured()||!st.token){pc.innerHTML=`<div class="card"><h2>🤝 好友</h2><p>好友功能需要先开启 <b>家庭同步</b>。</p><button class="btn full" id="gs">🔄 去开启家庭同步</button></div>`;$("#gs").onclick=()=>parentCenter("sync");return}
+ const kids=allKids();if(!FKID||!kids.some(k=>k.cid===FKID))FKID=S.cid;const k=kids.find(x=>x.cid===FKID);
+ const chips=kids.length>1?`<div class="kidbar">${kids.map(x=>`<button class="kidchip ${x.cid===FKID?"on":""}" data-fk="${x.cid}">${x.cemo} ${esc(x.cname)}</button>`).join("")}</div>`:"";
+ const bindChips=()=>app.querySelectorAll("[data-fk]").forEach(b=>b.onclick=()=>{FKID=b.dataset.fk;FNICK=null;friendsPanel()});
+ if(!k.fr||!k.fr.kid){FNICK=FNICK||randNick();
+  pc.innerHTML=chips+`<div class="card"><h2>🪪 ${k.cemo} ${esc(k.cname)} 的好友名片</h2><p class="muted" style="font-size:13px">好友只会看到下面这个<b>系统昵称</b>（不会显示真实姓名，也不能自由输入文字或聊天）。</p>
+  <div class="nickbig" id="nk">${esc(nickTxt(FNICK))}</div><div class="row"><select id="na" class="sel">${NICK_A.map((t,i)=>`<option value="${i}" ${i===FNICK[0]?"selected":""}>${t}</option>`).join("")}</select><select id="nb" class="sel">${NICK_B.map((t,i)=>`<option value="${i}" ${i===FNICK[1]?"selected":""}>${t}</option>`).join("")}</select><button class="btn gray sm" id="nr">🎲</button></div>
+  <button class="btn full" id="mkp" style="margin-top:12px">✅ 创建好友名片</button></div>`;bindChips();
+  const upd=()=>{FNICK=[+$("#na").value,+$("#nb").value];$("#nk").textContent=nickTxt(FNICK)};$("#na").onchange=upd;$("#nb").onchange=upd;$("#nr").onclick=()=>{FNICK=randNick();friendsPanel()};
+  $("#mkp").onclick=async()=>{$("#mkp").disabled=true;try{markDirty(k.cid);await syncNow();const r=await rpc("kid_profile_setup",{p_token:st.token,p_child:k.cid,p_nick_a:FNICK[0],p_nick_b:FNICK[1]});
+   const d=getKid(k.cid);d.fr={kid:r.kid,nick:r.nick};d.upd=Date.now();setKid(k.cid,d);if(k.cid===S.cid)save();else markDirty(k.cid);FNICK=null;LS.del("wm.snap."+k.cid);syncSoon(200);friendsPanel()}catch(e){$("#mkp").disabled=false;toast(frErr(e),1600)}};return}
+ pc.innerHTML=chips+`<div class="card center" id="fcard"><p class="muted">加载中…</p></div>`;bindChips();
+ let prof,reqs,fl;try{[prof,reqs,fl]=await Promise.all([rpc("kid_profile_get",{p_token:st.token,p_child:k.cid}),rpc("family_friend_requests",{p_token:st.token}),rpc("list_friends",{p_token:st.token,p_child:k.cid})])}catch(e){$("#fcard").innerHTML=`<p>${frErr(e)}</p>`;return}
+ if(!prof){const d=getKid(k.cid);delete d.fr;setKid(k.cid,d);return friendsPanel()}
+ const inc=reqs.incoming.filter(r=>r.child===k.cid),out=reqs.outgoing.filter(r=>r.child===k.cid),blk=reqs.blocked.filter(r=>r.child===k.cid);
+ const card=f=>`<span class="nav0">${mini(f.sp,2,40)}</span><div style="flex:1"><b>${esc(nickTxt(f.nick))}</b><br><small class="muted">${lvBadge(f.level)}</small></div>`;
+ pc.innerHTML=chips+`<div class="card center"><h2>🪪 ${esc(nickTxt(prof.nick))} <small class="muted" style="font-size:13px">（${k.cemo} ${esc(k.cname)}）</small></h2><p class="muted" style="font-size:13px;margin:0">好友代码（只发给认识的家长）</p>
+  <div class="bigcode">${fmtCode(prof.code)}</div><div class="qrwrap">${qrSVG(FR_PREFIX+prof.code,170)}</div>
+  <div class="row" style="justify-content:center"><button class="btn gray sm" id="rg">🔁 换一个代码</button><button class="btn gray sm" id="rn">✏️ 改昵称</button></div></div>
+  ${inc.length?`<div class="card hl"><h2>📨 等你批准（${inc.length}）</h2>${inc.map(r=>`<div class="frow">${card(r.from)}<button class="btn green sm" data-ok="${r.id}">允许</button><button class="btn gray sm" data-no="${r.id}">拒绝</button><button class="btn gray sm" data-bk="${r.from.kid}" title="屏蔽">🚫</button></div>`).join("")}<p class="muted" style="font-size:12px;margin:6px 0 0">对方家长已经同意。你也允许后，两个孩子才会成为好友。</p></div>`:""}
+  <div class="card"><h2>➕ 添加好友</h2><p class="muted" style="font-size:13px">输入对方家长发来的好友代码，或扫描对方的二维码。对方家长也同意后才会成为好友。</p>
+   <div class="row"><input id="fc" class="codeIn" style="flex:1" maxlength="9" placeholder="XXXX-XXXX" autocomplete="off" autocapitalize="characters"><button class="btn" id="fsend">发送</button></div>
+   <button class="btn blue full" id="fscan" style="margin-top:8px">📷 扫二维码</button><div id="cam"></div><p id="fmsg" class="muted" style="min-height:20px;margin:6px 0 0"></p>
+   ${out.length?`<h3 style="margin:8px 0 4px">⏳ 等待对方家长批准</h3>${out.map(r=>`<div class="frow">${card(r.to)}<button class="btn gray sm" data-cx="${r.id}">撤回</button></div>`).join("")}`:""}</div>
+  <div class="card"><h2>🧑‍🤝‍🧑 好友（${fl.length}）</h2>${fl.length?fl.map(f=>`<div class="frow">${card(f)}<button class="btn gray sm" data-rm="${f.kid}">移除</button><button class="btn gray sm" data-bk="${f.kid}" title="屏蔽">🚫</button></div>`).join(""):`<p class="muted">还没有好友。</p>`}
+  ${blk.length?`<h3 style="margin:10px 0 4px">🚫 已屏蔽</h3>${blk.map(b=>`<div class="frow">${card(b.kid)}<button class="btn gray sm" data-ub="${b.kid.kid}">解除</button></div>`).join("")}`:""}
+  <p class="muted" style="font-size:12px;margin:8px 0 0">孩子之间只能串门、点赞、送贴纸和送装饰，没有聊天，不会显示真实姓名。</p></div>`;
+ bindChips();const T=st.token,again=()=>friendsPanel();
+ $("#rg").onclick=async()=>{if(!confirm("换新代码后，旧代码立即失效（已经是好友的不受影响）。"))return;try{await rpc("regen_friend_code",{p_token:T,p_child:k.cid});again()}catch(e){toast(frErr(e),1400)}};
+ $("#rn").onclick=()=>{const m=modal(`<h2>✏️ 改昵称</h2><div class="nickbig" id="nk2">${esc(nickTxt(prof.nick))}</div><div class="row"><select id="na2" class="sel">${NICK_A.map((t,i)=>`<option value="${i}" ${i===prof.nick[0]?"selected":""}>${t}</option>`).join("")}</select><select id="nb2" class="sel">${NICK_B.map((t,i)=>`<option value="${i}" ${i===prof.nick[1]?"selected":""}>${t}</option>`).join("")}</select></div><div class="row" style="margin-top:10px"><button class="btn gray" id="c2" style="flex:1">取消</button><button class="btn" id="o2" style="flex:1">保存</button></div>`);
+  const u=()=>m.querySelector("#nk2").textContent=nickTxt([+m.querySelector("#na2").value,+m.querySelector("#nb2").value]);m.querySelector("#na2").onchange=u;m.querySelector("#nb2").onchange=u;m.querySelector("#c2").onclick=()=>m.remove();
+  m.querySelector("#o2").onclick=async()=>{const n=[+m.querySelector("#na2").value,+m.querySelector("#nb2").value];try{const r=await rpc("kid_profile_setup",{p_token:T,p_child:k.cid,p_nick_a:n[0],p_nick_b:n[1]});const d=getKid(k.cid);d.fr={kid:r.kid,nick:r.nick};d.upd=Date.now();setKid(k.cid,d);if(k.cid===S.cid)save();else markDirty(k.cid);m.remove();again()}catch(e){toast(frErr(e),1400)}}};
+ const send=async code=>{const c=(code||$("#fc").value).toUpperCase().replace(/[^A-Z0-9]/g,"");if(c.length!==8){$("#fmsg").textContent="好友代码是 8 位哦";return}$("#fsend").disabled=true;
+  try{const r=await rpc("friend_request",{p_token:T,p_child:k.cid,p_code:c});
+   $("#fmsg").innerHTML=r.status==="not_found"?"❌ "+frErr("not_found"):r.status==="friends"?`🎉 已成为好友：<b>${esc(nickTxt(r.friend.nick))}</b>`:r.status==="already_friends"?"已经是好友啦":"✅ 已发送，等对方家长批准";
+   if(r.status!=="not_found")setTimeout(again,900)}catch(e){$("#fmsg").textContent="❌ "+frErr(e)}finally{const b=$("#fsend");b&&(b.disabled=false)}};
+ $("#fsend").onclick=()=>send();$("#fc").onkeydown=e=>{if(e.key==="Enter")send()};$("#fscan").onclick=()=>scanFriendQR(send);
+ const act=(sel,fn)=>app.querySelectorAll(sel).forEach(b=>b.onclick=async()=>{b.disabled=true;try{await fn(b)}catch(e){toast(frErr(e),1400)}again()});
+ act("[data-ok]",b=>rpc("answer_friend_request",{p_token:T,p_request:b.dataset.ok,p_ok:true}).then(()=>toast("🎉 已成为好友",1000)));
+ act("[data-no]",b=>rpc("answer_friend_request",{p_token:T,p_request:b.dataset.no,p_ok:false}));
+ act("[data-cx]",b=>rpc("cancel_friend_request",{p_token:T,p_request:b.dataset.cx}));
+ act("[data-ub]",b=>rpc("unblock_kid",{p_token:T,p_child:k.cid,p_kid:b.dataset.ub}));
+ app.querySelectorAll("[data-rm]").forEach(b=>b.onclick=async()=>{if(!confirm("移除这个好友？之后需要重新加。"))return;try{await rpc("remove_friend",{p_token:T,p_child:k.cid,p_kid:b.dataset.rm})}catch(e){toast(frErr(e),1400)}again()});
+ app.querySelectorAll("[data-bk]").forEach(b=>b.onclick=async()=>{if(!confirm("屏蔽后对方不能再加这个孩子为好友，也不能来串门。"))return;try{await rpc("block_kid",{p_token:T,p_child:k.cid,p_kid:b.dataset.bk})}catch(e){toast(frErr(e),1400)}again()})}
+async function scanFriendQR(cb){const cam=$("#cam");if(!("BarcodeDetector" in window)||!navigator.mediaDevices){toast("这个浏览器不支持扫码，请输入代码",1600);return}
+ try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});cam.innerHTML=`<video id="vid" playsinline autoplay muted style="width:100%;border-radius:14px;margin-top:8px"></video>`;const v=$("#vid");v.srcObject=stream;const det=new BarcodeDetector({formats:["qr_code"]});
+  const stop=()=>stream.getTracks().forEach(t=>t.stop());const loop=async()=>{if(!document.body.contains(v))return stop();try{const c=await det.detect(v);const hit=c.find(x=>x.rawValue&&x.rawValue.startsWith(FR_PREFIX));if(hit){stop();cam.innerHTML="";const code=hit.rawValue.slice(FR_PREFIX.length);$("#fc").value=fmtCode(code);return cb(code)}}catch(e){}requestAnimationFrame(loop)};loop()}
+ catch(e){toast("无法打开相机，请输入代码",1500)}}
+setTimeout(frBadge,300);
 
 document.body.insertAdjacentHTML("afterbegin",itemDefs());
 render();

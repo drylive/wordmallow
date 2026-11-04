@@ -1,5 +1,5 @@
 /* Wordmallow (词团子) service worker. Bump CACHE when shipping a new version. */
-const CACHE = 'spi-v5';
+const CACHE = 'spi-v6';
 const PRECACHE = [
   './',
   './index.html',
