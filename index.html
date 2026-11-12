@@ -312,7 +312,7 @@ body{min-height:100vh;min-height:100dvh}
 .mcard .mf{word-break:break-word}
 .wcard{padding-top:10px}.syl{background:#fff3c4;border-radius:14px;padding:6px 12px;font-weight:900;font-size:18px;color:#7a5a00;box-shadow:0 3px 0 #e8c86a;min-height:44px}
 .ipa{color:#8a7a9a;font-size:16px}.ps{color:#3fa3f5;font-weight:800}
-.zhHint{display:block;margin:8px auto 0;background:#f6f0fb;border-radius:14px;padding:8px 14px;font-weight:800;color:#8a7a9a;min-height:44px}.zhHint.on{color:#7c57cf;background:#efe6ff}
+.zhHint{display:block;margin:8px auto 0;background:#f6f0fb;border-radius:14px;padding:8px 14px;font-weight:800;color:#8a7a9a;min-height:44px}.idkRow{display:flex;justify-content:center;margin-top:12px}.idkBtn{font-size:16px;min-height:44px;min-width:140px}.zhShow{margin:8px 0 0;font-weight:800;color:#7c57cf;text-align:center}.zhHint.on{color:#7c57cf;background:#efe6ff}
 .extra{margin-top:10px;background:#f6fbff;border-radius:16px;padding:10px 12px;font-size:15px;line-height:1.7}
 .spd{background:#e8f6ff;border-radius:14px;padding:6px 12px;font-weight:900;font-size:15px;color:#2a7fc8;min-height:40px}
 .web{position:relative;height:260px;width:300px;max-width:100%;margin:0 auto}
@@ -802,14 +802,26 @@ function petIntro(w){CMP.word=w;petAct(animFor(w));petSay(L_("intro",{w:esc(w.w)
 function petLean(btn){const el=$("#cmpP");if(!el||!btn)return;const r=btn.getBoundingClientRect(),q=el.getBoundingClientRect();const dx=(r.left+r.width/2)-(q.left+q.width/2);
  el.style.setProperty("--lean",Math.max(-14,Math.min(14,dx/18))+"deg");el.classList.add("lean");setTimeout(()=>el.classList.remove("lean"),700)}
 function petRight(src){petAct(GAME&&GAME.combo>=3?"combo":pick1(["cheer","dance","eat"]));petSay(L_("right"),1400);orbTo(src)}
-function petWrong(w){petAct("hint");const first=w?(w.sy.split("·")[0]):"";petSay(L_("wrong")+(w?`<br><small>💡 提示：以 <b>${esc(w.w[0])}</b> 开头 · “${esc(first)}…”</small>`:""),2600);if(w)setTimeout(()=>say(first,"x"),300)}
+function petWrong(w){petAct("sad");petSay(L_("wrong"),2000)}
 function orbTo(src){const el=$("#cmpP");if(!el)return;const s=src?src.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0},t=el.getBoundingClientRect();
  const o=document.createElement("div");o.className="orb";o.textContent="⚡";o.style.left=(s.left+s.width/2-16)+"px";o.style.top=(s.top+s.height/2-16)+"px";document.body.appendChild(o);
  requestAnimationFrame(()=>requestAnimationFrame(()=>{o.style.left=(t.left+t.width/2-16)+"px";o.style.top=(t.top+t.height*.45)+"px";o.style.transform="scale(.5)"}));setTimeout(()=>{o.remove();sfx("eat")},650)}
 function moodAdd(n){CMP.mood+=n;const p=P();let up=false;if(CMP.mood>=100){CMP.mood-=100;p.bond++;up=true;save()}const i=$("#moodI");if(i)i.style.width=Math.min(100,CMP.mood)+"%";
  if(up){const m=$("#cmp");m&&m.querySelector(".mood span")&&(m.querySelector(".mood span").textContent="💗 Lv."+(p.bond+1));petAct("lvup");petSay("🌟 "+L_("lvup"),2200);sfx("fan");burstAt($("#cmpP"),16,["🌟","💖","✨","🎉"]);toast(`🌟 ${esc(p.name)} 心情升级！💗 Lv.${p.bond+1}`,1500)}}
-function bindCompanion(){const el=$("#cmpP");if(!el)return;el.onclick=()=>{const w=CMP.word;if(w){say(w.w,"x");petAct(animFor(w));petSay(`🔊 ${esc(w.w)} <small>(${esc(w.sy)})</small>`,1800)}else{petAct(pick1(["spin","jump","dance"]));petSay(L_("tap"),1200)}}}
-
+function cheerPet(){petAct(pick1(["spin","jump","dance","cheer"]));petSay(pick1([L_("tap"),"加油，你可以的！","慢慢想，我陪着你~","再试试看！"]),1400)}
+let REVEAL=false,QSTART=0,FASTN=0;
+function isCardStep(){return !!REVEAL||(screen==="learn"&&L&&L.steps[L.i]&&L.steps[L.i].t==="card")}
+function isQuizStep(){return !REVEAL&&(screen==="exam"||screen==="place"||screen==="challenge"||(screen==="learn"&&L&&L.steps[L.i]&&L.steps[L.i].t==="q"))}
+function markQStart(){QSTART=Date.now()}
+function tooFast(){return QSTART&&Date.now()-QSTART<700}
+function noteFast(ok){if(ok&&tooFast()){FASTN++;if(FASTN>=3){toast("慢慢看清楚再选哦",1600);petSay("慢慢看清楚再选哦",1800);FASTN=0}return true}FASTN=0;return false}
+function mountIdk(el,giveUp){markQStart();if(!el||el.querySelector("#idkB"))return;
+ const row=document.createElement("div");row.className="idkRow";row.innerHTML='<button class="btn gray idkBtn" id="idkB" type="button">🤷 不会</button>';el.appendChild(row);
+ row.querySelector("#idkB").onclick=e=>{e.stopPropagation();giveUp&&giveUp()}}
+function bindCompanion(){const el=$("#cmpP");if(!el)return;el.onclick=()=>{
+ if(isCardStep()&&CMP.word){say(CMP.word.w,"x");petAct(animFor(CMP.word));petSay(`🔊 ${esc(CMP.word.w)} <small>(${esc(CMP.word.sy)}</small>`,1800);return}
+ if(isQuizStep()){cheerPet();return}
+ petAct(pick1(["spin","jump","dance"]));petSay(L_("tap"),1200)}}
 // ================= MINI-GAMES / QUESTION ENGINE =================
 let GAME=null; // current session context {combo}
 function distract(w,n,f){const same=w.pic;let pool=LVW[w.lv].filter(x=>x!==w&&(!f||f(x)));let a=pool.filter(x=>x.u===w.u),b=pool.filter(x=>x.u!==w.u);
@@ -825,7 +837,8 @@ function runQ(el,q,cb){
  const right=src=>{if(locked)return;locked=true;sfx("ok");if(src)burstAt(src,8);if(!q.quiet)petRight(src);cb.done(first,q)};
  const wrong=(b)=>{if(locked)return;first=false;sfx("no");if(b){b.classList.add("bad");setTimeout(()=>b.classList.add("done"),350)}
   if(once){locked=true;setTimeout(()=>cb.done(false,q),700);if(!q.quiet)petWrong(null);return}petWrong(w);cb.miss&&cb.miss(q)};
- const g=q.g;CMP.word=w;
+ const giveUp=()=>{if(locked)return;locked=true;first=false;q.quit=true;sfx("no");if(once){cb.done(false,q);return}cb.miss&&cb.miss(q);cb.done(false,q)};
+ const g=q.g;CMP.word=null;
  if(g==="hear"||g==="see"||g==="mean"||g==="cloze"||g==="read"){
   const n=nOpts(w),ds=distract(w,n-1,g==="read"?(x=>x.s.length<90):null),opts=shuffle([w,...ds]);let top="",render;
   
@@ -836,10 +849,11 @@ function runQ(el,q,cb){
   if(g==="cloze"){top=head(GNAME.cloze,"选词填空")+`<div class="sent" id="sp2">${blankS(w)}</div>`;const fm=o=>o===w?clozeAnswer(w):o.w;render=o=>({h:esc(fm(o)),cls:"txt"});}
   if(g==="read"){top=head(GNAME.read,"读一读：哪句话和"+(w.pic?"图片":"意思")+"相符？")+(w.pic?`<div class="bigPic mid">${w.e}</div>`:`<div class="zhBig">${esc(w.zh)}</div>`);
    el.innerHTML=top+`<div class="sopts">${opts.map((o,i)=>`<button class="opt txt sopt" data-o="${i}">${esc(o.s)}</button>`).join("")}</div>`;
-   el.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>pk(opts[+b.dataset.o],b)});return}
+   el.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>pk(opts[+b.dataset.o],b)});mountIdk(el,giveUp);return}
   const G=optGrid(opts,render,pk);el.innerHTML=top+G.html;G.bind(el);
   const sp=el.querySelector("#sp");if(sp){sp.onclick=()=>say(w.w);}
   if(g==="hear")setTimeout(()=>say(w.w),250);
+  mountIdk(el,giveUp);
   return}
  if(g==="spell"||g==="sb"){
   const isS=g==="sb";const target=isS?w.s.replace(/[.!?]$/,"").split(/\s+/):w.w.split("");
@@ -859,27 +873,27 @@ function runQ(el,q,cb){
   const put=k=>{if(locked||ans.includes(k)||ans.length>=target.length)return;ans.push(k);sfx("tick");draw()};
   el.querySelectorAll("#pool [data-k]").forEach(b=>dragTap(b,()=>put(+b.dataset.k),ansEl));
   el.querySelector("#clr").onclick=()=>{ans=[];draw()};
-  el.querySelector("#sp").onclick=()=>isS?say(w.s,"s"):say(w.w);setTimeout(()=>isS?say(w.s,"s"):say(w.w),250);draw();return}
+  el.querySelector("#sp").onclick=()=>isS?say(w.s,"s"):say(w.w);setTimeout(()=>isS?say(w.s,"s"):say(w.w),250);draw();mountIdk(el,giveUp);return}
  if(g==="bub"){
   const ds=distract(w,3,null),opts=shuffle([w,...ds]);const T=Math.max(7,12-w.lv*.4);
   el.innerHTML=head(GNAME.bub,"听到哪个就戳哪个泡泡！")+`<button class="speak sm" id="sp">🔊</button><div class="tbar"><i id="tb"></i></div><div class="bubbles" id="bb">${opts.map((o,i)=>`<button class="bub" data-o="${i}" style="left:${8+i*22}%;animation-delay:${-i*1.3}s;animation-duration:${5+i%2*1.5}s">${esc(o.w)}</button>`).join("")}</div>`;
   const tb=el.querySelector("#tb");tb.style.transition=`width ${T}s linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>tb.style.width="0%"));
-  const to=setTimeout(()=>{if(locked)return;petSay("⏰ Time! 没关系~",1200);first=false;if(once){locked=true;cb.done(false,q)}else{tb.style.transition="none";tb.style.width="100%";say(w.w)}},T*1000);
+  const to=setTimeout(()=>{if(locked)return;petSay("⏰ Time! 没关系~",1200);first=false;if(once){locked=true;cb.done(false,q)}else{tb.style.transition="none";tb.style.width="100%"}},T*1000);
   el.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>{const o=opts[+b.dataset.o];sfx("pop");if(o===w){clearTimeout(to);b.classList.add("popped");burstAt(b,10,["🫧","✨","💦"]);right(b)}else{b.classList.add("wob");setTimeout(()=>b.classList.remove("wob"),400);wrong(null)}}});
-  el.querySelector("#sp").onclick=()=>say(w.w);setTimeout(()=>say(w.w),300);return}
+  el.querySelector("#sp").onclick=()=>say(w.w);setTimeout(()=>say(w.w),300);mountIdk(el,giveUp);return}
  if(g==="mem"){
   const set=(q.ws||[w]).slice(0,4);const cards=shuffle(set.flatMap(x=>[{x,f:"w"},{x,f:"p"}]));let open=[],matched=0,miss=0;
   el.innerHTML=head(GNAME.mem,"翻开两张，单词配"+(set.every(x=>x.pic)?"图片":"意思"))+`<div class="mgrid">${cards.map((c,i)=>`<button class="mcard" data-c="${i}"><span class="mb">❓</span><span class="mf${c.f==="p"&&c.x.pic?" emo":""}">${c.f==="w"?esc(c.x.w):(c.x.pic?c.x.e:`<small>${esc(c.x.zh)}</small>`)}</span></button>`).join("")}</div>`;
   el.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{const c=cards[+b.dataset.c];if(locked||b.classList.contains("up")||open.length>=2)return;b.classList.add("up");sfx("flip");if(c.f==="w")say(c.x.w);open.push([b,c]);
    if(open.length===2){const [[b1,c1],[b2,c2]]=open;if(c1.x===c2.x){matched++;setTimeout(()=>{b1.classList.add("got");b2.classList.add("got");sfx("ok");burstAt(b2,6);open=[];if(matched===set.length){locked=true;petRight(b2);cb.done(miss<=set.length,q)}},300)}
-    else{miss++;setTimeout(()=>{b1.classList.remove("up");b2.classList.remove("up");open=[];petAct("think")},800)}}});return}
+    else{miss++;setTimeout(()=>{b1.classList.remove("up");b2.classList.remove("up");open=[];petAct("think")},800)}}});mountIdk(el,giveUp);return}
  if(g==="teach"){
   const spellIt=w.w.length<=6&&w.lv>=2&&Math.random()<.5;
   el.innerHTML=head(GNAME.teach,"宠物想学这个词，教教它吧！")+`<div class="teachQ">${w.pic?`<div class="bigPic mid">${w.e}</div>`:`<div class="zhBig">${esc(w.zh)}</div>`}</div><div id="tq"></div>`;
   setTimeout(()=>{petAct("think");petSay("🤔 "+L_("ask"),2600)},100);
   const sub=Object.assign({},q,{g:spellIt?"spell":"see",quiet:true});
   const inner=el.querySelector("#tq");
-  runQ(inner,sub,{done:(c,qq)=>{petAct("dance");petSay("📝 "+L_("thanks",{w:esc(w.w)}),2600);say(w.w);const p=P();p.taught=(p.taught||0)+1;save();orbTo(inner);setTimeout(()=>cb.done(c,q),1300)},miss:cb.miss});
+  runQ(inner,sub,{done:(c,qq)=>{if(c){petAct("dance");petSay("📝 "+L_("thanks",{w:esc(w.w)}),2600);say(w.w);const p=P();p.taught=(p.taught||0)+1;save();orbTo(inner);setTimeout(()=>cb.done(c,q),1300)}else cb.done(c,q)},miss:cb.miss});
   if(!spellIt){const h=inner.querySelector(".gtitle");h&&h.remove();inner.querySelector(".bigPic,.zhBig")&&inner.querySelector(".bigPic,.zhBig").remove();const s=inner.querySelector("p.muted");s&&s.remove()}
   return}
 }
@@ -915,16 +929,16 @@ function startLearn(opt){opt=opt||{};newRound();
  if(news.length&&news.length%3!==0){const last=news[news.length-1];steps.push({t:"q",w:last,g:pickGame(last)});if(news.length>=2)steps.push({t:"web",w:last})}
  revs.forEach((w,i)=>steps.push({t:"q",w,g:i===0&&!opt.words?"teach":pickGame(w),rev:1}));
  if(opt.mystery)steps.push({t:"q",w:opt.mystery,g:"spell"});
- L={steps,i:0,news,revs,done:new Set(),first:{},correct:0,energy:0,opt,combo:0,best:0,learned:[]};GAME=L;CMP.mood=0;
+ L={steps,i:0,news,revs,done:new Set(),first:{},correct:0,energy:0,opt,combo:0,best:0,learned:[],firstN:0,firstOk:0,fastN:0,attempts:{}};GAME=L;CMP.mood=0;
  screen="learn";say(opt.mystery?"Mystery word!":"Let's learn!","c");renderLearn()}
 function learnTop(){const s=L.steps;return `<div class="top">${BACK}<div class="prog">${s.map((_,i)=>`<i class="${i<L.i?"on":""}"></i>`).join("")}</div><div class="chip" id="cb">${L.combo>=2?"🔥x"+L.combo:"⚡"+S.energy}</div></div>`}
 function renderLearn(){
- if(!L)return home();if(L.i>=L.steps.length)return learnDone();scrollTo(0,0);
+ REVEAL=false;if(!L)return home();if(L.i>=L.steps.length)return learnDone();scrollTo(0,0);
  const st=L.steps[L.i],w=st.w;
  if(st.t==="card")return renderCard(w);
  if(st.t==="web")return renderWeb(w);
  app.innerHTML=learnTop()+`<div class="gwrap" id="q"></div>`+companion();back(()=>{L=null;home()});bindCompanion();
- runQ($("#q"),Object.assign({},st),{done:(c)=>learnAnswer(st,c),miss:()=>{L.combo=0;const cb=$("#cb");cb&&(cb.textContent="⚡"+S.energy)}})}
+ runQ($("#q"),Object.assign({},st),{done:(c,q)=>learnAnswer(st,c,q),miss:()=>{L.combo=0;const cb=$("#cb");cb&&(cb.textContent="⚡"+S.energy)}})}
 function renderCard(w){
  app.innerHTML=learnTop()+`<div class="card wcard">
   <div class="row" style="justify-content:space-between"><span class="pill">${lvBadge(w.lv)} ${esc(UNITS[w.u].zh)}</span>${speedBtn()}</div>
@@ -952,25 +966,53 @@ function renderWeb(w){
  back(()=>{L=null;home()});bindCompanion();
  app.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>{say(b.dataset.w);b.classList.add("pop");setTimeout(()=>b.classList.remove("pop"),500)});
  $("#nx").onclick=()=>{L.i++;renderLearn()};setTimeout(()=>{petAct("look");petSay("Words are friends! 单词也有好朋友~",2000)},200)}
-function learnAnswer(st,c){
- const w=st.w,s=ws(w),now=Date.now();
+function requeueWrong(words,avoidG){const later=L.steps.slice(L.i+1);let pos=Math.min(L.steps.length,L.i+2),off=0;
+ words.forEach(w=>{if(later.some(s=>s.retry&&s.w===w&&s.t==="q"))return;
+  L.steps.splice(pos+off,0,{t:"card",w,retry:1},{t:"q",w,g:w.pic?"see":"mean",retry:1,rev:1});off+=2})}
+function showReveal(words,then){words=[].concat(words).filter(Boolean);if(!words.length)return then();
+ REVEAL=true;const w=words[0];CMP.word=w;scrollTo(0,0);
+ app.innerHTML=learnTop()+`<div class="card wcard"><span class="pill">📖 答案揭晓</span>
+  <div class="bigPic ${w.pic?"":"abs"}" id="pic">${w.e}</div>
+  <div class="word" id="wd">${esc(w.w)}</div>
+  <div class="center"><button class="syl" id="syl">🧩 ${esc(w.sy)}</button> <span class="ipa">/${esc(w.ipa)}/</span> <span class="ps">${esc(w.ps)}.</span></div>
+  <div class="row" style="justify-content:center;margin:8px 0"><button class="speak sm" id="sw">🔊</button><button class="btn blue" id="ss" style="font-size:16px;min-height:48px">🔊 听句子</button></div>
+  <div class="sent">${hl(w)}</div>
+  <p class="zhShow">💡 ${esc(w.zh)}</p>
+  ${words.length>1?`<div class="extra">${words.slice(1).map(x=>`<button class="wchip" data-s="${esc(x.w)}">${x.pic?x.e:""} ${esc(x.w)} <small>${esc(x.zh)}</small></button>`).join("")}</div>`:""}
+ </div><button class="btn full" id="nx">继续 ▶</button>`+companion();
+ back(()=>{REVEAL=false;L=null;home()});bindCompanion();
+ $("#sw").onclick=()=>say(w.w);$("#ss").onclick=()=>say(w.s,"s");$("#syl").onclick=()=>saySyll(w);
+ $("#pic").onclick=()=>{say(w.w);petAct(animFor(w))};
+ app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>say(b.dataset.s));
+ $("#nx").onclick=()=>{REVEAL=false;then()};
+ setTimeout(()=>{petAct("look");petSay("这次记住啦！再遇到就能答对~",2000);say(w.w)},200)}
+function learnAnswer(st,c,q){
+ const w=st.w,now=Date.now();
  const words=st.g==="mem"?st.ws:[w];
- if(c){L.combo++;L.best=Math.max(L.best,L.combo);L.correct++;S.totalCorrect++;todayLog().correct++}else{L.combo=0;S.totalWrong++;todayLog().wrong++}
- words.forEach(x=>{recordAns(x,c);const s=ws(x);if(c){s.ok++;s.b=Math.min(INTERVALS.length-1,s.b+1)}else{s.m++;s.b=0}s.d=now+INTERVALS[s.b];
+ const fast=c&&tooFast();
+ if(fast){if(noteFast(true)){} }else{FASTN=0}
+ if(!st.retry&&!fast){words.forEach(x=>{if(L.attempts[x.w]!=null)return;L.attempts[x.w]=c?1:0;L.firstN=(L.firstN||0)+1;if(c)L.firstOk=(L.firstOk||0)+1})}
+ if(c&&!fast){L.combo++;L.best=Math.max(L.best,L.combo);L.correct++;S.totalCorrect++;todayLog().correct++}else if(!c){L.combo=0;S.totalWrong++;todayLog().wrong++}
+ words.forEach(x=>{if(c&&fast)return;recordAns(x,c);const s=ws(x);if(c){s.ok++;s.b=Math.min(INTERVALS.length-1,s.b+1)}else{s.m++;s.b=0}s.d=now+INTERVALS[s.b];
   if(!s.k){s.k=1;s.b=Math.max(1,s.b);s.d=now+INTERVALS[s.b];L.learned.push(x);S.energy+=ENERGY_NEW;L.energy+=ENERGY_NEW;todayLog().learned++}else if(st.rev){S.energy+=ENERGY_REV;L.energy+=ENERGY_REV}
   logAdd(c?"ok":"bad",x.w,true)});
  logAdd("units",UNITS[w.u].id,true);
  if(L.combo>0&&L.combo%3===0){const b=2+L.combo/3;S.energy+=b;L.energy+=b;sfx("combo");toast(`🔥 连击 x${L.combo}！+${b}⚡`,900);petAct("combo")}
  moodAdd(c?22:8);eggMilestones();save();
- setTimeout(()=>{L.i++;renderLearn()},c?900:1100)}
+ const go=()=>{L.i++;renderLearn()};
+ const quit=q&&q.quit||(!c&&st.g==="mem");
+ if(quit){requeueWrong(words,st.g);showReveal(words,go);return}
+ setTimeout(go,c?900:1100)}
 function learnDone(){
  const ses=L;L=null;GAME=null;const p=P();const n=ses.learned.length;
  const fav=ses.learned.filter(x=>x.pic)[0]||ses.learned[0]||ses.revs[0];
  if(ses.opt.mystery&&!S.mystery[dk()]){S.mystery[dk()]=1;S.energy+=15}
  S.sessions=(S.sessions||0)+1;eggMilestones();
  if(ses.opt.examReview){examState(ses.opt.examReview).lock=[]}
- const treats=Math.max(1,Math.ceil(ses.correct/2));S.treats=(S.treats||0)+treats;S.boxes.n++;
- const allLv=LVW[S.level].every(isKnown);save();
+ const treats=Math.max(1,Math.ceil(ses.correct/2));S.treats=(S.treats||0)+treats;
+ const firstN=ses.firstN||0,firstOk=ses.firstOk||0,rate=firstN?Math.round(firstOk/firstN*100):100,giveBox=rate>=80;
+ if(giveBox)S.boxes.n++;
+ const allLv=LVW[S.level].every(isKnown);ses.rate=rate;ses.giveBox=giveBox;save();
  const line=n?L_("sum",{n,f:fav?`${esc(fav.w)} ${fav.pic?fav.e:""}`:""}):"Great review! 复习完成!";
  screen="done";scrollTo(0,0);
  app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">🎉 学完一组！</h1><span style="width:52px"></span></div>
@@ -979,29 +1021,29 @@ function learnDone(){
   <div class="stats" style="margin-top:10px"><div class="stat"><b>${n}</b><small>📗 新学单词</small></div><div class="stat"><b>${ses.revs.length}</b><small>🔁 复习单词</small></div><div class="stat"><b>+${ses.energy}⚡</b><small>能量</small></div><div class="stat"><b>🔥${ses.best}</b><small>最高连击</small></div></div>
   ${n?`<p>${ses.learned.map(x=>`<button class="wchip" data-s="${esc(x.w)}">${x.pic?x.e:""} ${esc(x.w)}</button>`).join("")}</p>`:""}
   <h3>🍪 喂零食（点一下喂宠物）</h3><div class="treats" id="tr">${"<button class='treat'>🍪</button>".repeat(Math.min(S.treats,12))}</div><p class="muted" id="trn">零食 ${S.treats} 个 · 每个 +10 成长</p></div>
- <div class="card center boxcard"><div style="font-size:64px" class="shake">🎁</div><b>获得 1 个 神秘盒子！</b><p class="muted">盒子里有 1 件随机装饰 · 你有 ${S.boxes.n+S.boxes.g} 个</p>
-  <button class="btn orange full" id="ob">🎁 现在打开</button></div>
+ ${ses.giveBox?`<div class="card center boxcard"><div style="font-size:64px" class="shake">🎁</div><b>获得 1 个 神秘盒子！</b><p class="muted">盒子里有 1 件随机装饰 · 你有 ${S.boxes.n+S.boxes.g} 个</p>
+  <button class="btn orange full" id="ob">🎁 现在打开</button></div>`:`<div class="card center"><div style="font-size:56px">🤗</div><p>第一次答对 <b>${ses.rate}%</b>，达到 80% 就能拿盒子，再学一组试试！</p></div>`}
  <div class="row"><button class="btn green full" id="again">📚 再学一组</button><button class="btn blue full" id="hm">🏠 回家</button></div>
  ${allLv?`<p class="center"><b>⭐${S.level} 的单词都学完啦！去参加考级吧 🎓</b></p>`:""}`;
- back(home);setTimeout(()=>{say(line.replace(/<[^>]+>/g,"").replace(/[^\x00-\x7F]+/g," "),"c")},300);
+ back(home);setTimeout(()=>{say(line.replace(/<[^>]+>/g,"").replace(/[^\x00-\x7F]+/g," "),"c");if(!ses.giveBox)toast("第一次答对 "+ses.rate+"%，达到 80% 就能拿盒子，再学一组试试！",2600)},300);
  app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>say(b.dataset.s));
  app.querySelectorAll(".treat").forEach(b=>b.onclick=()=>{if(S.treats<=0)return;const before=stageIdx(p);S.treats--;p.growth+=10;save();sfx("eat");b.classList.add("eaten");burstAt($("#pet"),6,["😋","💖","✨"]);bounce();$("#trn").textContent=`零食 ${S.treats} 个 · 每个 +10 成长`;const af=stageIdx(p);if(af>before){logLv(S.pets.indexOf(p),af-before);toast(`🎉 进化啦！${STAGES[af].name}`,1600);if(af===MAXST&&!p.maxed)setTimeout(()=>maxCelebrate(p),900)}});
- $("#ob").onclick=()=>openBox("n",()=>home());$("#again").onclick=()=>startLearn();$("#hm").onclick=home;
+ if($("#ob"))$("#ob").onclick=()=>openBox("n",()=>home());$("#again").onclick=()=>startLearn();$("#hm").onclick=home;
 }
 // ---------- unit challenge (3 hearts) ----------
 let C=null;
 function startChallenge(ui){const u=UNITS[ui];const known=u.words.filter(isKnown);if(known.length<Math.ceil(u.n*UNLOCK_PCT))return toast("先多学几个单词再来挑战吧",1200);newRound();
  const n=6+Math.floor(u.lv/2);const qs=[];for(let i=0;i<n;i++){const w=pick1(known);qs.push(i===3&&known.length>=3?{g:"mem",w,ws:pick(known,3)}:{g:pickGame(w),w})}
- C={u,qs,i:0,hearts:3};GAME={combo:0};CMP.mood=0;screen="challenge";say("Challenge time!","c");renderChallenge()}
+ C={u,qs,i:0,hearts:3,firstN:0,firstOk:0,fastN:0};GAME={combo:0};CMP.mood=0;screen="challenge";say("Challenge time!","c");renderChallenge()}
 function renderChallenge(){if(!C)return home();scrollTo(0,0);const q=C.qs[C.i];
  app.innerHTML=`<div class="top">${BACK}<div class="chip">🏆 ${C.i+1}/${C.qs.length}</div><div class="hearts">${"❤️".repeat(C.hearts)}${"🤍".repeat(3-C.hearts)}</div></div><div class="gwrap" id="q"></div>`+companion();
  back(()=>{C=null;home()});bindCompanion();
- runQ($("#q"),Object.assign({},q),{done:c=>{(q.ws||[q.w]).forEach(x=>recordAns(x,c));eggMilestones();save();if(c)GAME.combo++;else GAME.combo=0;moodAdd(c?20:6);setTimeout(()=>{C.i++;C.i<C.qs.length?renderChallenge():chWin()},800)},
-  miss:()=>{C.hearts--;const h=app.querySelector(".hearts");if(h)h.innerHTML="❤️".repeat(Math.max(0,C.hearts))+"🤍".repeat(3-Math.max(0,C.hearts));if(C.hearts<=0)setTimeout(chFail,700)}})}
+ runQ($("#q"),Object.assign({},q),{done:c=>{if(!C||C.hearts<=0)return;const fast=c&&tooFast();if(fast)noteFast(true);else FASTN=0;if(!fast){C.firstN++;if(c)C.firstOk++}(q.ws||[q.w]).forEach(x=>{if(!(c&&fast))recordAns(x,c)});eggMilestones();save();if(c&&!fast)GAME.combo++;else if(!c)GAME.combo=0;moodAdd(c?20:6);setTimeout(()=>{if(!C||C.hearts<=0)return;C.i++;C.i<C.qs.length?renderChallenge():chWin()},800)},
+  miss:()=>{if(!C)return;C.hearts--;const h=app.querySelector(".hearts");if(h)h.innerHTML="❤️".repeat(Math.max(0,C.hearts))+"🤍".repeat(3-Math.max(0,C.hearts));if(C.hearts<=0)setTimeout(chFail,700)}})}
 function chFail(){if(!C)return;const u=C.u;C=null;app.innerHTML=`<div class="card center"><div style="font-size:70px">💪</div><h1>差一点点！</h1><p>复习一下 ${esc(u.zh)} 的单词，再来挑战吧</p></div><button class="btn green full" id="r">🔁 再试一次</button><div style="height:10px"></div><button class="btn blue full" id="h">🏠 回家</button>`;$("#r").onclick=()=>startChallenge(u.i);$("#h").onclick=home}
-function chWin(){const u=C.u;C=null;S.challenges[u.id]=(S.challenges[u.id]||0)+1;S.energy+=30;S.boxes.n++;logAdd("ch",u.id);save();sfx("fan");
- app.innerHTML=`<div class="card center"><div style="font-size:70px">🏆</div><h1>挑战成功！</h1><p>${esc(u.zh)} · +30⚡ · 🎁 神秘盒子 +1</p></div><button class="btn orange full" id="ob">🎁 打开盒子</button><div style="height:10px"></div><button class="btn blue full" id="h">🏠 回家</button>`;
- burst(innerWidth/2,200,20,["🎉","⭐","🏆","✨"]);$("#ob").onclick=()=>openBox("n",home);$("#h").onclick=home}
+function chWin(){const u=C.u,firstN=C.firstN||0,firstOk=C.firstOk||0,rate=firstN?Math.round(firstOk/firstN*100):100,giveBox=rate>=80;C=null;S.challenges[u.id]=(S.challenges[u.id]||0)+1;S.energy+=30;if(giveBox)S.boxes.n++;logAdd("ch",u.id);save();sfx("fan");
+ app.innerHTML=`<div class="card center"><div style="font-size:70px">🏆</div><h1>挑战成功！</h1><p>${esc(u.zh)} · +30⚡${giveBox?" · 🎁 神秘盒子 +1":""}</p>${giveBox?"":`<p>第一次答对 <b>${rate}%</b>，达到 80% 就能拿盒子，再挑战一次试试！</p>`}</div>${giveBox?`<button class="btn orange full" id="ob">🎁 打开盒子</button><div style="height:10px"></div>`:""}<button class="btn blue full" id="h">🏠 回家</button>`;
+ burst(innerWidth/2,200,20,["🎉","⭐","🏆","✨"]);if($("#ob"))$("#ob").onclick=()=>openBox("n",home);$("#h").onclick=home}
 
 // ================= LEVEL EXAM (gate to next ⭐) =================
 let EX=null;
@@ -1016,7 +1058,7 @@ function startExam(){const lv=S.level;if(!examReady(lv))return toast(`学会 ${M
 function renderExam(){if(!EX)return home();scrollTo(0,0);const q=EX.qs[EX.i];
  app.innerHTML=`<div class="top">${BACK}<div class="chip">🎓 ${lvBadge(EX.lv)} 考级 ${EX.i+1}/${EX.qs.length}</div><div class="chip">✅ ${EX.score}</div></div><div class="tbar slim"><i style="width:${EX.i/EX.qs.length*100}%;transition:none"></i></div><div class="gwrap" id="q"></div>`+companion();
  back(()=>{if(confirm("要放弃这次考试吗？")){EX=null;home()}});bindCompanion();
- runQ($("#q"),Object.assign({},q),{done:c=>{recordAns(q.w,c);if(c){EX.score++;GAME.combo++}else{EX.wrong.push(q.w);GAME.combo=0}moodAdd(c?10:4);setTimeout(()=>{EX.i++;EX.i<EX.qs.length?renderExam():examResult()},700)}})}
+ runQ($("#q"),Object.assign({},q),{done:c=>{const fast=c&&tooFast();if(fast)noteFast(true);else FASTN=0;if(!fast){recordAns(q.w,c);if(c){EX.score++;GAME.combo++}else{EX.wrong.push(q.w);GAME.combo=0}}moodAdd(c?10:4);setTimeout(()=>{EX.i++;EX.i<EX.qs.length?renderExam():examResult()},700)}})}
 function examResult(){const e=EX;EX=null;const n=e.qs.length,need=Math.ceil(n*.8),pass=e.score>=need,es=examState(e.lv);es.tries++;
  if(e.score>=Math.ceil(n*.9))giveEgg("exam",`⭐${e.lv} 考级 ${Math.round(e.score/n*100)}% 优秀`);
  if(pass){es.pass=1;es.lock=[];if(S.level<MAXLV)S.level++;S.boxes.g++;S.energy+=100;logAdd("exam",e.lv);sfx("fan")}
@@ -1041,10 +1083,10 @@ function startPlace(){PL={th:5,step:2,n:0,hist:[],used:new Set()};GAME={combo:0}
 function plNext(){const lv=Math.max(1,Math.min(10,Math.round(PL.th)));const g=PL_TYPES[PL.n%PL_TYPES.length];
  let cands=LVW[lv].filter(w=>!PL.used.has(w.w)&&(g!=="read"||w.s.length<90));if(g==="hear"&&lv<=4)cands=cands.filter(w=>w.pic).length?cands.filter(w=>w.pic):cands;const w=pick1(cands);PL.used.add(w.w);return {g,w,once:true,lv}}
 function renderPlace(){scrollTo(0,0);const q=PL.cur=plNext();
- app.innerHTML=`<div class="top">${BACK}<div class="chip">🎯 第 ${PL.n+1} 题</div><div class="chip">≈ ${lvBadge(q.lv)}</div></div><div class="gwrap" id="q"></div><div class="center"><button class="btn gray" id="idk" style="font-size:15px;min-height:44px">🤷 我不会</button></div>`+companion();
+ app.innerHTML=`<div class="top">${BACK}<div class="chip">🎯 第 ${PL.n+1} 题</div><div class="chip">≈ ${lvBadge(q.lv)}</div></div><div class="gwrap" id="q"></div>`+companion();
  back(()=>{PL=null;placeIntro()});bindCompanion();
- let answered=false;const fin=c=>{if(answered)return;answered=true;plAnswer(q,c)};
- runQ($("#q"),q,{done:c=>fin(c)});$("#idk").onclick=()=>fin(false)}
+ let answered=false;const fin=c=>{if(answered)return;answered=true;const fast=c&&tooFast();if(fast){noteFast(true);plAnswer(q,false,true);return}FASTN=0;plAnswer(q,c)};
+ runQ($("#q"),q,{done:c=>fin(c)})}
 function plAnswer(q,c){PL.hist.push({lv:q.lv,c,g:q.g});PL.n++;PL.th=Math.max(1,Math.min(10,PL.th+(c?PL.step:-PL.step)));PL.step=Math.max(.6,PL.step*.8);
  const last=PL.hist.slice(-6).map(h=>h.lv);const stable=PL.n>=20&&PL.step<=.61&&Math.max(...last)-Math.min(...last)<=2;
  if(PL.n>=30||stable)return setTimeout(placeResult,500);setTimeout(renderPlace,650)}
@@ -1486,7 +1528,7 @@ function popQuiz(w){newRound();let ans=0;const opts=shuffle([w,...distract(w,2,x
  m.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{const ok=opts[+b.dataset.o]===w;if(!ans++){recordAns(w,ok);eggMilestones();save()}if(ok){b.classList.add("ok");sfx("ok");S.energy+=5;const s=ws(w);s.b=Math.min(INTERVALS.length-1,s.b+1);s.d=Date.now()+INTERVALS[s.b];save();toast("✅ +5⚡ 小测验奖励",1000);setTimeout(()=>{m.remove();home()},700)}else{b.classList.add("bad");sfx("no");say(w.w)}})}
 function startTeach(){const known=W.filter(isKnown);if(known.length<3)return toast("先学几个单词，再来教宠物吧！",1400);
  const ws_=shuffle(known.slice().sort((a,b)=>S.w[a.w].d-S.w[b.w].d).slice(0,12)).slice(0,6);
- L={steps:ws_.map(w=>({t:"q",g:"teach",w,rev:1})),i:0,news:[],revs:ws_,done:new Set(),first:{},correct:0,energy:0,opt:{teach:1},combo:0,best:0,learned:[]};GAME=L;CMP.mood=0;screen="learn";say("Can you teach me?","c");renderLearn()}
+ L={steps:ws_.map(w=>({t:"q",g:"teach",w,rev:1})),i:0,news:[],revs:ws_,done:new Set(),first:{},correct:0,energy:0,opt:{teach:1},combo:0,best:0,learned:[],firstN:0,firstOk:0,fastN:0,attempts:{}};GAME=L;CMP.mood=0;screen="learn";say("Can you teach me?","c");renderLearn()}
 
 // ---------- SUMMARY ----------
 let sumTab="today";
