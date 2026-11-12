@@ -3980,7 +3980,7 @@ async function syncNow(){if(!syncConfigured())return {ok:false,err:"not_configur
  finally{syncing=false;syncBadge();if(syncAgain){syncAgain=false;syncSoon(200)}}return res}
 function syncBadge(){const b=$("#syncSt");if(b)b.innerHTML=syncStatusHTML()}
 function syncStatusHTML(){const st=SYST();if(!syncConfigured())return "⚪ 同步服务未配置（应用照常使用）";if(!st.token)return "⚪ 未加入家庭";if(st.err==="offline")return "🟠 离线，联网后自动同步";if(st.err)return "🔴 "+esc(st.err);return st.last?`🟢 已同步 · ${new Date(st.last).toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"})}`:"🟡 等待同步"}
-window.addEventListener("online",()=>syncSoon(300));document.addEventListener("visibilitychange",()=>{if(!document.hidden)syncSoon(500)});setInterval(()=>syncSoon(0),60000);setTimeout(()=>syncSoon(800),1500);
+window.addEventListener("online",()=>syncSoon(300));document.addEventListener("visibilitychange",()=>{if(!document.hidden){syncSoon(500);if(JOINP)pollJoin()}});setInterval(()=>syncSoon(0),60000);setTimeout(()=>{syncSoon(800);if(JOINP)pollJoin()},1500);
 // ---------- QR ----------
 function qrSVG(text,px){const q=qrcode(0,"M");q.addData(text);q.make();const n=q.getModuleCount(),c=(px||200)/(n+8);let d="";for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(q.isDark(r,k))d+=`M${(k+4)*c} ${(r+4)*c}h${c}v${c}h-${c}z`;
  return `<svg viewBox="0 0 ${px||200} ${px||200}" width="${px||200}" height="${px||200}" role="img" aria-label="家庭代码二维码"><rect width="100%" height="100%" rx="12" fill="#fff"/><path d="${d}" fill="#2c2130"/></svg>`}
@@ -4027,10 +4027,17 @@ function kidsPanel(){const kids=allKids();
  app.querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>switchKid(b.dataset.sw));
  app.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const k=getKid(b.dataset.del);if(confirm(`删除「${k.cname}」的全部进度？${SYST().token?"（家庭里所有设备都会删除）":""}`)){deleteKid(b.dataset.del);kidsPanel()}});
  app.querySelectorAll("[data-ren]").forEach(b=>b.onclick=()=>{const n=prompt("新昵称",S.cname);if(n&&n.trim()){S.cname=n.trim().slice(0,10);save();kidsPanel()}})}
-let JOINP=null,INVT=null;
+const JOINPK="wm.joinp";
+let JOINP=null,INVT=null,JOINPOLL=false;
+function readJOINP(){const j=LS.get(JOINPK,null);if(j&&j.id&&j.sec&&(j.until||0)>Date.now())return j;LS.del(JOINPK);return null}
+function writeJOINP(){if(JOINP)LS.set(JOINPK,JOINP);else LS.del(JOINPK)}
+function clearJOINP(){JOINP=null;LS.del(JOINPK)}
+JOINP=readJOINP();
+
 function syncPanel(){const st=SYST();clearInterval(INVT);
  if(!syncConfigured()){$("#pc").innerHTML=`<div class="card"><h2>🔄 家庭同步</h2><p id="syncSt">${syncStatusHTML()}</p><p class="muted">家长需要先完成服务器设置（见说明文档）。不开同步时，所有功能都能正常使用，进度保存在本设备上。</p></div>`;return}
- if(!st.token){$("#pc").innerHTML=`<div class="card center"><h2>🔄 家庭同步</h2><p id="syncSt" class="muted">${syncStatusHTML()}</p><p>让家里的手机、平板共享孩子的进度、宠物和装饰。<br><small class="muted">不需要注册账号，不收集任何个人信息。</small></p>
+ if(!st.token){if(JOINP||readJOINP()){JOINP=JOINP||readJOINP();joinScreen();return}
+ $("#pc").innerHTML=`<div class="card center"><h2>🔄 家庭同步</h2><p id="syncSt" class="muted">${syncStatusHTML()}</p><p>让家里的手机、平板共享孩子的进度、宠物和装饰。<br><small class="muted">不需要注册账号，不收集任何个人信息。</small></p>
   <button class="btn full" id="mk">🏠 创建家庭（第一台设备）</button><div style="height:10px"></div><button class="btn blue full" id="jn">🔗 加入家庭</button></div>`;
   $("#mk").onclick=async()=>{try{$("#mk").disabled=true;const r=await rpc("create_family",{p_label:devLabel()});const s=SYST();Object.assign(s,{token:r.token,code:r.code,since:null,revs:{},dirty:{}});allKids().forEach(k=>s.dirty[k.cid]=1);LS.set("wm.sync",s);await syncNow();toast("家庭已创建 🎉",1200);syncPanel()}catch(e){toast("创建失败："+esc(e.message),1600);$("#mk").disabled=false}};
   $("#jn").onclick=joinScreen;return}
@@ -4060,21 +4067,24 @@ function joinScreen(){clearInterval(INVT);
   <div style="height:10px"></div><button class="btn full" id="jgo">➡️ 加入</button><div style="height:10px"></div>
   <button class="btn blue full" id="scan">📷 扫描二维码</button><div id="cam"></div><div id="jst" class="muted" style="margin-top:8px"></div>
   <div style="height:10px"></div><button class="btn gray full" id="jx">返回</button></div>`;
- $("#jx").onclick=()=>{JOINP=null;syncPanel()};$("#jc").oninput=e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,"")};
- $("#jgo").onclick=()=>requestJoin($("#jc").value);$("#scan").onclick=scanQR}
+ $("#jx").onclick=()=>{if(JOINP&&!confirm("取消加入请求？"))return;clearJOINP();syncPanel()};$("#jc").oninput=e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,"")};
+ $("#jgo").onclick=()=>requestJoin($("#jc").value);$("#scan").onclick=scanQR;
+ if(JOINP){const js=$("#jst");if(js)js.innerHTML="⏳ 已发送请求，请在第一台设备上点「允许」…";pollJoin()}}
 async function requestJoin(code){code=(code||"").toUpperCase().trim();if(code.length!==6)return toast("请输入 6 位代码",1000);const js=$("#jst");
- try{const r=await rpc("request_join",{p_code:code,p_label:devLabel()});JOINP={id:r.request_id,sec:r.poll_secret,until:Date.now()+600000};if(js)js.innerHTML="⏳ 已发送请求，请在第一台设备上点「允许」…";pollJoin()}
+ try{const r=await rpc("request_join",{p_code:code,p_label:devLabel()});JOINP={id:r.request_id,sec:r.poll_secret,until:Date.now()+600000};writeJOINP();if(js)js.innerHTML="⏳ 已发送请求，请在第一台设备上点「允许」…";pollJoin()}
  catch(e){if(js)js.textContent=e.message==="join_closed"?"代码不对，或者邀请已过期。请在第一台设备上重新点「邀请新设备」。":"失败："+e.message}}
-async function pollJoin(){if(!JOINP)return;if(Date.now()>JOINP.until){JOINP=null;const js=$("#jst");if(js)js.textContent="请求已过期，请重试";return}
+async function pollJoin(){if(!JOINP||JOINPOLL)return;if(Date.now()>JOINP.until){clearJOINP();const js=$("#jst");if(js)js.textContent="请求已过期，请重试";return}
+ JOINPOLL=true;
  try{const r=await rpc("poll_join",{p_request:JOINP.id,p_secret:JOINP.sec});
-  if(r.status==="approved"){JOINP=null;await finishJoin(r.token,r.code);return}
-  if(r.status==="denied"||r.status==="expired"){JOINP=null;const js=$("#jst");if(js)js.textContent=r.status==="denied"?"请求被拒绝":"请求已过期";return}}catch(e){}
- setTimeout(pollJoin,2500)}
-async function finishJoin(token,code){const fresh_=!S.started&&!Object.keys(S.w||{}).length;const s={token,code,since:null,revs:{},dirty:{},skip:fresh_?S.cid:null};
- allKids().forEach(k=>{if(!(fresh_&&k.cid===S.cid))s.dirty[k.cid]=1});LS.set("wm.sync",s);
- await syncNow();
- if(fresh_){const st2=SYST();delete st2.skip;LS.set("wm.sync",st2);const o=otherKids();if(o.length){const keep=o[0].cid;const n=LS.get(KIDK+keep,null);localStorage.setItem(KEY,JSON.stringify(n));LS.del(KIDK+keep);toast("已加入家庭 🎉",1200);setTimeout(()=>location.reload(),700);return}}
- toast("已加入家庭 🎉",1200);parentCenter("sync")}
+  if(r.token&&(r.status==="approved"||r.status==="claimed")){clearJOINP();await finishJoin(r.token,r.code);return}
+  if(r.status==="denied"||r.status==="expired"){clearJOINP();const js=$("#jst");if(js)js.textContent=r.status==="denied"?"请求被拒绝":"请求已过期";return}}catch(e){}
+ finally{JOINPOLL=false;if(JOINP)setTimeout(pollJoin,2500)}}
+async function finishJoin(token,code){if(!token){toast("加入失败，请让第一台设备重新邀请",1600);return}
+ const fresh_=!S.started&&!Object.keys(S.w||{}).length;const s={token,code,since:null,revs:{},dirty:{},skip:fresh_?S.cid:null};
+ allKids().forEach(k=>{if(!(fresh_&&k.cid===S.cid))s.dirty[k.cid]=1});LS.set("wm.sync",s);clearJOINP();
+ toast("已加入家庭 🎉",1200);parentCenter("sync");
+ await syncNow();syncBadge();
+ if(fresh_){const st2=SYST();if(st2.token){delete st2.skip;LS.set("wm.sync",st2)}const o=otherKids();if(o.length){const keep=o[0].cid;const n=LS.get(KIDK+keep,null);if(n){localStorage.setItem(KEY,JSON.stringify(n));LS.del(KIDK+keep);setTimeout(()=>location.reload(),700);return}}}}
 async function scanQR(){const cam=$("#cam");if(!("BarcodeDetector" in window)||!navigator.mediaDevices){toast("这个浏览器不支持扫码，请输入代码",1600);return}
  try{const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});cam.innerHTML=`<video id="vid" playsinline autoplay muted style="width:100%;border-radius:14px;margin-top:8px"></video>`;const v=$("#vid");v.srcObject=stream;const det=new BarcodeDetector({formats:["qr_code"]});
   const stop=()=>stream.getTracks().forEach(t=>t.stop());const loop=async()=>{if(!document.body.contains(v))return stop();try{const c=await det.detect(v);const hit=c.find(x=>x.rawValue&&x.rawValue.startsWith(QR_PREFIX));if(hit){stop();cam.innerHTML="";const code=hit.rawValue.slice(QR_PREFIX.length);$("#jc").value=code;return requestJoin(code)}}catch(e){}requestAnimationFrame(loop)};loop()}
