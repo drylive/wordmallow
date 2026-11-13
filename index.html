@@ -450,7 +450,7 @@ body{min-height:100vh;min-height:100dvh}
 <div id="toast" class="toast"></div>
 <script>
 /* ES5 boot (must stay ES5): version, polyfills for old iOS Safari, pointer-events shim, update helpers */
-var APP_VER='spi-v19';
+var APP_VER='spi-v20';
 (function(){
  function def(o,k,f){if(!o[k]){try{Object.defineProperty(o,k,{value:f,configurable:true,writable:true})}catch(e){o[k]=f}}}
  def(Array.prototype,'flat',function(d){d=d===undefined?1:Math.floor(d);var out=[];(function f(a,dd){for(var i=0;i<a.length;i++){if(!(i in a))continue;var v=a[i];if(Array.isArray(v)&&dd>0)f(v,dd-1);else out.push(v)}})(this,d);return out});
@@ -482,7 +482,16 @@ function appHardUpdate(){var go=function(){try{location.replace(location.pathnam
  try{if(window.caches&&caches.keys)ps.push(caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches['delete'](k)}))}))}catch(e){}
  try{if(window.Promise&&ps.length){Promise.all(ps).then(function(){clearTimeout(t);go()},function(){clearTimeout(t);go()})}else{clearTimeout(t);go()}}catch(e){clearTimeout(t);go()}}
 /* tapKey: fire once per tap via touchend (old iOS) or click, never both */
-function tapKey(b,fn){var lastT=0;try{b.addEventListener('touchend',function(e){if(e.cancelable)e.preventDefault();lastT=Date.now();fn(e)},false)}catch(e){}b.onclick=function(e){if(Date.now()-lastT<800)return;fn(e)}}
+function tapKey(b,fn){if(!b||typeof fn!=='function')return;var lastT=0,sx=0,sy=0,moved=0,TH=12;
+ function pt(e){var t=(e.changedTouches&&e.changedTouches[0])||(e.touches&&e.touches[0])||e;return{x:+(t.clientX||0),y:+(t.clientY||0)}}
+ function mark(e){var p=pt(e);if(Math.abs(p.x-sx)>TH||Math.abs(p.y-sy)>TH)moved=1}
+ try{
+  b.addEventListener('touchstart',function(e){var p=pt(e);sx=p.x;sy=p.y;moved=0},false);
+  b.addEventListener('touchmove',function(e){mark(e)},false);
+  b.addEventListener('touchend',function(e){mark(e);if(moved)return;if(e.cancelable)e.preventDefault();lastT=Date.now();fn(e)},false);
+  b.addEventListener('touchcancel',function(){moved=1},false);
+ }catch(e){}
+ b.onclick=function(e){if(Date.now()-lastT<800)return;if(moved){moved=0;return}fn(e)}}
 function appShowUpdBar(txt){try{if(document.getElementById('updBar'))return;var b=document.createElement('button');b.id='updBar';b.className='updBar';b.type='button';b.textContent=txt||'有新版本，点这里更新';b.onclick=appHardUpdate;document.body.appendChild(b)}catch(e){}}
 function appCheckVersion(){try{var x=new XMLHttpRequest();x.open('GET','./sw.js?x='+Date.now(),true);try{x.setRequestHeader('Cache-Control','no-cache')}catch(e){}
  x.onload=function(){try{if(x.status!==200)return;var m=/CACHE\s*=\s*['"]([^'"]+)['"]/.exec(x.responseText||'');if(m&&m[1]!==APP_VER)appShowUpdBar()}catch(e){}};x.send()}catch(e){}}
