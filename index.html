@@ -58,7 +58,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .bar{height:22px;background:#f1e6f7;border-radius:11px;overflow:hidden;position:relative}
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,#ffd84d,#ff9a1f);border-radius:11px;transition:width .5s}
 .bar.xp>i{background:linear-gradient(90deg,#8ee07a,#3fbf9f)}
-.bar span{position:absolute;inset:0;text-align:center;font-size:13px;font-weight:800;line-height:22px;color:#5a4a6a}
+.bar span{position:absolute;top:0;right:0;bottom:0;left:0;text-align:center;font-size:13px;font-weight:800;line-height:22px;color:#5a4a6a}
 .row{display:flex;gap:10px;align-items:center}
 .units{display:grid;gap:12px}
 .unit{display:flex;align-items:center;gap:12px;background:#fff;border-radius:24px;padding:12px;box-shadow:0 5px 0 #ecdcf5;min-height:76px;width:100%;text-align:left;color:inherit}
@@ -79,7 +79,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .opt.ok{background:#c9f7c0;box-shadow:0 5px 0 #6fcf5f}
 .opt.bad{background:#ffd0d8;box-shadow:0 5px 0 #f07a8e;animation:shake .4s}
 .opt.sel{outline:4px solid #3fa3f5}
-.opt.done{opacity:.35;pointer-events:none}.bub.done{opacity:.35;pointer-events:none}.pgKeys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:12px auto 0}.pgKeys button{min-height:48px;font-size:22px;font-weight:800}.jcKeys{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin:8px 0 0}.jcKeys button{min-height:42px;padding:0;font-size:18px;font-weight:800;min-width:0}
+.opt.done{opacity:.35;pointer-events:none}.bub.done{opacity:.35;pointer-events:none}.pgKeys{display:block;max-width:240px;margin:12px auto 0;font-size:0;text-align:center}.pgKeys button{display:inline-block;width:31%;margin:0 1% 8px;min-height:48px;font-size:22px;font-weight:800;-webkit-user-select:none;user-select:none}@supports (display:grid){.pgKeys{display:grid;grid-template-columns:repeat(3,1fr);grid-gap:8px;gap:8px}.pgKeys button{width:auto;margin:0}}.jcKeys{display:block;margin:8px 0 0;text-align:center;font-size:0}.jcKeys button{display:inline-block;vertical-align:top;width:11.5%;margin:0 .25% 5px;min-height:42px;padding:0;font-size:18px;font-weight:800;min-width:0;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:rgba(0,0,0,.1)}@supports (display:grid){.jcKeys{display:grid;grid-template-columns:repeat(8,1fr);grid-gap:5px;gap:5px}.jcKeys button{width:auto;margin:0}}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .swatch{display:inline-block;width:1em;height:1em;border-radius:50%;border:3px solid rgba(0,0,0,.12);vertical-align:middle}
 .speak{display:block;margin:6px auto;width:72px;height:72px;border-radius:50%;font-size:36px;background:linear-gradient(#7cc8ff,#3fa3f5);box-shadow:0 5px 0 #2a7fc8;color:#fff}
@@ -98,7 +98,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .fly{position:fixed;font-size:44px;z-index:40;pointer-events:none;transition:all .7s cubic-bezier(.5,-0.3,.7,1)}
 .heart{position:absolute;font-size:30px;animation:up 1s forwards;pointer-events:none}
 @keyframes up{to{transform:translateY(-90px);opacity:0}}
-.modal{position:fixed;inset:0;background:rgba(80,40,90,.45);display:flex;align-items:center;justify-content:center;z-index:60;padding:20px}
+.modal{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(80,40,90,.45);display:flex;align-items:center;justify-content:center;z-index:60;padding:20px}
 .modal .card{max-width:400px;width:100%;text-align:center}
 .prize{font-size:100px;animation:spin 1s}
 @keyframes spin{from{transform:rotate(-200deg) scale(.2)}to{transform:none}}
@@ -130,7 +130,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .visitwrap{position:relative;margin:0 0 10px}.visitwrap .scene{pointer-events:none}.vtag{position:absolute;left:10px;top:10px}.vlike{position:absolute;right:10px;top:10px;background:#fff;border-radius:14px;padding:4px 10px;font-weight:800;box-shadow:0 2px 6px #0002}
 .vhead{display:flex;align-items:center;gap:8px;margin-bottom:8px}.vmood{margin-left:auto;font-weight:800;color:#e0457b}
 .stats .stat small{font-size:11px}.stkrow{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}.stkb{font-size:26px;border:0;background:#fff3f8;border-radius:12px;padding:6px 0}.stkb:disabled{opacity:.35}
-#stk{position:absolute;inset:0;pointer-events:none;overflow:hidden}.flystk{position:absolute;bottom:10%;font-size:56px;animation:flyS 1.8s ease-out forwards}
+#stk{position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;overflow:hidden}.flystk{position:absolute;bottom:10%;font-size:56px;animation:flyS 1.8s ease-out forwards}
 @keyframes flyS{0%{transform:translateY(0) scale(.4);opacity:0}20%{opacity:1;transform:translateY(-30px) scale(1.2)}100%{transform:translateY(-260px) scale(1);opacity:0}}
 .gpick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:52vh;overflow:auto}.gpi{border:2px solid #f1e4f7;background:transparent;border-radius:14px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:2px}.gpi .lz{width:56px;height:56px}.gpi small{font-size:11px}
 .giftbox{font-size:110px;cursor:pointer;animation:gwig 1.2s ease-in-out infinite;margin:6px 0}.giftbox.open{animation:gopen .5s ease-in forwards}.giftItem{animation:gpop .6s cubic-bezier(.3,1.6,.5,1)}
@@ -169,7 +169,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .tgrid .btn{font-size:15px;min-height:52px;padding:8px}
 pre{white-space:pre-wrap;word-break:break-all;font-size:11px;background:#f6f0fb;border-radius:14px;padding:10px;max-height:220px;overflow:auto;user-select:text}
 .eggBox{position:relative;width:200px;height:200px;margin:0 auto}
-.eggBox>*{position:absolute;inset:0}
+.eggBox>*{position:absolute;top:0;right:0;bottom:0;left:0}
 .shake{animation:eggshake .5s}
 @keyframes eggshake{20%{transform:rotate(-8deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(4deg)}}
 .pop{animation:pop .6s}
@@ -192,7 +192,7 @@ body{min-height:100vh;min-height:100dvh}
  body{overscroll-behavior-y:none}
  #app{padding-top:calc(14px + env(safe-area-inset-top));padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 }
-#spiSplash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+#spiSplash{position:fixed;top:0;right:0;bottom:0;left:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
  background:radial-gradient(circle at 30% 18%,#fff6d8 0,#ffd1e8 40%,#ffb3d6 75%,#cdb8ff 140%);transition:opacity .45s ease;
  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 #spiSplash.out{opacity:0;pointer-events:none}
@@ -234,15 +234,15 @@ body{min-height:100vh;min-height:100dvh}
 .rv{position:relative;z-index:2;border-radius:50%;padding:10px}
 .rv1{background:transparent}.rv2{background:transparent;animation:pop .7s,throb 1.6s .7s infinite}.rv3{background:transparent;animation:pop .8s,throb 1.2s .8s infinite}
 @keyframes throb{50%{transform:scale(1.06)}}
-.rays{position:absolute;inset:-30px;border-radius:50%;z-index:1}
+.rays{position:absolute;top:-30px;right:-30px;bottom:-30px;left:-30px;border-radius:50%;z-index:1}
 .rr0{background:radial-gradient(circle,#fff 0,transparent 60%)}.rr1{background:repeating-conic-gradient(#bfe0ff 0 10deg,transparent 10deg 30deg);animation:rot 6s linear infinite;mask:radial-gradient(circle,#000 30%,transparent 70%);-webkit-mask:radial-gradient(circle,#000 30%,transparent 70%)}
 .rr2{background:repeating-conic-gradient(#d9b8ff 0 12deg,transparent 12deg 24deg);animation:rot 4s linear infinite;mask:radial-gradient(circle,#000 35%,transparent 72%);-webkit-mask:radial-gradient(circle,#000 35%,transparent 72%)}
-.rr3{inset:-50px;background:repeating-conic-gradient(#ff6b8b 0 8deg,#ffae4d 8deg 16deg,#ffe45c 16deg 24deg,#6fe08a 24deg 32deg,#5ab4ff 32deg 40deg,#b07cff 40deg 48deg);animation:rot 3s linear infinite;mask:radial-gradient(circle,#000 30%,transparent 72%);-webkit-mask:radial-gradient(circle,#000 30%,transparent 72%)}
+.rr3{top:-50px;right:-50px;bottom:-50px;left:-50px;background:repeating-conic-gradient(#ff6b8b 0 8deg,#ffae4d 8deg 16deg,#ffe45c 16deg 24deg,#6fe08a 24deg 32deg,#5ab4ff 32deg 40deg,#b07cff 40deg 48deg);animation:rot 3s linear infinite;mask:radial-gradient(circle,#000 30%,transparent 72%);-webkit-mask:radial-gradient(circle,#000 30%,transparent 72%)}
 @keyframes rot{to{transform:rotate(360deg)}}
 /* ---- scene & decorate ---- */
 .scene{position:relative;border-radius:22px;overflow:visible;background:linear-gradient(#fff7fb,#f3fbff)}
 .scene .petStage{height:270px}
-.decoL{position:absolute;inset:0;pointer-events:none}
+.decoL{position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none}
 .pd{position:absolute;line-height:0;touch-action:none}
 .pd.ed{pointer-events:auto;cursor:grab}.pd.sel{outline:3px dashed #3fa3f5;outline-offset:2px;border-radius:12px}.pd.trash{opacity:.4}
 .scene.edit{outline:3px dashed #ffc1de}
@@ -263,7 +263,7 @@ body{min-height:100vh;min-height:100dvh}
 .cbub:after{content:"";position:absolute;bottom:-8px;right:40px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}
 .cbub.pop{animation:pop .4s}.cbub small{font-weight:700;color:#7a6a8a}
 .mood{pointer-events:none;width:100px;height:14px;background:#f1e6f7;border-radius:8px;overflow:hidden;position:relative;box-shadow:0 2px 0 #e8d8f0}
-.mood i{display:block;height:100%;background:linear-gradient(90deg,#ff9ac6,#ff5fa2);transition:width .5s}.mood span{position:absolute;inset:0;font-size:10px;font-weight:900;text-align:center;line-height:14px;color:#6a3a5a}
+.mood i{display:block;height:100%;background:linear-gradient(90deg,#ff9ac6,#ff5fa2);transition:width .5s}.mood span{position:absolute;top:0;right:0;bottom:0;left:0;font-size:10px;font-weight:900;text-align:center;line-height:14px;color:#6a3a5a}
 #app{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
 .a-jump{animation:aJump .5s 3!important}@keyframes aJump{50%{transform:translateY(-30px) scale(.95,1.05)}}
 .a-sleep{animation:aSleep 1.6s!important}@keyframes aSleep{30%,70%{transform:scale(1.06,.9) rotate(-6deg)}}
@@ -317,7 +317,7 @@ body{min-height:100vh;min-height:100dvh}
 .extra{margin-top:10px;background:#f6fbff;border-radius:16px;padding:10px 12px;font-size:15px;line-height:1.7}
 .spd{background:#e8f6ff;border-radius:14px;padding:6px 12px;font-weight:900;font-size:15px;color:#2a7fc8;min-height:40px}
 .web{position:relative;height:260px;width:300px;max-width:100%;margin:0 auto}
-.wl{position:absolute;inset:0;width:100%;height:100%;z-index:0}.wl line{stroke:#ffc1de;stroke-width:4;stroke-dasharray:6 6}
+.wl{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;z-index:0}.wl line{stroke:#ffc1de;stroke-width:4;stroke-dasharray:6 6}
 .wn{position:absolute;z-index:1;transform:translate(-50%,-50%);background:#fff;border-radius:20px;padding:6px 10px;box-shadow:0 4px 0 #ecdcf5;display:flex;flex-direction:column;align-items:center;font-size:24px;min-width:84px;color:#4a3b5c}
 .wn b{font-size:16px}.wn small{font-size:11px;color:#8a7a9a}.wn.c{left:50%;top:50%;background:#fff3f9;outline:3px solid #ff8fc1}.wn.n0{left:50%;top:12%}.wn.n1{left:14%;top:83%}.wn.n2{left:86%;top:83%}
 .say{background:#fff3f9;border-radius:18px;padding:12px;font-weight:900;font-size:18px;margin:8px 0}
@@ -338,6 +338,7 @@ body{min-height:100vh;min-height:100dvh}
 .mrule{font-size:12px;line-height:1.5}
 .prog{flex:1;min-width:0;gap:3px}.prog i{flex:0 1 14px;min-width:4px;height:12px}
 .mcard.up .mf.emo{font-size:68px;line-height:1}
+.updBar{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));-webkit-transform:translateX(-50%);transform:translateX(-50%);z-index:9998;background:#7a5cff;color:#fff;border:none;border-radius:22px;padding:10px 18px;font-size:16px;font-weight:800;box-shadow:0 6px 18px rgba(80,40,160,.35)}.verLine{font-size:11px;opacity:.6;text-align:center;margin:16px 0 8px}.verLine button{font-size:12px;padding:4px 10px;border-radius:12px;border:1px solid #cbb;background:#fff;color:#4a3b5c;margin-left:6px}
 </style>
 
 </head>
@@ -345,6 +346,46 @@ body{min-height:100vh;min-height:100dvh}
 <div id="spiSplash" aria-hidden="true"><img src="icon-512.png" alt=""><b>词团子</b><span><svg class="spiStar" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.5.9-4.7 4.5 1.1 6.4L12 17.3l-5.7 3 1.1-6.4-4.7-4.5 6.5-.9z" fill="#ffd25e" stroke="#f2b23a" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="9.6" cy="9.4" rx="1.6" ry="1" fill="#fff6cf"/></svg> Wordmallow <svg class="spiStar" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.5.9-4.7 4.5 1.1 6.4L12 17.3l-5.7 3 1.1-6.4-4.7-4.5 6.5-.9z" fill="#ffd25e" stroke="#f2b23a" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="9.6" cy="9.4" rx="1.6" ry="1" fill="#fff6cf"/></svg></span><i>养宠物 · 学英语</i></div>
 <div id="app"></div>
 <div id="toast" class="toast"></div>
+<script>
+/* ES5 boot (must stay ES5): version, polyfills for old iOS Safari, pointer-events shim, update helpers */
+var APP_VER='spi-v14';
+(function(){
+ function def(o,k,f){if(!o[k]){try{Object.defineProperty(o,k,{value:f,configurable:true,writable:true})}catch(e){o[k]=f}}}
+ def(Array.prototype,'flat',function(d){d=d===undefined?1:Math.floor(d);var out=[];(function f(a,dd){for(var i=0;i<a.length;i++){if(!(i in a))continue;var v=a[i];if(Array.isArray(v)&&dd>0)f(v,dd-1);else out.push(v)}})(this,d);return out});
+ def(Array.prototype,'flatMap',function(fn,t){return Array.prototype.map.call(this,fn,t).flat(1)});
+ def(Object,'fromEntries',function(it){var o={};if(Array.isArray(it)){for(var i=0;i<it.length;i++)o[it[i][0]]=it[i][1];return o}Array.from(it).forEach(function(e){o[e[0]]=e[1]});return o});
+ def(Object,'values',function(o){return Object.keys(o).map(function(k){return o[k]})});
+ def(Object,'entries',function(o){return Object.keys(o).map(function(k){return [k,o[k]]})});
+ if(window.NodeList)def(NodeList.prototype,'forEach',Array.prototype.forEach);
+ def(String.prototype,'padStart',function(n,s){var t=String(this);s=s===undefined?' ':String(s);if(!s||t.length>=n)return t;while(t.length<n)t=s+t;return t.slice(t.length-n)});
+ if(window.Promise)def(Promise.prototype,'finally',function(f){return this.then(function(v){return Promise.resolve(f()).then(function(){return v})},function(e){return Promise.resolve(f()).then(function(){throw e})})});
+ if(window.Element){def(Element.prototype,'setPointerCapture',function(){});def(Element.prototype,'releasePointerCapture',function(){});}
+ /* Pointer Events shim for iOS < 13 (touch -> pointer). Touches are delivered to the element they started on (like implicit capture). */
+ if(!window.PointerEvent&&('ontouchstart' in window)){
+  var starts={};
+  var fire=function(type,el,t,src){var ev;try{ev=document.createEvent('Event');ev.initEvent(type,true,true)}catch(e){return false}
+   ev.pointerId=t.identifier+1;ev.pointerType='touch';ev.isPrimary=true;ev.clientX=t.clientX;ev.clientY=t.clientY;ev.pageX=t.pageX;ev.pageY=t.pageY;ev.button=0;ev.buttons=type==='pointerup'||type==='pointercancel'?0:1;
+   var h=el['on'+type];var r=el.dispatchEvent(ev);if(typeof h==='function'){try{h.call(el,ev)}catch(e){}}return ev.defaultPrevented||!r};
+  var drag=function(el){return el&&el.closest&&el.closest('.pd,.ti,.tile')};
+  document.addEventListener('touchstart',function(e){for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i],el=t.target&&t.target.nodeType===1?t.target:(t.target&&t.target.parentNode);if(!el)continue;starts[t.identifier]=el;fire('pointerdown',el,t,e)}},true);
+  document.addEventListener('touchmove',function(e){var pd=false;for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i],el=starts[t.identifier];if(!el)continue;fire('pointermove',el,t,e);if(drag(el))pd=true}if(pd&&e.cancelable)e.preventDefault()},{capture:true,passive:false});
+  var end=function(type){return function(e){for(var i=0;i<e.changedTouches.length;i++){var t=e.changedTouches[i],el=starts[t.identifier];if(!el)continue;delete starts[t.identifier];fire(type,el,t,e)}}};
+  document.addEventListener('touchend',end('pointerup'),true);document.addEventListener('touchcancel',end('pointercancel'),true);
+ }
+})();
+/* Hard reset: drop service workers + caches, then reload a cache-busted URL. */
+function appHardUpdate(){var go=function(){try{location.replace(location.pathname+'?v='+Date.now())}catch(e){location.reload()}};
+ var t=setTimeout(go,2500);var ps=[];
+ try{if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)ps.push(navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))}))}catch(e){}
+ try{if(window.caches&&caches.keys)ps.push(caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches['delete'](k)}))}))}catch(e){}
+ try{if(window.Promise&&ps.length){Promise.all(ps).then(function(){clearTimeout(t);go()},function(){clearTimeout(t);go()})}else{clearTimeout(t);go()}}catch(e){clearTimeout(t);go()}}
+/* tapKey: fire once per tap via touchend (old iOS) or click, never both */
+function tapKey(b,fn){var lastT=0;try{b.addEventListener('touchend',function(e){if(e.cancelable)e.preventDefault();lastT=Date.now();fn(e)},false)}catch(e){}b.onclick=function(e){if(Date.now()-lastT<800)return;fn(e)}}
+function appShowUpdBar(txt){try{if(document.getElementById('updBar'))return;var b=document.createElement('button');b.id='updBar';b.className='updBar';b.type='button';b.textContent=txt||'有新版本，点这里更新';b.onclick=appHardUpdate;document.body.appendChild(b)}catch(e){}}
+function appCheckVersion(){try{var x=new XMLHttpRequest();x.open('GET','./sw.js?x='+Date.now(),true);try{x.setRequestHeader('Cache-Control','no-cache')}catch(e){}
+ x.onload=function(){try{if(x.status!==200)return;var m=/CACHE\s*=\s*['"]([^'"]+)['"]/.exec(x.responseText||'');if(m&&m[1]!==APP_VER)appShowUpdBar()}catch(e){}};x.send()}catch(e){}}
+window.__bootErr=null;window.onerror=function(msg,src,line){if(!window.__APP_OK&&!window.__bootErr)window.__bootErr=String(msg)+' @'+line;};
+</script>
 <script>
 "use strict";
 // ================= WORD BANK (10 levels, 2141 words; data built from ECDICT (MIT) + WordNet + CLDR emoji; sentences original) =================
@@ -839,15 +880,16 @@ function distract(w,n,f){const same=w.pic;let pool=LVW[w.lv].filter(x=>x!==w&&(!
  const seen=new Set([w.e,w.zh,w.w]);const out=[];for(const x of shuffle(a).concat(shuffle(b))){if(out.length>=n)break;const key=x.e+"|"+x.zh;if(seen.has(x.e)&&same||seen.has(x.zh)||seen.has(x.w))continue;seen.add(x.e);seen.add(x.zh);seen.add(x.w);out.push(x)}
  return out}
 function nOpts(w){return w.lv<=1?3:4}
-function optGrid(opts,render,onPick){return {html:`<div class="opts">${opts.map((o,i)=>`<button class="opt ${render(o).cls||""}" data-o="${i}">${render(o).h}</button>`).join("")}</div>`,bind:root=>root.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>onPick(opts[+b.dataset.o],b)})}}
+function optGrid(opts,render,onPick){return {html:`<div class="opts">${opts.map((o,i)=>`<button class="opt ${render(o).cls||""}" data-o="${i}"${o===opts.__w?" data-right=\"1\"":""}>${render(o).h}</button>`).join("")}</div>`,bind:root=>root.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>onPick(opts[+b.dataset.o],b)})}}
 function head(t,sub){return `<h2 class="center gtitle">${t}</h2>${sub?`<p class="muted center" style="margin:-6px 0 6px">${sub}</p>`:""}`}
 const GNAME={hear:"👂 听音选图",see:"👀 看图选词",mean:"💡 选意思",cloze:"✏️ 句子填空",spell:"🔤 字母拼拼乐",sb:"🧱 句子积木",bub:"🫧 泡泡大作战",mem:"🃏 记忆翻翻乐",read:"📖 小阅读",teach:"🎓 教宠物"};
 function isChoiceQ(g){return g==="hear"||g==="see"||g==="mean"||g==="cloze"||g==="read"||g==="bub"}
 function runQ(el,q,cb){
  const w=q.w,once=!!q.once;let first=true,locked=false,misses=0;
- const right=src=>{if(locked)return;locked=true;q.ok=true;sfx("ok");if(src)burstAt(src,8);if(!q.quiet)petRight(src);cb.done(first,q)};
- const fail=()=>{locked=true;q.ok=false;q.quit=true;if(!q.quiet)petWrong(once?null:w);cb.miss&&cb.miss(q);setTimeout(()=>cb.done(false,q),700)};
- const wrong=(b)=>{if(locked)return;first=false;sfx("no");if(b){b.classList.add("bad");b.style.pointerEvents="none";setTimeout(()=>b.classList.add("done"),350)}
+ const right=src=>{if(locked)return;locked=true;lockOpts();q.ok=true;sfx("ok");if(src)burstAt(src,8);if(!q.quiet)petRight(src);cb.done(first,q)};
+ const lockOpts=()=>{el.querySelectorAll("[data-o]").forEach(x=>{x.style.pointerEvents="none";if(x.dataset.right)x.classList.add("ok")})};
+ const fail=()=>{locked=true;lockOpts();q.ok=false;q.quit=true;if(!q.quiet)petWrong(once?null:w);cb.miss&&cb.miss(q);setTimeout(()=>cb.done(false,q),700)};
+ const wrong=(b)=>{if(locked)return;if(b){if(b.dataset.tried)return;b.dataset.tried="1"}first=false;sfx("no");if(b){b.classList.add("bad");b.style.pointerEvents="none";setTimeout(()=>b.classList.add("done"),350)}
   if(once){fail();return}misses++;if(isChoiceQ(q.g)&&misses>=2){fail();return}petWrong(w);if(!isChoiceQ(q.g))cb.miss&&cb.miss(q)};
  const giveUp=()=>{if(locked)return;locked=true;first=false;q.ok=false;q.quit=true;sfx("no");if(once){cb.done(false,q);return}cb.miss&&cb.miss(q);cb.done(false,q)};
  const g=q.g;CMP.word=null;
@@ -860,9 +902,9 @@ function runQ(el,q,cb){
   if(g==="mean"){top=head(GNAME.mean,"这个单词是什么意思？")+`<div class="word" style="font-size:38px">${esc(w.w)}</div><button class="speak sm" id="sp">🔊</button>`;render=o=>({h:esc(o.zh),cls:"txt zhopt"});}
   if(g==="cloze"){top=head(GNAME.cloze,"选词填空")+`<div class="sent" id="sp2">${blankS(w)}</div>`;const fm=o=>o===w?clozeAnswer(w):o.w;render=o=>({h:esc(fm(o)),cls:"txt"});}
   if(g==="read"){top=head(GNAME.read,"读一读：哪句话和"+(w.pic?"图片":"意思")+"相符？")+(w.pic?`<div class="bigPic mid">${w.e}</div>`:`<div class="zhBig">${esc(w.zh)}</div>`);
-   el.innerHTML=top+`<div class="sopts">${opts.map((o,i)=>`<button class="opt txt sopt" data-o="${i}">${esc(o.s)}</button>`).join("")}</div>`;
+   el.innerHTML=top+`<div class="sopts">${opts.map((o,i)=>`<button class="opt txt sopt" data-o="${i}"${o===w?' data-right="1"':""}>${esc(o.s)}</button>`).join("")}</div>`;
    el.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>pk(opts[+b.dataset.o],b)});mountIdk(el,giveUp);return}
-  const G=optGrid(opts,render,pk);el.innerHTML=top+G.html;G.bind(el);
+  opts.__w=w;const G=optGrid(opts,render,pk);el.innerHTML=top+G.html;G.bind(el);
   const sp=el.querySelector("#sp");if(sp){sp.onclick=()=>say(w.w);}
   if(g==="hear")setTimeout(()=>say(w.w),250);
   mountIdk(el,giveUp);
@@ -888,7 +930,7 @@ function runQ(el,q,cb){
   el.querySelector("#sp").onclick=()=>isS?say(w.s,"s"):say(w.w);setTimeout(()=>isS?say(w.s,"s"):say(w.w),250);draw();mountIdk(el,giveUp);return}
  if(g==="bub"){
   const ds=distract(w,3,null),opts=shuffle([w,...ds]);const T=Math.max(7,12-w.lv*.4);
-  el.innerHTML=head(GNAME.bub,"听到哪个就戳哪个泡泡！")+`<button class="speak sm" id="sp">🔊</button><div class="tbar"><i id="tb"></i></div><div class="bubbles" id="bb">${opts.map((o,i)=>`<button class="bub" data-o="${i}" style="left:${8+i*22}%;animation-delay:${-i*1.3}s;animation-duration:${5+i%2*1.5}s">${esc(o.w)}</button>`).join("")}</div>`;
+  el.innerHTML=head(GNAME.bub,"听到哪个就戳哪个泡泡！")+`<button class="speak sm" id="sp">🔊</button><div class="tbar"><i id="tb"></i></div><div class="bubbles" id="bb">${opts.map((o,i)=>`<button class="bub" data-o="${i}"${o===w?' data-right="1"':""} style="left:${8+i*22}%;animation-delay:${-i*1.3}s;animation-duration:${5+i%2*1.5}s">${esc(o.w)}</button>`).join("")}</div>`;
   const tb=el.querySelector("#tb");tb.style.transition=`width ${T}s linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>tb.style.width="0%"));
   const to=setTimeout(()=>{if(locked)return;petSay("⏰ Time! 没关系~",1200);first=false;if(once){locked=true;cb.done(false,q)}else{tb.style.transition="none";tb.style.width="100%"}},T*1000);
   el.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>{const o=opts[+b.dataset.o];sfx("pop");if(o===w){clearTimeout(to);b.classList.add("popped");burstAt(b,10,["🫧","✨","💦"]);right(b)}else{b.classList.add("wob");wrong(b)}}});
@@ -910,7 +952,7 @@ function runQ(el,q,cb){
   return}
 }
 // tap-or-drag helper (Pointer Events: iOS Safari + Android Chrome)
-function dragTap(btn,onPlace,zone){let sx,sy,ghost=null,id=null;
+function dragTap(btn,onPlace,zone){let sx,sy,ghost=null,id=null;if(!window.PointerEvent&&!("ontouchstart" in window)){btn.onclick=()=>onPlace();return}
  btn.addEventListener("pointerdown",e=>{if(btn.classList.contains("used"))return;sx=e.clientX;sy=e.clientY;id=e.pointerId;try{btn.setPointerCapture(id)}catch(_){}});
  btn.addEventListener("pointermove",e=>{if(id!==e.pointerId)return;if(!ghost&&Math.hypot(e.clientX-sx,e.clientY-sy)>10){ghost=btn.cloneNode(true);ghost.classList.add("ghost");document.body.appendChild(ghost)}
   if(ghost){ghost.style.left=(e.clientX-28)+"px";ghost.style.top=(e.clientY-28)+"px"}});
@@ -1115,7 +1157,7 @@ function placeResult(){const r=plEstimate(PL.hist),retake=!!(PL&&PL.retake),cur=
  app.innerHTML=`<div class="card center"><div style="font-size:64px">🌟</div><h1>测验结果</h1><p class="muted">共 ${PL.n} 题 · 自适应难度</p>
  <div style="margin:10px 0">推荐起点 ${lvBadge(r.rec,true)}</div><h2>${LVI[r.rec].nm} · ${LVI[r.rec].cefr}</h2>
  <div class="stats"><div class="stat"><b>≈${r.vocab}</b><small>📚 估计词汇量</small></div><div class="stat"><b>${LVI[r.rec].yle}</b><small>🎯 参考水平</small></div>
- <div class="stat"><b>${r.listen??"-"}%</b><small>👂 听力正确率</small></div><div class="stat"><b>${r.read??"-"}%</b><small>📖 阅读正确率</small></div></div>
+ <div class="stat"><b>${r.listen!=null?r.listen:"-"}%</b><small>👂 听力正确率</small></div><div class="stat"><b>${r.read!=null?r.read:"-"}%</b><small>📖 阅读正确率</small></div></div>
  <p>${sw}</p></div>
  <button class="btn full" id="a">${lvBadge(r.rec)} 从推荐星级开始</button><div style="height:10px"></div>${r.rec>1?`<button class="btn blue full" id="b">${lvBadge(r.rec-1)} 从低一级开始（更轻松）</button>`:""}${retake?`<div style="height:10px"></div><button class="btn gray full" id="keep">保持现在的 ⭐${cur}</button>`:""}`;
  const go=l=>{S.level=l;S.placed=true;S.placement=Object.assign({at:dk(),n:PL.n},r,{retake:retake?1:undefined});PL=null;save();if(retake)toast("从这一级开始学吧",1600);else say("Let's meet your pet!","c");home()};
@@ -1294,7 +1336,7 @@ function boxScreen(){screen="boxes";scrollTo(0,0);
  back(home);$("#ob").onclick=()=>openBox(S.boxes.n?"n":"g",boxScreen)}
 // ================= GALLERY 装饰图鉴 (lazy-rendered grid) =================
 let galCat="all",galTier=-1;
-function lazySVG(root){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.innerHTML=itemSVG(el.dataset.id,56);io.unobserve(el)}}),{rootMargin:"200px"});root.querySelectorAll(".lz").forEach(el=>io.observe(el));return io}
+function lazySVG(root){if(!("IntersectionObserver" in window)){root.querySelectorAll(".lz").forEach(el=>{el.innerHTML=itemSVG(el.dataset.id,56)});return {disconnect(){},unobserve(){},observe(){}}}const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.innerHTML=itemSVG(el.dataset.id,56);io.unobserve(el)}}),{rootMargin:"200px"});root.querySelectorAll(".lz").forEach(el=>io.observe(el));return io}
 function galleryScreen(){screen="gallery";const sc=scrollY;
  const list=ITEMS.filter(i=>(galCat==="all"||i.cat===galCat)&&(galTier<0||i.t===galTier));const own=ITEMS.filter(i=>S.inv[i.id]).length;
  app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">🎨 装饰图鉴</h1><div class="chip">${own}/${ITEMS.length}</div></div>
@@ -1542,7 +1584,8 @@ function homePetTap(){bounce();const known=W.filter(isKnown);if(!known.length){s
 function popQuiz(w){newRound();let ans=0;const opts=shuffle([w,...distract(w,2,x=>isKnown(x)||true)]);say(w.w);
  const m=modal(`<div style="width:90px;height:90px;margin:0 auto" class="petIdle">${mini(P().sp,ART(stageIdx()),90)}</div><h2>${L_("quiz")} 🔊</h2><button class="speak" id="sp">🔊</button><div class="opts">${opts.map((o,i)=>`<button class="opt ${w.pic?"":"txt"}" data-o="${i}">${w.pic?o.e:esc(o.zh)}</button>`).join("")}</div><button class="btn gray full" id="x" style="margin-top:10px">等会儿</button>`);
  m.querySelector("#sp").onclick=()=>say(w.w);m.querySelector("#x").onclick=()=>m.remove();
- m.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{const ok=opts[+b.dataset.o]===w;if(!ans++){recordAns(w,ok);eggMilestones();save()}if(ok){b.classList.add("ok");sfx("ok");S.energy+=5;const s=ws(w);s.b=Math.min(INTERVALS.length-1,s.b+1);s.d=Date.now()+INTERVALS[s.b];save();toast("✅ +5⚡ 小测验奖励",1000);setTimeout(()=>{m.remove();home()},700)}else{b.classList.add("bad");sfx("no");say(w.w)}})}
+ let done=false,tries=0;const allB=()=>m.querySelectorAll("[data-o]");const lockAll=()=>{done=true;allB().forEach(x=>{x.style.pointerEvents="none";if(opts[+x.dataset.o]===w)x.classList.add("ok");else x.classList.add("done")})};
+ m.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{if(done||b.dataset.tried)return;b.dataset.tried="1";tries++;const ok=opts[+b.dataset.o]===w;if(!ans++){recordAns(w,ok);eggMilestones();save()}if(ok){lockAll();b.classList.add("ok");sfx("ok");if(tries===1){S.energy+=5;const s=ws(w);s.b=Math.min(INTERVALS.length-1,s.b+1);s.d=Date.now()+INTERVALS[s.b];save();toast("✅ +5⚡ 小测验奖励",1000)}else toast("✅ 记住啦",900);setTimeout(()=>{m.remove();home()},700)}else{b.classList.add("bad");b.style.pointerEvents="none";sfx("no");say(w.w);if(tries>=2){lockAll();toast("正确答案是「"+esc(w.pic?w.w:w.zh)+"」",1200);setTimeout(()=>{m.remove();home()},900)}else setTimeout(()=>b.classList.add("done"),350)}})}
 function startTeach(){const known=W.filter(isKnown);if(known.length<3)return toast("先学几个单词，再来教宠物吧！",1400);
  const ws_=shuffle(known.slice().sort((a,b)=>S.w[a.w].d-S.w[b.w].d).slice(0,12)).slice(0,6);
  L={steps:ws_.map(w=>({t:"q",g:"teach",w,rev:1})),i:0,news:[],revs:ws_,done:new Set(),first:{},correct:0,energy:0,opt:{teach:1},combo:0,best:0,learned:[],firstN:0,firstOk:0,fastN:0,attempts:{}};GAME=L;CMP.mood=0;screen="learn";say("Can you teach me?","c");renderLearn()}
@@ -3935,14 +3978,14 @@ function mergeWord(a,b){if(!a)return cl(b);if(!b)return cl(a);
  const o=cl(lastT(b)>lastT(a)?b:a);o.ok=Math.max(a.ok||0,b.ok||0);o.m=Math.max(a.m||0,b.m||0);o.k=(a.k||b.k)?1:0;
  if(a.ev||b.ev){const mp=new Map();[...(a.ev||[]),...(b.ev||[])].forEach(e=>mp.set(e[0]+"|"+e[2]+"|"+e[3],e));o.ev=[...mp.values()].sort((x,y)=>x[0]-y[0]||String(x[2]).localeCompare(String(y[2]))).slice(-40);
   applyEv(o);
-  const legacy=!a.ev?a:!b.ev?b:null;if(legacy&&(legacy.cs||0)>(o.cs||0)&&legacy.lc&&o.lc){o.cs=legacy.cs;o.fd=Math.min(legacy.fd??o.fd,o.fd??legacy.fd);o.ld=Math.max(legacy.ld||0,o.ld||0)}}
+  const legacy=!a.ev?a:!b.ev?b:null;if(legacy&&(legacy.cs||0)>(o.cs||0)&&legacy.lc&&o.lc){o.cs=legacy.cs;o.fd=Math.min(legacy.fd!=null?legacy.fd:o.fd,o.fd!=null?o.fd:legacy.fd);o.ld=Math.max(legacy.ld||0,o.ld||0)}}
  return o}
 function mergeLog(a,b){const o={};for(const day of new Set([...Object.keys(a||{}),...Object.keys(b||{})])){const x=(a||{})[day]||{},y=(b||{})[day]||{},r={};
   for(const k of new Set([...Object.keys(x),...Object.keys(y)])){const u=x[k],v=y[k];
    if(Array.isArray(u)||Array.isArray(v))r[k]=[...new Set([...(u||[]),...(v||[])])].sort();
    else if(typeof u==="number"||typeof v==="number")r[k]=Math.max(u||0,v||0);
    else if(u&&typeof u==="object"||v&&typeof v==="object"){r[k]={};for(const kk of new Set([...Object.keys(u||{}),...Object.keys(v||{})]))r[k][kk]=Math.max((u||{})[kk]||0,(v||{})[kk]||0)}
-   else r[k]=v??u}o[day]=r}return o}
+   else r[k]=v!=null?v:u}o[day]=r}return o}
 function mergeSave(a,b){if(!a)return cl(b);if(!b)return cl(a);a=ensureKid(cl(a));b=ensureKid(cl(b));
  const [n,old]=(b.upd||0)>(a.upd||0)?[b,a]:[a,b];const o=cl(n);         // consumables & settings (energy, dust, boxes, treats, sound, slow) follow the newest save
  o.upd=Math.max(a.upd||0,b.upd||0);
@@ -3980,7 +4023,7 @@ function markDirty(cid){const s=SYST();if(!s.token)return;s.dirty[cid]=1;LS.set(
 async function rpc(fn,args){const r=await fetch(SYNC_CFG.url.replace(/\/$/,"")+"/rest/v1/rpc/"+fn,{method:"POST",headers:Object.assign({"Content-Type":"application/json",apikey:SYNC_CFG.key},/^eyJ/.test(SYNC_CFG.key)?{Authorization:"Bearer "+SYNC_CFG.key}:{}),body:JSON.stringify(args||{})});
  const j=await r.json().catch(()=>({}));if(!r.ok){const e=new Error(j.message||("HTTP "+r.status));e.server=true;throw e}return j}
 let syncT=null,syncing=false,syncAgain=false;
-function syncSoon(ms){if(!syncConfigured()||!SYST().token)return;clearTimeout(syncT);syncT=setTimeout(syncNow,ms??3000)}
+function syncSoon(ms){if(!syncConfigured()||!SYST().token)return;clearTimeout(syncT);syncT=setTimeout(syncNow,ms!=null?ms:3000)}
 async function syncNow(){if(!syncConfigured())return {ok:false,err:"not_configured"};let st=SYST();if(!st.token)return {ok:false,err:"not_paired"};if(syncing){syncAgain=true;return {ok:false,err:"busy"}}
  if(!navigator.onLine){st.err="offline";LS.set("wm.sync",st);syncBadge();return {ok:false,err:"offline"}}
  syncing=true;let res={ok:true,pushed:0,pulled:0};
@@ -4013,13 +4056,14 @@ function parentGate(then){const a=6+Math.floor(Math.random()*4),b=3+Math.floor(M
  inp.addEventListener("input",e=>{if(e.isComposing||inp.dataset.composing==="1")return;if(digits(inp.value).length===2&&+digits(inp.value)===a*b)go()});
  inp.onblur=()=>{const n=digits(inp.value);if(inp.value!==n)inp.value=n};
  m.querySelector("#pgOk").onclick=go;inp.onkeydown=e=>{if(e.key==="Enter")go()};m.querySelector("#pgX").onclick=()=>m.remove();
- m.querySelectorAll("#pgK [data-k]").forEach(btn=>btn.onclick=()=>{const k=btn.dataset.k;if(k==="⌫")setv(digits(inp.value).slice(0,-1));else if(digits(inp.value).length<3)setv(digits(inp.value)+k)});
+ m.querySelectorAll("#pgK [data-k]").forEach(btn=>tapKey(btn,()=>{const k=btn.getAttribute("data-k");if(k==="⌫")setv(digits(inp.value).slice(0,-1));else if(digits(inp.value).length<3)setv(digits(inp.value)+k)}));
  setTimeout(()=>{try{inp.focus()}catch(e){}},50)}
 // ---------- PARENT CENTER ----------
 let PTAB="report",PKID=null;
 function parentCenter(tab){if(tab)PTAB=tab;screen="parent";scrollTo(0,0);
  app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">👨‍👩‍👧 家长中心</h1><span style="width:52px"></span></div>
- <div class="tabs">${[["report","📈 报告"],["kids","🧒 孩子"],["friends","🤝 好友"],["sync","🔄 同步"]].map(([k,n])=>`<button class="tab ${PTAB===k?"on":""}" data-pt="${k}">${n}</button>`).join("")}</div><div id="pc"></div>`;
+ <div class="tabs">${[["report","📈 报告"],["kids","🧒 孩子"],["friends","🤝 好友"],["sync","🔄 同步"]].map(([k,n])=>`<button class="tab ${PTAB===k?"on":""}" data-pt="${k}">${n}</button>`).join("")}</div><div id="pc"></div><div class="verLine">版本 ${APP_VER}<button type="button" id="updBtn">🔄 检查更新</button></div>`;
+ {const ub=$("#updBtn");if(ub)ub.onclick=()=>{ub.disabled=true;ub.textContent="更新中…";appHardUpdate()}}
  back(home);app.querySelectorAll("[data-pt]").forEach(b=>b.onclick=()=>parentCenter(b.dataset.pt));
  ({report:parentReport,kids:kidsPanel,friends:friendsPanel,sync:syncPanel})[PTAB]()}
 const dkOf=off=>{const d=new Date(Date.now()+((S.dayOffset||0)+off)*864e5);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
@@ -4095,7 +4139,7 @@ function joinScreen(){clearInterval(INVT);
   <div style="height:10px"></div><button class="btn full" id="jgo">➡️ 加入</button><div style="height:10px"></div>
   <button class="btn blue full" id="scan">📷 扫描二维码</button><div id="cam"></div><div id="jst" class="muted" style="margin-top:8px"></div>
   <div style="height:10px"></div><button class="btn gray full" id="jx">返回</button></div>`;
- $("#jx").onclick=()=>{if(JOINP&&!confirm("取消加入请求？"))return;clearJOINP();syncPanel()};const jcI=$("#jc");$("#jcK").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=jcNorm(jcI.value);jcI.value=k==="⌫"?v.slice(0,-1):(v+k).slice(0,6);if(jcI.value.length===6)toast("代码输好啦，点「加入」",900)});jcI.onblur=()=>{jcI.value=jcNorm(jcI.value).slice(0,6)};jcI.onkeydown=e=>{if(e.key==="Enter")requestJoin(jcI.value)};
+ $("#jx").onclick=()=>{if(JOINP&&!confirm("取消加入请求？"))return;clearJOINP();syncPanel()};const jcI=$("#jc");$("#jcK").querySelectorAll("[data-k]").forEach(b=>tapKey(b,()=>{const k=b.getAttribute("data-k"),v=jcNorm(jcI.value);jcI.value=k==="⌫"?v.slice(0,-1):(v+k).slice(0,6);if(jcI.value.length===6)toast("代码输好啦，点「加入」",900)}));jcI.onblur=()=>{jcI.value=jcNorm(jcI.value).slice(0,6)};jcI.onkeydown=e=>{if(e.key==="Enter")requestJoin(jcI.value)};
  $("#jgo").onclick=()=>requestJoin($("#jc").value);$("#scan").onclick=scanQR;
  if(JOINP){const js=$("#jst");if(js)js.innerHTML="⏳ 已发送请求，请在第一台设备上点「允许」…";pollJoin()}}
 function jcNorm(v){return (v||"").toUpperCase().replace(/[^A-Z0-9]/g,"")}
@@ -4213,7 +4257,7 @@ function giftPicker(v){const items=spareItems();
  lazySVG(m);m.querySelector("#gpx").onclick=()=>m.remove();
  m.querySelectorAll("[data-i]").forEach(b=>b.onclick=async()=>{const id=b.dataset.i,it=ITEMS.find(x=>x.id===id);if(!confirm(`把「${it.zh}」送给 ${nickTxt(v.nick)}？送出后就不是你的啦。`))return;
   try{await syncNow();const r=await rpc("send_gift",{p_token:SYST().token,p_child:S.cid,p_kid:v.kid,p_item:id});if(!r.ok){toast(r.err==="daily_limit"?"今天已经给 TA 送了 3 件啦，明天再送吧":frErr(r.err),1600);return}
-   delete S.inv[id];S.giftedOut=S.giftedOut||{};S.giftedOut[id]=r.gifted_at;_invKeys.delete(id);save();m.remove();v.gifts_left=r.gifts_left??Math.max(0,(v.gifts_left||1)-1);renderVisit();toast(`🎁 已送出「${esc(it.zh)}」！<br><small>好朋友下次打开时就能收到</small>`,1800);syncSoon(300)}catch(e){toast(frErr(e),1500)}})}
+   delete S.inv[id];S.giftedOut=S.giftedOut||{};S.giftedOut[id]=r.gifted_at;_invKeys.delete(id);save();m.remove();v.gifts_left=r.gifts_left!=null?r.gifts_left:Math.max(0,(v.gifts_left||1)-1);renderVisit();toast(`🎁 已送出「${esc(it.zh)}」！<br><small>好朋友下次打开时就能收到</small>`,1800);syncSoon(300)}catch(e){toast(frErr(e),1500)}})}
 // ---------- PARENT SIDE: 🤝 好友 tab ----------
 let FKID=null,FNICK=null;
 async function friendsPanel(){const st=SYST(),pc=$("#pc");
@@ -4255,7 +4299,7 @@ async function friendsPanel(){const st=SYST(),pc=$("#pc");
    $("#fmsg").innerHTML=r.status==="not_found"?"❌ "+frErr("not_found"):r.status==="friends"?`🎉 已成为好友：<b>${esc(nickTxt(r.friend.nick))}</b>`:r.status==="already_friends"?"已经是好友啦":"✅ 已发送，等对方家长批准";
    if(r.status!=="not_found")setTimeout(again,900)}catch(e){$("#fmsg").textContent="❌ "+frErr(e)}finally{const b=$("#fsend");b&&(b.disabled=false)}};
  const fcI=$("#fc");if(fcI){fcI.onblur=()=>{const c=jcNorm(fcI.value).slice(0,8);fcI.value=c.length>4?fmtCode(c):c};fcI.onkeydown=e=>{if(e.key==="Enter")send()}}
- const fk=$("#fcK");if(fk)fk.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=jcNorm(fcI.value);fcI.value=k==="⌫"?v.slice(0,-1):(v+k).slice(0,8);if(fcI.value.length===8)toast("代码输好啦，点「发送」",900)});
+ const fk=$("#fcK");if(fk)fk.querySelectorAll("[data-k]").forEach(b=>tapKey(b,()=>{const k=b.getAttribute("data-k"),v=jcNorm(fcI.value);fcI.value=k==="⌫"?v.slice(0,-1):(v+k).slice(0,8);if(fcI.value.length===8)toast("代码输好啦，点「发送」",900)}));
  $("#fsend").onclick=()=>send();$("#fscan").onclick=()=>scanFriendQR(send);
  const act=(sel,fn)=>app.querySelectorAll(sel).forEach(b=>b.onclick=async()=>{b.disabled=true;try{await fn(b)}catch(e){toast(frErr(e),1400)}again()});
  act("[data-ok]",b=>rpc("answer_friend_request",{p_token:T,p_request:b.dataset.ok,p_ok:true}).then(()=>toast("🎉 已成为好友",1000)));
@@ -4272,7 +4316,7 @@ setTimeout(frBadge,300);
 
 document.body.insertAdjacentHTML("afterbegin",itemDefs());
 render();
-
+window.__APP_OK=true;
 </script>
 <script>
 // launch splash (~1s), tap to skip
@@ -4280,9 +4324,20 @@ render();
  function hide(){if(document.documentElement.dataset.holdSplash)return;sp.classList.add('out');setTimeout(function(){sp.remove()},500)}
  sp.addEventListener('click',hide);setTimeout(hide,Math.max(0,1000-(Date.now()-t0)));})();
 // service worker (offline support). Skipped for file:// previews.
-if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
- window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(e){console.warn('SW register failed',e)})});
-}
+// boot failure fallback: if the main script did not run (e.g. too-old browser), show a message + update button
+setTimeout(function(){try{if(window.__APP_OK)return;var a=document.getElementById('app');if(!a||a.children.length)return;
+ a.innerHTML='<div style="padding:30px 20px;text-align:center;font-size:18px;line-height:1.6"><div style="font-size:54px">🐣</div><b>词团子没能启动</b><br><span style="font-size:14px;color:#777">请先点下面按钮更新；如果还不行，把这台设备的系统升级到最新再试。</span><br><button type="button" id="bootUpd" style="margin-top:14px;font-size:18px;padding:12px 22px;border-radius:18px;border:none;background:#7a5cff;color:#fff">🔄 更新</button><div style="margin-top:14px;font-size:11px;color:#aaa;word-break:break-all">'+APP_VER+' · '+String(window.__bootErr||'')+'<br>'+navigator.userAgent+'</div></div>';
+ document.getElementById('bootUpd').onclick=appHardUpdate;var sp=document.getElementById('spiSplash');if(sp&&sp.parentNode)sp.parentNode.removeChild(sp)}catch(e){}},1500);
+// version check (bypasses all caches) -> banner if a newer build is live
+try{if(/^https?:$/.test(location.protocol)){window.addEventListener('load',function(){setTimeout(appCheckVersion,1200)});document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')appCheckVersion()})}}catch(e){}
+// service worker (offline support). Skipped for file:// previews.
+try{if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+ window.addEventListener('load',function(){
+  var reg=null,p;try{p=navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'})}catch(e){p=navigator.serviceWorker.register('./sw.js',{scope:'./'})}
+  p.then(function(r){reg=r;try{r.update()}catch(e){}},function(e){console.warn('SW register failed',e)});
+  document.addEventListener('visibilitychange',function(){try{if(document.visibilityState==='visible'&&reg)reg.update()}catch(e){}});
+ });
+}}catch(e){}
 </script>
 </body>
 </html>
