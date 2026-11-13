@@ -135,7 +135,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .gpick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:52vh;overflow:auto}.gpi{border:2px solid #f1e4f7;background:transparent;border-radius:14px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:2px}.gpi .lz{width:56px;height:56px}.gpi small{font-size:11px}
 .giftbox{font-size:110px;cursor:pointer;animation:gwig 1.2s ease-in-out infinite;margin:6px 0}.giftbox.open{animation:gopen .5s ease-in forwards}.giftItem{animation:gpop .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes gwig{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg) scale(1.05)}75%{transform:rotate(8deg) scale(1.05)}}@keyframes gopen{to{transform:scale(1.6);opacity:0}}@keyframes gpop{from{transform:scale(.2)}to{transform:scale(1)}}
-.nickbig{font-size:28px;font-weight:900;text-align:center;margin:8px 0;color:#7a3cff}.sel{flex:1;font-size:17px;padding:10px;border-radius:12px;border:2px solid #eadcff;background:#fff}
+.nickbig{font-size:28px;font-weight:900;text-align:center;margin:8px 0;color:#7a3cff}select.sel,select.nickSel{flex:1;font-size:17px;padding:10px;border-radius:12px;border:2px solid #eadcff;background:#fff}
 .bigcode{font-size:34px;font-weight:900;letter-spacing:4px;color:#7a3cff;margin:4px 0}.card.hl{box-shadow:0 0 0 3px #ffd36b}
 .tabs .tab{font-size:13px;padding:8px 6px}
 </style><style>
@@ -243,12 +243,17 @@ body{min-height:100vh;min-height:100dvh}
 .scene{position:relative;border-radius:22px;overflow:visible;background:linear-gradient(#fff7fb,#f3fbff)}
 .scene .petStage{height:270px}
 .decoL{position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none}
-.pd{position:absolute;line-height:0;touch-action:none}
-.pd.ed{pointer-events:auto;cursor:grab}.pd.sel{outline:3px dashed #3fa3f5;outline-offset:2px;border-radius:12px}.pd.trash{opacity:.4}
+.pd,.pd.sel,.pd.ed{position:absolute;line-height:0;touch-action:none;background:transparent;padding:0;border:none;box-shadow:none}
+.pd.ed{pointer-events:auto;cursor:grab}.pd.sel{outline:3px dashed #3fa3f5;outline-offset:2px;border-radius:12px;background:transparent;padding:0;border:none}.pd.trash{opacity:.4}.pd.dragging{opacity:0;outline:none}
 .scene.edit{outline:3px dashed #ffc1de}
-.tools{display:flex;justify-content:center;gap:8px;margin:8px 0;opacity:.35;pointer-events:none}.tools.on{opacity:1;pointer-events:auto}
-.tools button{width:52px;height:48px;border-radius:16px;background:#fff;box-shadow:0 3px 0 #ecdcf5;font-size:22px}
-.sheet{position:sticky;bottom:0;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -6px 20px rgba(120,60,140,.15);padding:8px 8px calc(10px + env(safe-area-inset-bottom));margin:0 -14px}
+.tools{display:flex;justify-content:center;z-index:45;margin:0 0 6px;padding:4px 0;opacity:.35;pointer-events:none;background:transparent;position:relative}
+.tools.on{opacity:1;pointer-events:auto}
+.tools button{width:52px;height:48px;margin:0 4px;border-radius:16px;background:#fff;box-shadow:0 3px 0 #ecdcf5;font-size:22px;flex:none}
+.sheet{position:sticky;bottom:0;z-index:30;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -6px 20px rgba(120,60,140,.15);padding:8px 8px calc(10px + env(safe-area-inset-bottom));margin:0 -14px}
+.pdScale{position:fixed;z-index:90;display:flex;pointer-events:auto}
+.pdScale button{width:44px;height:44px;margin:0 3px;padding:0;border:none;border-radius:22px;background:#fff;box-shadow:0 3px 10px rgba(80,40,120,.28);font-size:20px;line-height:44px}
+.quizMe{position:absolute;right:8px;bottom:8px;z-index:6;pointer-events:auto;border:none;background:#fff;color:#4a3b5c;font-weight:800;font-size:14px;padding:8px 12px;border-radius:16px;box-shadow:0 3px 0 #ecdcf5;min-height:40px}
+.dghost{background:transparent!important;padding:0!important;border:none!important}
 .tray{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-height:210px;overflow-y:auto;touch-action:pan-y}
 .ti{background:transparent;border-radius:14px;display:flex;align-items:center;justify-content:center;min-height:66px;border:2px solid transparent;touch-action:none}
 .ti.used{opacity:.3}
@@ -289,6 +294,8 @@ body{min-height:100vh;min-height:100dvh}
 .a-strong{animation:aStrong .4s 3!important}@keyframes aStrong{50%{transform:scale(1.12,1.02)}}
 .a-laugh{animation:aLaugh .2s 7!important}@keyframes aLaugh{50%{transform:translateY(-6px) rotate(4deg)}}
 .a-look{animation:aLook 1.6s!important}@keyframes aLook{25%{transform:translateX(-12px) rotate(-6deg)}75%{transform:translateX(12px) rotate(6deg)}}
+.a-yawn{animation:aYawn 1.2s ease!important}@keyframes aYawn{0%,100%{transform:scale(1)}30%{transform:scale(1.06,.9)}55%{transform:scale(1.1,.84) translateY(-3px)}80%{transform:scale(1.02,1.04)}}
+.a-sit{animation:aSit 1.4s ease!important;transform-origin:50% 100%}@keyframes aSit{0%{transform:scale(1)}35%{transform:scale(1.08,.88) translateY(6px)}100%{transform:scale(1.04,.94) translateY(4px)}}
 .a-cheer{animation:aJump .45s 2!important}
 .a-lvup{animation:aLv 1.4s!important}@keyframes aLv{30%{transform:translateY(-34px) scale(1.2)}60%{transform:translateY(-34px) scale(1.2) rotate(360deg)}}
 .orb{position:fixed;z-index:70;font-size:28px;pointer-events:none;transition:all .6s cubic-bezier(.5,-0.4,.6,1);filter:drop-shadow(0 0 6px #ffd24a)}
@@ -326,6 +333,21 @@ body{min-height:100vh;min-height:100dvh}
 .ucard{background:#fff;border-radius:24px;padding:8px;box-shadow:0 5px 0 #ecdcf5}.ucard .unit{box-shadow:none;padding:4px;min-height:60px}
 .units{grid-template-columns:1fr 1fr}.unit .em{font-size:32px;width:40px}.unit b{font-size:16px}
 .card.exam.ready{outline:3px solid #ffc15e;background:linear-gradient(#fffaf0,#fff)}
+.todayGoal{background:linear-gradient(#fff7e8,#ffeef7);border-radius:24px;padding:14px 14px 12px;box-shadow:0 5px 0 #f0d0c0;margin:8px 0;text-align:left}
+.todayGoal .tgK{font-size:13px;font-weight:800;color:#c45c8a}
+.todayGoal h3{margin:2px 0 6px;font-size:22px;line-height:1.3}
+.todayGoal .tgRew{font-size:14px;color:#8a5a30;font-weight:700;margin:0 0 8px}
+.todayGoal.done{box-shadow:0 5px 0 #d8d0e0;background:linear-gradient(#f4fff4,#eef8ff)}
+.examRow{display:flex;gap:8px;align-items:stretch;margin-top:10px}
+.examRow .exam{flex:1.3;min-width:0;margin:0;padding:12px}
+.examLine{font-size:16px;font-weight:800;color:#4a3b5c;margin:4px 0 6px;line-height:1.35}
+.examLine.ready{color:#c46a00;font-size:18px}
+.goldFold{margin-top:6px}.goldFold .ghd{width:100%;background:none;border:none;padding:4px 0;font:inherit;font-size:13px;font-weight:700;color:#8a7a9a;text-align:left}
+.goldFold .gbar{display:none;margin-top:4px}.goldFold.open .gbar{display:block}
+.chalMini{flex:0 0 36%;max-width:42%;background:#fff;border-radius:20px;padding:10px 8px;box-shadow:0 4px 0 #ecdcf5;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}
+.chalMini b{font-size:14px;line-height:1.3;margin:2px 0 6px}
+.themeToday{margin-top:12px}
+.unitsAll{display:none;margin-top:8px;grid-template-columns:1fr 1fr;gap:12px}.unitsAll.on{display:grid}
 .nav{grid-template-columns:repeat(6,1fr);gap:6px}.nav button{font-size:22px;min-height:58px}.nav button small{font-size:11px}
 .lvgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .pg1{box-shadow:0 0 0 2px #7cc4ff inset}.pg2{box-shadow:0 0 0 2px #b98cff inset,0 0 12px #c9a6ff}
@@ -365,14 +387,14 @@ body{min-height:100vh;min-height:100dvh}
 .sc-beach .petAmb{animation:scSway 3s ease-in-out infinite;transform-origin:50% 100%}
 .sc-farm .petAmb{animation:scTrot 4s ease-in-out infinite}
 .sc-cloud .petAmb{animation:scFloat 4.2s ease-in-out infinite}
-@keyframes scHop{0%,55%,100%{transform:translate(0,0)}65%{transform:translate(-8px,-18px)}75%{transform:translate(-14px,0)}85%{transform:translate(-8px,-10px)}95%{transform:translate(-2px,0)}}
+@keyframes scHop{0%,18%,100%{transform:translate(0,0)}8%{transform:translate(-10px,-20px)}14%{transform:translate(-18px,0)}28%{transform:translate(-6px,-8px)}40%{transform:translate(8px,0)}52%{transform:translate(16px,-18px)}62%{transform:translate(10px,0)}78%{transform:translate(-4px,-10px)}}
 @keyframes scSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
 @keyframes scTrot{0%,100%{transform:translate(-18px,0)}12.5%{transform:translate(-12px,-6px)}25%{transform:translate(-6px,0)}37.5%{transform:translate(6px,-6px)}50%{transform:translate(18px,0)}62.5%{transform:translate(12px,-6px)}75%{transform:translate(6px,0)}87.5%{transform:translate(-6px,-6px)}}
 @keyframes scFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .amb{position:absolute;pointer-events:none;line-height:1}
-.aBfly{left:58%;top:38%;font-size:22px;animation:scBfly 6.4s ease-in-out infinite}
-@keyframes scBfly{0%,100%{transform:translate(0,0) rotate(-10deg)}25%{transform:translate(-60px,-24px) rotate(10deg)}50%{transform:translate(-110px,10px) rotate(-6deg)}75%{transform:translate(-40px,30px) rotate(8deg)}}
-.aSplash{left:36%;top:80%;font-size:18px;opacity:0;animation:scSplash 2.8s ease-out infinite}.aSplash.a2{left:60%;animation-delay:1.4s}
+.aBfly{left:58%;top:38%;font-size:22px;animation:scBfly 5.2s ease-in-out infinite}
+@keyframes scBfly{0%,100%{transform:translate(0,0) rotate(-10deg)}20%{transform:translate(-50px,-28px) rotate(12deg)}40%{transform:translate(-110px,8px) rotate(-8deg)}60%{transform:translate(-20px,24px) rotate(10deg)}80%{transform:translate(20px,-12px) rotate(-6deg)}}
+.aSplash{left:36%;top:80%;font-size:20px;opacity:0;animation:scSplash 2.2s ease-out infinite}.aSplash.a2{left:60%;animation-delay:1.1s}.aSplash.a3{left:48%;font-size:16px;animation-delay:.55s}
 @keyframes scSplash{0%{opacity:0;transform:translateY(0) scale(.6)}20%{opacity:1}60%{opacity:.8;transform:translateY(-34px) scale(1)}100%{opacity:0;transform:translateY(-10px) scale(.8)}}
 .aDust{left:34%;top:86%;font-size:16px;opacity:0;animation:scDust 4s ease-out infinite}
 @keyframes scDust{0%,40%{opacity:0;transform:translateX(0)}50%{opacity:.8}80%,100%{opacity:0;transform:translateX(-30px)}}
@@ -384,7 +406,7 @@ body{min-height:100vh;min-height:100dvh}
 .scSide{animation:scSide 5s ease-in-out infinite}@keyframes scSide{0%,100%{transform:translateX(0)}50%{transform:translateX(-14px)}}
 .scBuzz{animation:scBuzz 4s ease-in-out infinite}@keyframes scBuzz{0%,100%{transform:translate(0,0)}33%{transform:translate(-14px,8px)}66%{transform:translate(10px,4px)}}
 .scSun{animation:scTw 5s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){.petAmb,.amb,.scEl{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.petAmb,.amb,.scEl,.petIdle,.petWrap.bounce,.cmpBody,[class^="a-"]{animation:none!important}}
 .banner.visitB{position:relative;background:linear-gradient(90deg,#ffe3f1,#e3f1ff);font-size:19px}.banner.visitB .dot{position:absolute;top:-6px;right:-4px;min-width:22px;height:22px;line-height:22px;border-radius:11px;background:#ff3b5c;color:#fff;font-size:12px;font-style:normal;font-weight:900;text-align:center;padding:0 5px;box-shadow:0 0 0 2px #fff}
 .updBar{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));-webkit-transform:translateX(-50%);transform:translateX(-50%);z-index:9998;background:#7a5cff;color:#fff;border:none;border-radius:22px;padding:10px 18px;font-size:16px;font-weight:800;box-shadow:0 6px 18px rgba(80,40,160,.35)}.verLine{font-size:11px;opacity:.6;text-align:center;margin:16px 0 8px}.verLine button{font-size:12px;padding:4px 10px;border-radius:12px;border:1px solid #cbb;background:#fff;color:#4a3b5c;margin-left:6px}
 </style>
@@ -396,7 +418,7 @@ body{min-height:100vh;min-height:100dvh}
 <div id="toast" class="toast"></div>
 <script>
 /* ES5 boot (must stay ES5): version, polyfills for old iOS Safari, pointer-events shim, update helpers */
-var APP_VER='spi-v16';
+var APP_VER='spi-v18';
 (function(){
  function def(o,k,f){if(!o[k]){try{Object.defineProperty(o,k,{value:f,configurable:true,writable:true})}catch(e){o[k]=f}}}
  def(Array.prototype,'flat',function(d){d=d===undefined?1:Math.floor(d);var out=[];(function f(a,dd){for(var i=0;i<a.length;i++){if(!(i in a))continue;var v=a[i];if(Array.isArray(v)&&dd>0)f(v,dd-1);else out.push(v)}})(this,d);return out});
@@ -803,8 +825,8 @@ function logLv(i,n){const t=todayLog();t.lv=t.lv||{};t.lv[i]=(t.lv[i]||0)+n}
 const eggLeft=e=>S.sessions>e.sess?0:1; // hatches after 1 more completed learning session
 const EGGN={exam:"考级优秀蛋",mile:"里程碑蛋",gold:"金色宝宝蛋"};
 function giveEgg(src,why){S.eggList.push({src,gold:src==="gold",sess:S.sessions,why});logAdd("eggs",src);setTimeout(()=>toast(`${src==="gold"?"🌟🥚 金色宝宝蛋！":"🥚 获得宠物蛋！"}<br><small>${why}<br>再完成 1 次学习就能孵化</small>`,2400),1200)}
-function eggMilestones(){const k=totalMastered();while(S.mileGiven<Math.floor(k/100)){S.mileGiven++;giveEgg("mile",`累计掌握 ${S.mileGiven*100} 个单词`)}
- for(let l=1;l<=MAXLV;l++)if(!S.goldLv[l]&&lvFullyMastered(l)){S.goldLv[l]=1;giveEgg("gold",`⭐${l} 全部单词掌握 + 考级通过`)}}
+function eggMilestones(){const k=totalMastered();while(S.mileGiven<Math.floor(k/100)){S.mileGiven++;giveEgg("mile",`累计记住了 ${S.mileGiven*100} 个单词`)}
+ for(let l=1;l<=MAXLV;l++)if(!S.goldLv[l]&&lvFullyMastered(l)){S.goldLv[l]=1;giveEgg("gold",`⭐${l} 全部单词都记住了 + 考级通过`)}}
 // ---- MASTERY rule: >=3 correct in separate rounds, first..latest correct >=1 calendar day apart, latest answer correct (a wrong answer resets) ----
 let ROUND=0; // id of the current review round (learning session / challenge / exam / pop quiz)
 function newRound(){S.round=(S.round||0)+1;ROUND=S.round;return ROUND}
@@ -886,7 +908,7 @@ function L_(key,vars){const p=P();const set=LINES[PERS_OF(p?p.sp:"monkey")];let 
 // 24 reusable animations; word tags -> animation (fallback: curious)
 const ANIMS={jump:["a-jump","⬆️"],sleep:["a-sleep","💤"],cold:["a-cold","❄️"],hot:["a-hot","🔥"],dance:["a-dance","🎶"],sing:["a-sing","🎵"],sad:["a-sad","💧"],angry:["a-angry","💢"],big:["a-big","🐘"],small:["a-small","🐜"],
  fast:["a-fast","💨"],slow:["a-slow","🐢"],spin:["a-spin","🌀"],fly:["a-fly","☁️"],swim:["a-swim","💦"],eat:["a-eat","😋"],drink:["a-drink","🥤"],scared:["a-scared","❗"],shy:["a-shy","😳"],think:["a-think","💭"],
- strong:["a-strong","💪"],laugh:["a-laugh","😂"],look:["a-look","👀"],curious:["a-curious","❓"],cheer:["a-cheer","✨"],combo:["a-combo","🔥"],hint:["a-hint","💡"],lvup:["a-lvup","🌟"]};
+ strong:["a-strong","💪"],laugh:["a-laugh","😂"],look:["a-look","👀"],yawn:["a-yawn","😪"],sit:["a-sit","😌"],curious:["a-curious","❓"],cheer:["a-cheer","✨"],combo:["a-combo","🔥"],hint:["a-hint","💡"],lvup:["a-lvup","🌟"]};
 function animFor(w){return w&&w.a&&ANIMS[w.a]?w.a:"curious"}
 let CMP={mood:0,word:null};
 function companion(){const p=P();if(!p)return "";return `<div class="cmp" id="cmp"><div class="cbub hide" id="cbub"></div><div class="cmpBody" id="cmpP" role="button" aria-label="宠物">${mini(p.sp,ART(stageIdx(p)),96)}<span class="cfx" id="cfx"></span></div>
@@ -894,9 +916,10 @@ function companion(){const p=P();if(!p)return "";return `<div class="cmp" id="cm
 let bubT;
 function petSay(t,ms){const b=$("#cbub");if(!b)return;b.innerHTML=t;b.classList.remove("hide");b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");clearTimeout(bubT);bubT=setTimeout(()=>b.classList.add("hide"),ms||2600)}
 let actT;
-function petAct(name){const el=$("#cmpP");if(!el)return;const a=ANIMS[name]||ANIMS.curious;Object.values(ANIMS).forEach(x=>el.classList.remove(x[0]));void el.offsetWidth;el.classList.add(a[0]);el.dataset.anim=name;
- const fx=$("#cfx");if(fx){fx.textContent=a[1];fx.classList.remove("show");void fx.offsetWidth;fx.classList.add("show")}
- clearTimeout(actT);actT=setTimeout(()=>{el.classList.remove(a[0])},1600)}
+function petAct(name){const a=ANIMS[name]||ANIMS.curious;const els=[$("#cmpP"),$("#pet .petIdle")].filter(Boolean);if(!els.length)return;
+ els.forEach(el=>{Object.values(ANIMS).forEach(x=>el.classList.remove(x[0]));void el.offsetWidth;el.classList.add(a[0]);el.dataset.anim=name});
+ [$("#cfx"),$("#petFx")].forEach(fx=>{if(!fx)return;fx.textContent=a[1];fx.classList.remove("show");void fx.offsetWidth;fx.classList.add("show")});
+ clearTimeout(actT);actT=setTimeout(()=>{els.forEach(el=>el.classList.remove(a[0]))},1600)}
 function petIntro(w){CMP.word=w;petAct(animFor(w));petSay(L_("intro",{w:esc(w.w)}),2400)}
 function petLean(btn){const el=$("#cmpP");if(!el||!btn)return;const r=btn.getBoundingClientRect(),q=el.getBoundingClientRect();const dx=(r.left+r.width/2)-(q.left+q.width/2);
  el.style.setProperty("--lean",Math.max(-14,Math.min(14,dx/18))+"deg");el.classList.add("lean");setTimeout(()=>el.classList.remove("lean"),700)}
@@ -977,10 +1000,10 @@ function runQ(el,q,cb){
   el.querySelector("#clr").onclick=()=>{ans=[];draw()};
   el.querySelector("#sp").onclick=()=>isS?say(w.s,"s"):say(w.w);setTimeout(()=>isS?say(w.s,"s"):say(w.w),250);draw();mountIdk(el,giveUp);return}
  if(g==="bub"){
-  const ds=distract(w,3,null),opts=shuffle([w,...ds]);const T=Math.max(7,12-w.lv*.4);
+  const ds=distract(w,3,null),opts=shuffle([w,...ds]);const T=q.t>0?q.t:Math.max(7,12-w.lv*.4);
   el.innerHTML=head(GNAME.bub,"听到哪个就戳哪个泡泡！")+`<button class="speak sm" id="sp">🔊</button><div class="tbar"><i id="tb"></i></div><div class="bubbles" id="bb">${opts.map((o,i)=>`<button class="bub" data-o="${i}"${o===w?' data-right="1"':""} style="left:${8+i*22}%;animation-delay:${-i*1.3}s;animation-duration:${5+i%2*1.5}s">${esc(o.w)}</button>`).join("")}</div>`;
   const tb=el.querySelector("#tb");tb.style.transition=`width ${T}s linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>tb.style.width="0%"));
-  const to=setTimeout(()=>{if(locked)return;petSay("⏰ Time! 没关系~",1200);first=false;if(once){locked=true;cb.done(false,q)}else{tb.style.transition="none";tb.style.width="100%"}},T*1000);
+  const to=setTimeout(()=>{if(locked)return;petSay("⏰ Time! 没关系~",1200);sfx("no");fail()},T*1000);
   el.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>{const o=opts[+b.dataset.o];sfx("pop");if(o===w){clearTimeout(to);b.classList.add("popped");burstAt(b,10,["🫧","✨","💦"]);right(b)}else{b.classList.add("wob");wrong(b)}}});
   el.querySelector("#sp").onclick=()=>say(w.w);setTimeout(()=>say(w.w),300);mountIdk(el,giveUp);return}
  if(g==="mem"){
@@ -1110,9 +1133,8 @@ function learnDone(){
  const ses=L;L=null;GAME=null;const p=P();const n=ses.learned.length;
  const fav=ses.learned.filter(x=>x.pic)[0]||ses.learned[0]||ses.revs[0];
  if(ses.opt.mystery&&!S.mystery[dk()]){S.mystery[dk()]=1;S.energy+=15}
- S.sessions=(S.sessions||0)+1;eggMilestones();
+ S.sessions=(S.sessions||0)+1;try{claimLearnGoal(ses)}catch(e){}eggMilestones();
  if(ses.opt.examReview){examState(ses.opt.examReview).lock=[]}
- const treats=Math.max(1,Math.ceil(ses.correct/2));S.treats=(S.treats||0)+treats;
  const firstN=ses.firstN||0,firstOk=ses.firstOk||0,rate=firstN?Math.round(firstOk/firstN*100):100,giveBox=rate>=80;
  if(giveBox)S.boxes.n++;
  const allLv=LVW[S.level].every(isKnown);ses.rate=rate;ses.giveBox=giveBox;save();
@@ -1122,16 +1144,14 @@ function learnDone(){
  <div class="card center"><div class="petStage" id="stage" style="height:200px">${petHTML(p,false)}</div>
   <div class="say">${line}</div>
   <div class="stats" style="margin-top:10px"><div class="stat"><b>${n}</b><small>📗 新学单词</small></div><div class="stat"><b>${ses.revs.length}</b><small>🔁 复习单词</small></div><div class="stat"><b>+${ses.energy}⚡</b><small>能量</small></div><div class="stat"><b>🔥${ses.best}</b><small>最高连击</small></div></div>
-  ${n?`<p>${ses.learned.map(x=>`<button class="wchip" data-s="${esc(x.w)}">${x.pic?x.e:""} ${esc(x.w)}</button>`).join("")}</p>`:""}
-  <h3>🍪 喂零食（点一下喂宠物）</h3><div class="treats" id="tr">${"<button class='treat'>🍪</button>".repeat(Math.min(S.treats,12))}</div><p class="muted" id="trn">零食 ${S.treats} 个 · 每个 +10 成长</p></div>
+  ${n?`<p>${ses.learned.map(x=>`<button class="wchip" data-s="${esc(x.w)}">${x.pic?x.e:""} ${esc(x.w)}</button>`).join("")}</p>`:""}</div>
  ${ses.giveBox?`<div class="card center boxcard"><div style="font-size:64px" class="shake">🎁</div><b>获得 1 个 神秘盒子！</b><p class="muted">盒子里有 1 件随机装饰 · 你有 ${S.boxes.n+S.boxes.g} 个</p>
   <button class="btn orange full" id="ob">🎁 现在打开</button></div>`:`<div class="card center"><div style="font-size:56px">🤗</div><p>第一次答对 <b>${ses.rate}%</b>，达到 80% 就能拿盒子，再学一组试试！</p></div>`}
  <div class="row"><button class="btn green full" id="again">📚 再学一组</button><button class="btn blue full" id="hm">🏠 回家</button></div>
  ${allLv?`<p class="center"><b>⭐${S.level} 的单词都学完啦！去参加考级吧 🎓</b></p>`:""}`;
  back(home);setTimeout(()=>{say(line.replace(/<[^>]+>/g,"").replace(/[^\x00-\x7F]+/g," "),"c");if(!ses.giveBox)toast("第一次答对 "+ses.rate+"%，达到 80% 就能拿盒子，再学一组试试！",2600)},300);
  app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>say(b.dataset.s));
- app.querySelectorAll(".treat").forEach(b=>b.onclick=()=>{if(S.treats<=0)return;const before=stageIdx(p);S.treats--;p.growth+=10;save();sfx("eat");b.classList.add("eaten");burstAt($("#pet"),6,["😋","💖","✨"]);bounce();$("#trn").textContent=`零食 ${S.treats} 个 · 每个 +10 成长`;const af=stageIdx(p);if(af>before){logLv(S.pets.indexOf(p),af-before);toast(`🎉 进化啦！${STAGES[af].name}`,1600);if(af===MAXST&&!p.maxed)setTimeout(()=>maxCelebrate(p),900)}});
- if($("#ob"))$("#ob").onclick=()=>openBox("n",()=>home());$("#again").onclick=()=>startLearn();$("#hm").onclick=home;
+ if($("#ob"))$("#ob").onclick=()=>openBox("n",()=>home());$("#again").onclick=()=>startLearn();$("#hm").onclick=home;setTimeout(()=>{if(screen==="done")petAct(pick1(["cheer","dance","jump"]))},400);
 }
 // ---------- unit challenge (3 hearts) ----------
 let C=null;
@@ -1144,7 +1164,7 @@ function renderChallenge(){if(!C)return home();scrollTo(0,0);const q=C.qs[C.i];
  runQ($("#q"),Object.assign({},q),{done:(c,qq)=>{if(!C||C.hearts<=0)return;const ok=!!(c||(qq&&qq.ok));const fast=ok&&tooFast();if(fast)noteFast(true);else FASTN=0;if(!fast){C.firstN++;if(c)C.firstOk++}(q.ws||[q.w]).forEach(x=>{if(!(ok&&fast))recordAns(x,ok)});eggMilestones();save();if(ok&&!fast)GAME.combo++;else if(!ok)GAME.combo=0;moodAdd(ok?20:6);setTimeout(()=>{if(!C||C.hearts<=0)return;C.i++;C.i<C.qs.length?renderChallenge():chWin()},800)},
   miss:()=>{if(!C)return;C.hearts--;const h=app.querySelector(".hearts");if(h)h.innerHTML="❤️".repeat(Math.max(0,C.hearts))+"🤍".repeat(3-Math.max(0,C.hearts));if(C.hearts<=0)setTimeout(chFail,700)}})}
 function chFail(){if(!C)return;const u=C.u;C=null;app.innerHTML=`<div class="card center"><div style="font-size:70px">💪</div><h1>差一点点！</h1><p>复习一下 ${esc(u.zh)} 的单词，再来挑战吧</p></div><button class="btn green full" id="r">🔁 再试一次</button><div style="height:10px"></div><button class="btn blue full" id="h">🏠 回家</button>`;$("#r").onclick=()=>startChallenge(u.i);$("#h").onclick=home}
-function chWin(){const u=C.u,firstN=C.firstN||0,firstOk=C.firstOk||0,rate=firstN?Math.round(firstOk/firstN*100):100,giveBox=rate>=80;C=null;S.challenges[u.id]=(S.challenges[u.id]||0)+1;S.energy+=30;if(giveBox)S.boxes.n++;logAdd("ch",u.id);save();sfx("fan");
+function chWin(){const u=C.u,firstN=C.firstN||0,firstOk=C.firstOk||0,rate=firstN?Math.round(firstOk/firstN*100):100,giveBox=rate>=80;C=null;S.challenges[u.id]=(S.challenges[u.id]||0)+1;S.energy+=30;if(giveBox)S.boxes.n++;logAdd("ch",u.id);try{markGoal("chal")}catch(e){}save();sfx("fan");
  app.innerHTML=`<div class="card center"><div style="font-size:70px">🏆</div><h1>挑战成功！</h1><p>${esc(u.zh)} · +30⚡${giveBox?" · 🎁 神秘盒子 +1":""}</p>${giveBox?"":`<p>第一次答对 <b>${rate}%</b>，达到 80% 就能拿盒子，再挑战一次试试！</p>`}</div>${giveBox?`<button class="btn orange full" id="ob">🎁 打开盒子</button><div style="height:10px"></div>`:""}<button class="btn blue full" id="h">🏠 回家</button>`;
  burst(innerWidth/2,200,20,["🎉","⭐","🏆","✨"]);if($("#ob"))$("#ob").onclick=()=>openBox("n",home);$("#h").onclick=home}
 
@@ -1153,7 +1173,7 @@ let EX=null;
 const EXAM_MIX=[["hear",6],["mean",6],["spell",6],["cloze",6],["read",4]];
 function examState(lv){return S.exam[lv]||(S.exam[lv]={tries:0,lock:[],pass:0})}
 function examReady(lv){return lvKnown(lv)>=Math.ceil(LVW[lv].length*EXAM_PCT)}
-function startExam(){const lv=S.level;if(!examReady(lv))return toast(`学会 ${Math.round(EXAM_PCT*100)}% 的单词才能考级<br>(${lvKnown(lv)}/${Math.ceil(LVW[lv].length*EXAM_PCT)})`,1800);
+function startExam(){const lv=S.level;if(!examReady(lv))return toast(`会了 ${Math.round(EXAM_PCT*100)}% 的单词才能考级<br>(已会 ${lvKnown(lv)}/${Math.ceil(LVW[lv].length*EXAM_PCT)})`,1800);
  const es=examState(lv);if(es.lock.length)return toast("先复习上次的错词，再来考试哦",1500);
  const pool=shuffle(LVW[lv]);let k=0;const qs=[];const used=new Set();
  EXAM_MIX.forEach(([g,n])=>{let c=0;for(const w of pool){if(c>=n)break;if(used.has(w))continue;if(g==="spell"&&!/^[a-z]{2,10}$/.test(w.w))continue;if(g==="read"&&w.s.length>90)continue;used.add(w);qs.push({g,w,once:true});c++}});
@@ -1164,7 +1184,7 @@ function renderExam(){if(!EX)return home();scrollTo(0,0);const q=EX.qs[EX.i];
  runQ($("#q"),Object.assign({},q),{done:c=>{const fast=c&&tooFast();if(fast)noteFast(true);else FASTN=0;if(!fast){recordAns(q.w,c);if(c){EX.score++;GAME.combo++}else{EX.wrong.push(q.w);GAME.combo=0}}moodAdd(c?10:4);setTimeout(()=>{EX.i++;EX.i<EX.qs.length?renderExam():examResult()},700)}})}
 function examResult(){const e=EX;EX=null;const n=e.qs.length,need=Math.ceil(n*.8),pass=e.score>=need,es=examState(e.lv);es.tries++;
  if(e.score>=Math.ceil(n*.9))giveEgg("exam",`⭐${e.lv} 考级 ${Math.round(e.score/n*100)}% 优秀`);
- if(pass){es.pass=1;es.lock=[];if(S.level<MAXLV)S.level++;S.boxes.g++;S.energy+=100;logAdd("exam",e.lv);sfx("fan")}
+ if(pass){es.pass=1;es.lock=[];if(S.level<MAXLV)S.level++;S.boxes.g++;S.energy+=100;logAdd("exam",e.lv);try{markGoal("exam")}catch(e){}sfx("fan")}
  else{es.lock=[...new Set(e.wrong.map(w=>w.w))];es.lock.forEach(k=>{const s=ws(k);s.b=0;s.d=0})}
  eggMilestones();save();screen="examr";
  app.innerHTML=`<div class="card center"><div style="font-size:72px">${pass?"🎓":"💪"}</div><h1>${pass?"考级通过！":"再加把劲！"}</h1>
@@ -1178,11 +1198,11 @@ function examResult(){const e=EX;EX=null;const n=e.qs.length,need=Math.ceil(n*.8
 let PL=null;
 const PL_TYPES=["hear","mean","cloze","read","hear","see"];
 function leavePlace(from){PL=null;if(from==="report"&&typeof parentCenter==="function")parentCenter("report");else home()}
-function requestPlaceRetake(from){const go=()=>{if(confirm("重新测验大约 20–30 题，会根据结果调整学习星级。已经学会的单词、宠物和装饰都会保留。"))placeIntro(true,from)};
+function requestPlaceRetake(from){const go=()=>{if(confirm("重新测验大约 20–30 题，会根据结果调整学习星级。已经会了的单词、宠物和装饰都会保留。"))placeIntro(true,from)};
  if(from==="home"&&typeof parentGate==="function")parentGate(go);else go()}
 function placeIntro(retake,from){screen="place";scrollTo(0,0);const isR=!!retake;
  app.innerHTML=`<div class="card center"><div style="font-size:60px">🎯</div><h1>${isR?"重新定级测验":"星级小测验"}</h1><p style="font-size:17px">约 20–30 道小题，会根据你的回答变难或变简单<br>帮你在 ⭐1–⭐10 里找到最合适的起点</p>
- <p class="muted">听音选图 · 选意思 · 句子填空 · 小阅读<br>不会的题可以点「我不会」，没关系！${isR?"<br>已经学会的单词、宠物和装饰都会保留。":""}</p></div>
+ <p class="muted">听音选图 · 选意思 · 句子填空 · 小阅读<br>不会的题可以点「不会」，没关系！${isR?"<br>已经会了的单词、宠物和装饰都会保留。":""}</p></div>
  <button class="btn full" id="go">🚀 开始测验</button><div style="height:12px"></div><button class="btn gray full" id="skip">${isR?"取消，保持现在的 ⭐"+S.level:"从 ⭐1 开始（跳过测验）"}</button>`;
  $("#go").onclick=()=>startPlace(isR,from);$("#skip").onclick=()=>{if(isR){leavePlace(from);return}S.level=1;S.placed=true;save();home()}}
 function startPlace(retake,from){PL={th:5,step:2,n:0,hist:[],used:new Set(),retake:!!retake,from:from||null};GAME={combo:0};CMP.mood=0;screen="place";renderPlace()}
@@ -1460,7 +1480,7 @@ function galleryScreen(){screen="gallery";const sc=scrollY;
 // ================= SCENES 场景 (per-pet: p.sc = active scene, p.deco = its layout, p.dz = other scenes' layouts) =================
 const SCENES=[
  {id:"room",e:"🏠",zh:"房间",ok:()=>true},
- {id:"grass",e:"🌿",zh:"草地",need:"掌握 50 个单词",ok:()=>totalMastered()>=50,prog:()=>`已掌握 ${Math.min(50,totalMastered())}/50`},
+ {id:"grass",e:"🌿",zh:"草地",need:"记住 50 个单词",ok:()=>totalMastered()>=50,prog:()=>`已记住 ${Math.min(50,totalMastered())}/50`},
  {id:"beach",e:"🏖️",zh:"沙滩",need:"通过任意一级考级",ok:()=>Object.keys(S.exam||{}).some(l=>S.exam[l]&&S.exam[l].pass)},
  {id:"farm",e:"🐑",zh:"牧场",need:"拥有 5 只宠物",ok:()=>(S.pets||[]).length>=5,prog:()=>`已有 ${(S.pets||[]).length}/5 只`},
  {id:"cloud",e:"☁️",zh:"云朵",need:"获得一颗金蛋，或拥有一只 🌈闪耀 宠物",ok:()=>Object.keys(S.goldLv||{}).some(l=>S.goldLv[l])||(S.pets||[]).some(p=>SP[p.sp]&&SP[p.sp].r===3)}];
@@ -1480,7 +1500,7 @@ function setScene(p,id){p=scFix(p||P());if(!SCN[id]||p.sc===id)return;p.dz[p.sc]
 function placedWhere(p){const m={};const L=scLayouts(p);Object.keys(L).forEach(k=>L[k].forEach(d=>{if(!m[d.i])m[d.i]=k}));return m}
 function scBgHTML(id){const bg=SCBG[id]||[];let x=`<div class="scBg">`;
  x+=bg.map(b=>`<span class="scEl ${b[6]||""}" data-w="${b[1]}" data-zh="${b[2]}" style="left:${b[3]}%;top:${b[4]}%;font-size:${b[5]}px">${b[0]}</span>`).join("");
- if(id==="grass")x+=`<span class="amb aBfly">🦋</span>`;if(id==="beach")x+=`<span class="amb aSplash">💦</span><span class="amb aSplash a2">💧</span>`;if(id==="farm")x+=`<span class="amb aDust">💨</span>`;if(id==="cloud")x+=`<span class="amb aPuff">☁️</span>`;
+ if(id==="grass")x+=`<span class="amb aBfly">🦋</span>`;if(id==="beach")x+=`<span class="amb aSplash">💦</span><span class="amb aSplash a2">💧</span><span class="amb aSplash a3">💦</span>`;if(id==="farm")x+=`<span class="amb aDust">💨</span>`;if(id==="cloud")x+=`<span class="amb aPuff">☁️</span>`;
  return x+`</div>`}
 function sceneRow(p){p=p||P();const cur=SCN[p.sc]?p.sc:"room";return `<div class="scRow" id="scRow">${SCENES.map(s=>{const u=scUnlocked(s.id);return `<button type="button" class="scB ${cur===s.id?"on":""} ${u?"":"lk"}" data-sc="${s.id}" aria-label="${s.zh}"><span>${s.e}</span>${u?"":`<i>🔒</i>`}<small>${s.zh}</small></button>`}).join("")}</div>`}
 function bindSceneRow(after){const r=$("#scRow");if(!r)return;r.querySelectorAll("[data-sc]").forEach(b=>b.onclick=()=>{const s=SCN[b.dataset.sc];if(!s)return;
@@ -1499,26 +1519,37 @@ function sceneCheck(){S.scU=S.scU||{};S.scCel=S.scCel||{};const fresh=[];
 // ================= HOME SCENE + DECORATE MODE =================
 function decoLayer(p,edit){return (p.deco||[]).map((d,k)=>`<div class="pd ${edit?"ed":""}" data-k="${k}" style="left:${d.x*100}%;top:${d.y*100}%;z-index:${d.z||1};transform:translate(-50%,-50%) rotate(${d.r||0}deg) scale(${d.s||1})">${itemSVG(d.i,64)}</div>`).join("")}
 function petHTML(p,big){p=p||P();const st=ART(stageIdx(p)),scale=big?(0.72+st*0.06):0.55,sz=190;
- return `<div class="petWrap" id="pet" style="width:${sz}px;height:${sz}px;transform:scale(${scale});transform-origin:50% 100%"><div class="petAmb"><div class="petIdle" style="position:relative;width:100%;height:100%">${petSVGAny(st,p.sp)}</div></div></div>`}
-function scene(p,edit){const sc=(p&&SCN[p.sc])?p.sc:"room";return `<div class="scene sc-${sc} ${edit?"edit":""}" id="scene">${scBgHTML(sc)}<div class="petStage" id="stage">${petHTML(p,true)}</div><div class="decoL" id="decoL">${decoLayer(p,edit)}</div></div>`}
+ return `<div class="petWrap" id="pet" style="width:${sz}px;height:${sz}px;transform:scale(${scale});transform-origin:50% 100%"><div class="petAmb"><div class="petIdle" style="position:relative;width:100%;height:100%">${petSVGAny(st,p.sp)}<span class="cfx" id="petFx"></span></div></div></div>`}
+function scene(p,edit){const sc=(p&&SCN[p.sc])?p.sc:"room";return `<div class="scene sc-${sc} ${edit?"edit":""}" id="scene">${scBgHTML(sc)}<div class="petStage" id="stage">${petHTML(p,true)}</div><div class="decoL" id="decoL">${decoLayer(p,edit)}</div>${(!edit&&screen==="home")?`<button type="button" class="quizMe" id="quizMe">📝 考考我</button>`:""}</div>`}
 let DM=null;
 function decoMode(){screen="deco";scrollTo(0,0);const p=P();DM={sel:-1,cat:"all"};
  app.innerHTML=`<div class="top"><button class="iconbtn" id="dn" aria-label="完成">✅</button><h1 style="margin:0">🎨 装饰模式</h1><div class="chip" id="dc">${p.deco.length}/${DECO_MAX}</div></div>
- <div class="row" style="justify-content:space-between;align-items:center;margin:2px 0"><p class="muted" style="margin:0;font-size:13px">拖装饰到场景 · 拖动移动 · 双指缩放 · 拖回下方收回</p><button class="btn gray" id="clrAll" style="font-size:13px;min-height:36px;padding:4px 10px;white-space:nowrap;flex-shrink:0;width:auto">🧹 清空</button></div>${sceneRow(p)}${scene(p,true)}
- <div class="tools" id="tools"><button data-a="minus">➖</button><button data-a="plus">➕</button><button data-a="rot">🔄</button><button data-a="front">⬆️</button><button data-a="del">🗑️</button></div>
- <div class="sheet" id="sheet"><div class="tabs sm">${[["all","全部"],...Object.entries(CAT).map(([k,v])=>[k,v[0]+v[1]])].map(([k,n])=>`<button class="tab ${k==="all"?"on":""}" data-cat="${k}">${n}</button>`).join("")}</div><div class="tray" id="tray"></div></div>`;
- $("#dn").onclick=()=>{DM=null;home()};bindSceneRow(decoMode);
+ <div class="row" style="justify-content:space-between;align-items:center;margin:2px 0"><p class="muted" style="margin:0;font-size:13px">点装饰，用 ＋－ 调整大小 · 拖到场景里摆放 · 双指缩放 · 拖回下方收回</p><button class="btn gray" id="clrAll" style="font-size:13px;min-height:36px;padding:4px 10px;white-space:nowrap;flex-shrink:0;width:auto">🧹 清空</button></div>${sceneRow(p)}${scene(p,true)}
+ <div class="sheet" id="sheet"><div class="tools" id="tools"><button type="button" data-a="minus" aria-label="缩小">➖</button><button type="button" data-a="plus" aria-label="放大">➕</button><button type="button" data-a="rot">🔄</button><button type="button" data-a="front">⬆️</button><button type="button" data-a="del">🗑️</button></div><div class="tabs sm">${[["all","全部"],...Object.entries(CAT).map(([k,v])=>[k,v[0]+v[1]])].map(([k,n])=>`<button class="tab ${k==="all"?"on":""}" data-cat="${k}">${n}</button>`).join("")}</div><div class="tray" id="tray"></div></div>`;
+ $("#dn").onclick=()=>{clearDecoUI();DM=null;home()};bindSceneRow(decoMode);
  $("#clrAll").onclick=()=>{if(!p.deco.length)return toast("场景是空的",800);if(confirm("把场景里的 "+p.deco.length+" 件装饰全部收回？（装饰还在你的收藏里）")){p.deco=[];DM.sel=-1;save();sfx("whoosh");redrawDeco();toast("已全部收回 ↩️",900)}};
  const fillTray=()=>{const own=ITEMS.filter(i=>S.inv[i.id]&&(DM.cat==="all"||i.cat===DM.cat));const pw=placedWhere(p);
   $("#tray").innerHTML=own.length?own.map(i=>`<div class="ti rc${i.t} ${pw[i.id]?"used":""}" data-id="${i.id}"${pw[i.id]?` data-where="${SCN[pw[i.id]].e}${SCN[pw[i.id]].zh}"`:""}><span class="lz" data-id="${i.id}"></span></div>`).join(""):`<p class="muted center">还没有装饰，学习得神秘盒子吧 🎁</p>`;lazySVG($("#tray"));
   $("#tray").querySelectorAll(".ti").forEach(el=>trayDrag(el))};
  app.querySelectorAll("#sheet [data-cat]").forEach(b=>b.onclick=()=>{DM.cat=b.dataset.cat;app.querySelectorAll("#sheet [data-cat]").forEach(x=>x.classList.toggle("on",x===b));fillTray()});
  fillTray();bindPlaced();
- $("#tools").onclick=e=>{const a=e.target.dataset.a;if(!a||DM.sel<0)return;const d=p.deco[DM.sel];if(!d)return;
-  if(a==="minus")d.s=Math.max(.4,(d.s||1)-.15);if(a==="plus")d.s=Math.min(2.6,(d.s||1)+.15);if(a==="rot")d.r=((d.r||0)+15)%360;if(a==="front")d.z=Math.max(...p.deco.map(x=>x.z||1))+1;
-  if(a==="del"){p.deco.splice(DM.sel,1);DM.sel=-1;sfx("whoosh")}else sfx("tick");save();redrawDeco()}}
+ $("#tools").onclick=e=>applyTool(e.target.dataset.a);
+}
+function applyTool(a){const p=P();if(!a||!DM||DM.sel<0)return;const d=p.deco[DM.sel];if(!d)return;
+ if(a==="minus")d.s=Math.max(.4,(d.s||1)-.15);if(a==="plus")d.s=Math.min(2.6,(d.s||1)+.15);if(a==="rot")d.r=((d.r||0)+15)%360;if(a==="front")d.z=Math.max(...p.deco.map(x=>x.z||1))+1;
+ if(a==="del"){p.deco.splice(DM.sel,1);DM.sel=-1;sfx("whoosh")}else sfx("tick");save();redrawDeco()}
+function clearDecoUI(){const b=$("#pdScale");if(b)b.remove();document.querySelectorAll(".dghost").forEach(g=>g.remove())}
+function placeDecoTools(){const old=$("#pdScale");if(old)old.remove();if(!DM||DM.sel<0)return;const el=$(`.pd[data-k="${DM.sel}"]`);if(!el)return;
+ const r=el.getBoundingClientRect(),vw=innerWidth,vh=innerHeight;const b=document.createElement("div");b.id="pdScale";b.className="pdScale";
+ b.innerHTML='<button type="button" data-a="minus" aria-label="缩小">➖</button><button type="button" data-a="plus" aria-label="放大">➕</button>';
+ document.body.appendChild(b);const br=b.getBoundingClientRect();
+ let left=r.right+6,top=r.top+r.height/2-br.height/2;
+ if(left+br.width>vw-6)left=r.left-br.width-6;if(left<6)left=Math.max(6,r.left+r.width/2-br.width/2);
+ if(top<6)top=6;if(top+br.height>vh-6)top=vh-br.height-6;
+ b.style.left=left+"px";b.style.top=top+"px";
+ b.onpointerdown=e=>e.stopPropagation();b.onclick=e=>{e.stopPropagation();applyTool(e.target.dataset.a)}}
 function redrawDeco(){const p=P();$("#decoL").innerHTML=decoLayer(p,true);$("#dc").textContent=p.deco.length+"/"+DECO_MAX;const pw=placedWhere(p);$("#tray").querySelectorAll(".ti").forEach(el=>{const w=pw[el.dataset.id];el.classList.toggle("used",!!w);if(w)el.setAttribute("data-where",SCN[w].e+SCN[w].zh);else el.removeAttribute("data-where")});bindPlaced();
- $("#tools").classList.toggle("on",DM.sel>=0);if(DM.sel>=0){const el=$(`.pd[data-k="${DM.sel}"]`);el&&el.classList.add("sel")}}
+ $("#tools").classList.toggle("on",DM&&DM.sel>=0);if(DM&&DM.sel>=0){const el=$(`.pd[data-k="${DM.sel}"]`);el&&el.classList.add("sel")}placeDecoTools()}
 function overSheet(y){const r=$("#sheet").getBoundingClientRect();return y>=r.top}
 function relPos(x,y){const r=$("#scene").getBoundingClientRect();return {x:Math.max(.03,Math.min(.97,(x-r.left)/r.width)),y:Math.max(.03,Math.min(.97,(y-r.top)/r.height)),inside:x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom}}
 function trayDrag(el){let ghost=null,id=null;
@@ -1528,17 +1559,19 @@ function trayDrag(el){let ghost=null,id=null;
  const up=e=>{if(!ghost||e.pointerId!==id)return;ghost.remove();ghost=null;id=null;const p=P();const r=relPos(e.clientX,e.clientY);
   if(r.inside&&!overSheet(e.clientY)){if(p.deco.length>=DECO_MAX)return toast(`每只宠物最多摆 ${DECO_MAX} 件哦`,1200);p.deco.push({i:el.dataset.id,x:+r.x.toFixed(3),y:+r.y.toFixed(3),s:1,r:0,z:Math.max(1,...p.deco.map(x=>x.z||1))+1});DM.sel=p.deco.length-1;save();sfx("pop");redrawDeco()}};
  el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up)}
-function bindPlaced(){const p=P();document.querySelectorAll(".pd.ed").forEach(el=>{const k=+el.dataset.k;const pts=new Map();let start=null,moved=false;
+function bindPlaced(){const p=P();document.querySelectorAll(".pd.ed").forEach(el=>{const k=+el.dataset.k;const pts=new Map();let start=null,moved=false,ghost=null;
  el.addEventListener("pointerdown",e=>{e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const d=p.deco[k];
   if(pts.size===1){start={x:e.clientX,y:e.clientY,dx:d.x,dy:d.y};moved=false}
-  if(pts.size===2){const [a,b]=[...pts.values()];start.dist=Math.hypot(a.x-b.x,a.y-b.y);start.s=d.s||1}
-  DM.sel=k;document.querySelectorAll(".pd").forEach(x=>x.classList.toggle("sel",x===el));$("#tools").classList.add("on")});
+  if(pts.size===2){const [a,b]=[...pts.values()];start.dist=Math.hypot(a.x-b.x,a.y-b.y);start.s=d.s||1;if(ghost){ghost.remove();ghost=null;el.classList.remove("dragging")}}
+  DM.sel=k;document.querySelectorAll(".pd").forEach(x=>x.classList.toggle("sel",x===el));$("#tools").classList.add("on");placeDecoTools()});
  el.addEventListener("pointermove",e=>{if(!pts.has(e.pointerId)||!start)return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const d=p.deco[k];
   if(pts.size>=2&&start.dist){const [a,b]=[...pts.values()];d.s=Math.max(.4,Math.min(2.6,start.s*Math.hypot(a.x-b.x,a.y-b.y)/start.dist));}
-  else{const r=$("#scene").getBoundingClientRect();if(Math.hypot(e.clientX-start.x,e.clientY-start.y)>6)moved=true;d.x=Math.max(.02,Math.min(.98,start.dx+(e.clientX-start.x)/r.width));d.y=Math.max(.02,Math.min(1.25,start.dy+(e.clientY-start.y)/r.height))}
-  el.style.left=d.x*100+"%";el.style.top=d.y*100+"%";el.style.transform=`translate(-50%,-50%) rotate(${d.r||0}deg) scale(${d.s||1})`;el.classList.toggle("trash",overSheet(e.clientY))});
- const up=e=>{if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);if(pts.size)return;const d=p.deco[k];
-  if(overSheet(e.clientY)){p.deco.splice(k,1);DM.sel=-1;sfx("whoosh");toast("已收回 ↩️",700)}else{d.y=Math.min(.97,d.y);if(!moved){d.z=Math.max(...p.deco.map(x=>x.z||1))+1}}
+  else{const r=$("#scene").getBoundingClientRect();if(Math.hypot(e.clientX-start.x,e.clientY-start.y)>6){moved=true;if(!ghost){ghost=document.createElement("div");ghost.className="dghost";ghost.innerHTML=itemSVG(d.i,64);document.body.appendChild(ghost);el.classList.add("dragging");const sc=$("#pdScale");if(sc)sc.style.display="none"}}
+   d.x=Math.max(.02,Math.min(.98,start.dx+(e.clientX-start.x)/r.width));d.y=Math.max(.02,Math.min(1.25,start.dy+(e.clientY-start.y)/r.height))}
+  el.style.left=d.x*100+"%";el.style.top=d.y*100+"%";el.style.transform=`translate(-50%,-50%) rotate(${d.r||0}deg) scale(${d.s||1})`;el.classList.toggle("trash",overSheet(e.clientY));
+  if(ghost){ghost.style.left=(e.clientX-32)+"px";ghost.style.top=(e.clientY-32)+"px"}});
+ const up=e=>{if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);if(pts.size)return;if(ghost){ghost.remove();ghost=null}el.classList.remove("dragging");const d=p.deco[k];
+  if(d&&overSheet(e.clientY)){p.deco.splice(k,1);DM.sel=-1;sfx("whoosh");toast("已收回 ↩️",700)}else if(d){d.y=Math.min(.97,d.y);if(!moved){d.z=Math.max(...p.deco.map(x=>x.z||1))+1}}
   start=null;save();redrawDeco()};
  el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up)})}
 
@@ -1561,7 +1594,7 @@ function zodiacPicker(unlock){
  <b style="font-size:22px">${SP[zSel].z} · ${SP[zSel].zh} ${SP[zSel].ze}</b><div class="muted">名字：${SP[zSel].nm}</div></div>
  <div class="zgrid">${ZORDER.map(k=>{const own=ownedSp(k);return `<button class="zcard ${k===zSel?"sel":""} ${own?"own":""}" data-z="${k}">${mini(k,2,70)}<b>${SP[k].z} ${SP[k].zh}</b><small>${own?"已拥有 ✅":SP[k].ze}</small></button>`}).join("")}</div>
  <div style="height:14px"></div><button class="btn full" id="ok" style="min-height:60px">🐾 就选${SP[zSel].zh}！</button>
- <p class="muted center">还有小猫、独角兽、熊猫等萌宠藏在宠物蛋里，考级优秀、掌握单词就能获得 🥚</p>`;
+ <p class="muted center">还有小猫、独角兽、熊猫等萌宠藏在宠物蛋里，考级优秀、记住了单词就能获得 🥚</p>`;
  back(home);
  app.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{const k=b.dataset.z;if(ownedSp(k)){toast("已经拥有啦 ✅",900);return}zSel=k;say("I am a "+SP[k].en+"!",1);zodiacPicker(unlock)});
  $("#ok").onclick=()=>{newPet(zSel,0);if(unlock)S.zodiacTickets=Math.max(0,S.zodiacTickets-1);save();say("Hello! I am your little "+SP[zSel].en+"!",1);
@@ -1575,7 +1608,7 @@ function feed(){
  const fb=$("#feed").getBoundingClientRect(),pr=$("#pet").getBoundingClientRect();
  const f=document.createElement("div");f.className="fly";f.textContent=pick(["🍖","🍓","🍪","🥕","🍌"],1)[0];
  f.style.left=(fb.left+fb.width/2-22)+"px";f.style.top=(fb.top-10)+"px";document.body.appendChild(f);
- say("Yummy!",1);
+ say("Yummy!",1);petAct("eat");
  requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.left=(pr.left+pr.width/2-22)+"px";f.style.top=(pr.top+pr.height*0.45)+"px";f.style.transform="scale(.4)";f.style.opacity=".3"}));
  setTimeout(()=>{f.remove();afterGrowth(p,before)},700);
 }
@@ -1584,6 +1617,7 @@ function afterGrowth(p,before){
  home();bounce();
  if(after===MAXST&&!p.maxed)return maxCelebrate(p);
  if(after>before){toast(`🎉 进化啦！<br>${STAGES[after].name} ${STAGES[after].en}`,2200);say("Wow! I grew up!",1)}
+ else{petAct("eat");setTimeout(()=>{if(screen==="home")petAct("sit")},900)}
 }
 function maxCelebrate(p){
  p.maxed=true;
@@ -1670,6 +1704,40 @@ let screen="home";scrollTo(0,0);
 function render(){({home,learn:renderLearn,summary,pets:petsScreen,album,gallery:galleryScreen,boxes:boxScreen,deco:decoMode,parent:()=>parentCenter(),friends:()=>friendsScreen(),visit:()=>friendsScreen()}[screen]||home)()}
 function mysteryWord(){const k=dk();let h=0;for(const c of k)h=(h*31+c.charCodeAt(0))>>>0;const list=LVW[S.level];return list[h%list.length]}
 // ---------- HOME ----------
+function almostHeld(n){n=n||3;return W.filter(function(w){const s=S.w[w.w];return !!(s&&s.k&&!isMastered(w)&&(s.cs||0)>=1)}).sort(function(a,b){return (S.w[a.w].d||0)-(S.w[b.w].d||0)}).slice(0,n)}
+function pickTodayUnit(){const units=UNITS.filter(function(u){return u.lv===S.level});let best=null,score=-1;
+ units.forEach(function(u){const k=knownCount(u),left=u.n-k,sc=(k>0&&left>0)?(200+k):(left>0?80:1);if(sc>score){score=sc;best=u}});return best||units[0]}
+function unitCardHTML(u){const k=knownCount(u);return '<div class="ucard"><button type="button" class="unit" data-u="'+u.i+'"><span class="em">'+u.e+'</span><span style="flex:1"><b>'+esc(u.zh)+"</b><small>已会 "+k+"/"+u.n+'</small><div class="bar" style="height:10px;margin-top:4px"><i style="width:'+(u.n?k/u.n*100:0)+'%"></i></div></span><span style="font-size:24px">▶️</span></button></div>'}
+function markGoal(id){const t=todayLog();t.goals=t.goals||{};if(t.goals[id])return false;t.goals[id]=1;save();return true}
+function todayGoal(){const lv=S.level,lk=lvKnown(lv),ln=LVW[lv].length,need=Math.ceil(ln*EXAM_PCT),left=Math.max(0,need-lk);
+ const es=examState(lv),tlog=todayLog(),almost=almostHeld(3),theme=pickTodayUnit(),rounds=tlog.rounds||0,goals=tlog.goals||{};
+ let g;
+ if(es.lock&&es.lock.length)g={id:"examRev",icon:"🔁",title:"先复习错词",desc:"复习 "+es.lock.length+" 个考级错词，再去考试",reward:"完成后就可以再考级",go:function(){startLearn({words:es.lock.map(function(k){return WI[k]}),examReview:lv})}};
+ else if(examReady(lv)&&!es.pass)g={id:"exam",icon:"🎓",title:"可以考级了",desc:"今天去考级，赢能量和盒子！",reward:"通过可以得 +100⚡ 和盒子",go:startExam};
+ else if(almost.length>=3&&(rounds>=1||goals.learn1))g={id:"review3",icon:"🧠",title:"复习 "+almost.length+" 个快记住的单词",desc:"差一点就记住了，复习一下吧",reward:"完成后 +8⚡",go:function(){startLearn({words:almost})}};
+ else if(left>0||LVW[lv].some(function(w){return !isKnown(w)}))g={id:"learn1",icon:"📚",title:"再学一组",desc:left?("再学一组，还差 "+left+" 个就能考级"):"学一组新单词",reward:"完成后有能量，答对多还有盒子",go:function(){startLearn(theme?{unit:theme.i}:{})}};
+ else if(theme&&knownCount(theme)>=Math.ceil(theme.n*UNLOCK_PCT))g={id:"chal",icon:"🏆",title:"挑战「"+theme.zh+"」",desc:"玩一组主题大挑战",reward:"完成后 +30⚡",go:function(){startChallenge(theme.i)}};
+ else g={id:"play",icon:"🎮",title:"再练一组",desc:"跟宠物一起玩单词",reward:"完成后有能量",go:function(){startLearn()}};
+ g.done=!!goals[g.id];return g}
+function startTodayGoal(){const g=todayGoal();if(g.done){if(g.id==="exam")return startExam();return startLearn()}const t=todayLog();t.activeGoal=g.id;save();g.go()}
+function claimLearnGoal(ses){const t=todayLog();t.goals=t.goals||{};t.rounds=(t.rounds||0)+1;const opt=(ses&&ses.opt)||{},id=t.activeGoal||"";
+ if(opt.examReview){markGoal("examRev");return}
+ if(id==="review3"){if(markGoal("review3"))S.energy+=8;return}
+ markGoal(id==="play"?"play":"learn1")}
+function homeLearnHTML(){const lv=S.level,lk=lvKnown(lv),ln=LVW[lv].length,need=Math.ceil(ln*EXAM_PCT),es=examState(lv),ready=lk>=need,units=UNITS.filter(function(u){return u.lv===lv});
+ const left=Math.max(0,need-lk),goal=todayGoal(),theme=pickTodayUnit(),chU=theme,chK=chU?knownCount(chU):0,chNeed=chU?Math.ceil(chU.n*UNLOCK_PCT):0,chUn=!!(chU&&chK>=chNeed),chWins=chU?(S.challenges[chU.id]||0):0,other=units.filter(function(u){return !theme||u.i!==theme.i});
+ const body=goal.done?('<h3>✅ 今天的目标完成了！</h3><p class="tgRew">'+goal.icon+" "+esc(goal.title)+'</p><div class="row"><button type="button" class="btn green full" id="todayGo">再来一组</button><button type="button" class="btn gray" id="teach">🎓 教宠物</button></div>')
+  :('<h3>'+goal.icon+" "+esc(goal.title)+'</h3><p class="tgRew">🎁 '+esc(goal.reward)+'</p><p class="muted" style="margin:0 0 8px;font-size:14px">'+esc(goal.desc)+'</p><div class="row"><button type="button" class="btn green full" id="todayGo" style="min-height:56px;font-size:20px">开始！</button><button type="button" class="btn gray" id="teach">🎓 教宠物</button></div>');
+ const examLine=ready?'<div class="examLine ready">可以考级了！</div>':'<div class="examLine">已会 '+lk+'，再学 '+left+' 个就能考级</div>';
+ const examBtn=es.lock.length?('<button type="button" class="btn green full" id="rv" style="margin-top:4px">🔁 先复习 '+es.lock.length+' 个错词</button>'):(ready?'<button type="button" class="btn orange full" id="ex" style="margin-top:4px">🎓 开始考级</button>':"");
+ const chal=chU?('<div class="chalMini"><div class="muted" style="font-size:12px;font-weight:800">今日挑战</div><div style="font-size:28px;line-height:1.15">'+chU.e+'</div><b>'+esc(chU.zh)+'</b><button type="button" class="btn '+(chUn?"green":"gray")+' sm full" id="todayChal" data-c="'+chU.i+'" '+(chUn?"":"disabled")+'>'+(chUn?("🏆 大挑战"+(chWins?(" ✓"+chWins):"")):"🔒 再会 "+Math.max(0,chNeed-chK)+" 个")+"</button></div>"):"";
+ const themeBlock=theme?('<div class="muted" style="font-size:13px;font-weight:800;margin:4px 0 6px">今日主题</div>'+unitCardHTML(theme)):"";
+ const all=other.length?('<button type="button" class="btn gray full" id="allUnitsBtn" style="margin-top:8px;min-height:44px;font-size:15px">查看全部（'+other.length+'）</button><div class="units unitsAll" id="unitsAll">'+other.map(unitCardHTML).join("")+"</div>"):"";
+ return '<div class="todayGoal'+(goal.done?" done":"")+'" id="todayGoal"><div class="tgK">今日目标</div>'+body+"</div>"
+  +'<div class="examRow"><div class="card exam '+(ready?"ready":"")+'"><div style="font-size:26px;line-height:1.2">🎓 '+lvBadge(lv)+"</div>"+examLine+examBtn
+  +'<div class="goldFold" id="goldFold"><button type="button" class="ghd" id="goldToggle">🏅 金蛋进度 '+lvMastered(lv)+"/"+ln+' ▾</button><div class="gbar"><div class="bar mbar" id="mprog" style="height:12px"><i style="width:'+(ln?lvMastered(lv)/ln*100:0)+'%"></i></div><p class="muted" style="font-size:12px;margin:4px 0 0">'+(S.goldLv[lv]?"🌟 金蛋已领":"记住这个星级全部单词，再考级通过，就能得金蛋")+"</p></div></div>"
+  +'<p class="muted" style="margin:6px 0 0;font-size:12px;text-align:center"><button type="button" id="rePlH" style="background:none;border:none;padding:0;color:inherit;font:inherit;text-decoration:underline">等级不对？重新测验</button></p></div>'+chal+"</div>"
+  +'<div class="themeToday">'+themeBlock+all+"</div>"}
 function home(){
  if(!S.started)return splash();if(!S.pets.length)return zodiacPicker(false);if(!S.placed)return placeIntro();
  screen="home";scrollTo(0,0);
@@ -1678,6 +1746,7 @@ function home(){
  const lv=S.level,lk=lvKnown(lv),ln=LVW[lv].length,need=Math.ceil(ln*EXAM_PCT),es=examState(lv),ready=lk>=need;
  const mw=mysteryWord(),mwDone=!!S.mystery[dk()];const boxes=S.boxes.n+S.boxes.g;
  const units=UNITS.filter(u=>u.lv===lv);
+ const goalHTML=homeLearnHTML();
  app.innerHTML=`
  <div class="top"><div class="chip">⚡ <span id="en">${S.energy}</span></div><div class="title">词团子</div><button class="lvbtn" id="lvl">${lvBadge(lv,true)}</button></div>
  <div class="nav">
@@ -1695,19 +1764,11 @@ function home(){
   ${sceneRow(p)}${scene(p,false)}
   <div class="bar xp"><i style="width:${pct}%"></i><span>${nxt?`成长 ${p.growth}/${nxt.need} → ${nxt.name}`:`满级大明星！成长 ${p.growth}`}</span></div>
   <div class="row" style="margin-top:12px"><button class="btn orange full" id="feed" ${S.energy<FEED_COST?"disabled":""}>🍖 喂食 -${FEED_COST}⚡</button><button class="btn blue full" id="dec">🎨 装饰</button></div>
-  <p class="muted center" style="margin:8px 0 0">点宠物，它会考考你学过的单词 💬</p>
+  <p class="muted center" style="margin:8px 0 0;font-size:13px;line-height:1.45">点宠物会跟你玩；点「考考我」<br>或再点一下开始<span style="white-space:nowrap">小测验 💬</span></p>
  </div>
+ ${goalHTML}
  <button class="banner visitB" id="goVisit">🏡 去串门<small style="font-weight:700;opacity:.8;margin-left:8px">${siblings().length?"看看家里的小伙伴":"去好朋友家玩"}</small><span style="margin-left:auto">▶</span></button>
  <button class="banner" id="mw">${mwDone?"🔮 今日神秘单词已完成："+esc(mw.w)+" ✅":"🔮 今日神秘单词：点开看看是什么！+15⚡"}<span style="margin-left:auto">▶</span></button>
- <div class="row" style="margin-top:12px"><button class="btn green full" id="learn" style="min-height:64px;font-size:21px">📚 开始学习</button><button class="btn full" id="teach" style="min-height:64px;font-size:18px">🎓 教宠物</button></div>
- <div class="card exam ${ready?"ready":""}"><div class="row"><span style="font-size:40px">🎓</span><div style="flex:1"><b>${lvBadge(lv)} 考级 → ${lv<MAXLV?lvBadge(lv+1):"🏆"}</b><div class="muted">${LVI[lv].nm} · ${LVI[lv].cefr} · ${LVI[lv].yle}</div>
-  <div class="bar" style="height:14px;margin-top:4px"><i style="width:${Math.min(100,lk/need*100)}%"></i><span style="line-height:14px;font-size:11px">已学 ${lk}/${ln} · 学会 ${need} 个解锁考级</span></div>
-  <div class="bar mbar" id="mprog" style="height:14px;margin-top:4px"><i style="width:${lvMastered(lv)/ln*100}%"></i><span style="line-height:14px;font-size:11px">🏅 已掌握 ${lvMastered(lv)} / ${ln}${S.goldLv[lv]?" · 🌟 金蛋已领":lvFullyMastered(lv)?"":" · 全掌握+考级通过得金蛋"}</span></div></div></div>
-  ${es.lock.length?`<button class="btn green full" id="rv" style="margin-top:8px">🔁 先复习 ${es.lock.length} 个错词再重考</button>`:`<button class="btn ${ready?"orange":"gray"} full" id="ex" style="margin-top:8px" ${ready?"":"disabled"}>${ready?"🎓 开始考级（28 题，≥80% 通过）":"🔒 学会 80% 单词解锁考级"}</button>`}<p class="muted" style="margin:8px 0 0;font-size:13px;text-align:center"><button type="button" id="rePlH" style="background:none;border:none;padding:0;color:inherit;font:inherit;text-decoration:underline">等级不对？重新测验</button></p></div>
- <h2>📚 ${lvBadge(lv)} 主题 <span class="muted" style="font-size:14px">${units.length} 个主题 · 随机 + 联想学习</span></h2>
- <div class="units">${units.map(u=>{const k=knownCount(u),un=k>=Math.ceil(u.n*UNLOCK_PCT),wins=S.challenges[u.id]||0;
-  return `<div class="ucard"><button class="unit" data-u="${u.i}"><span class="em">${u.e}</span><span style="flex:1"><b>${esc(u.zh)}</b><small>已学 ${k}/${u.n}</small><div class="bar" style="height:10px;margin-top:4px"><i style="width:${k/u.n*100}%"></i></div></span><span style="font-size:24px">▶️</span></button>
-  <button class="btn ${un?"green":"gray"} sm full" data-c="${u.i}" ${un?"":"disabled"}>${un?"🏆 大挑战"+(wins?` ✓${wins}`:""):`🔒 学 ${Math.ceil(u.n*UNLOCK_PCT)} 个解锁`}</button></div>`}).join("")}</div>
  <div class="center" style="margin-top:22px"><button class="btn gray" id="snd" style="font-size:16px">${S.sound?"🔊 声音开":"🔇 声音关"}</button> <button class="btn gray" id="spd2" style="font-size:16px">${S.slow?"🐢 慢速":"🐇 正常语速"}</button></div>
  <p class="muted center">家长提示：⭐ 星级代表难度（对应 CEFR / 剑桥少儿 / 课标），不代表年龄。</p>
  <p class="muted center" style="font-size:12px;opacity:.8;margin:6px 0 0;line-height:1.5">本应用不收集任何个人数据，进度只保存在本设备 / No personal data collected; progress is stored only on this device.<br>© 2026 Wordmallow 词团子. All rights reserved.</p>`;
@@ -1716,17 +1777,31 @@ function home(){
  $("#lvl").onclick=()=>toast(`${lvBadge(lv)} ${LVI[lv].nm}<br><small>${LVI[lv].cefr} · ${LVI[lv].yle}<br>${LVI[lv].kb} · 累计 ≈${LVI[lv].cum} 词</small>`,2200);
  if($("#zt"))$("#zt").onclick=()=>zodiacPicker(true);if($("#eg"))$("#eg").onclick=petsScreen;if($("#pt"))$("#pt").onclick=surprisePet;
  $("#snd").onclick=()=>{S.sound=!S.sound;save();if(S.sound)say("Hello!","c");home()};$("#spd2").onclick=()=>{S.slow=!S.slow;save();say("Hello, friend!","s");home()};
- $("#stage").onclick=homePetTap;$("#goVisit").onclick=()=>friendsScreen();try{sibInbox()}catch(e){}frBadge();if(GIFTQ.length)setTimeout(showGifts,700);bindSceneRow(home);bindSceneBg(app);setTimeout(()=>{if(screen==="home"&&!document.querySelector(".modal"))sceneCheck()},450);$("#mw").onclick=()=>mwDone?(say(mw.w),toast(`${mw.e} ${esc(mw.w)} · ${esc(mw.zh)}`,1500)):startLearn({mystery:mw});
- $("#learn").onclick=()=>startLearn();$("#teach").onclick=startTeach;
- if($("#ex"))$("#ex").onclick=startExam;if($("#rv"))$("#rv").onclick=()=>startLearn({words:es.lock.map(k=>WI[k]),examReview:lv});if($("#rePlH"))$("#rePlH").onclick=()=>requestPlaceRetake("home");
+ $("#stage").onclick=homePetTap;{const qm=$("#quizMe");if(qm)qm.onclick=e=>{e.stopPropagation();startHomeQuiz()}}startHomeIdle();$("#goVisit").onclick=()=>friendsScreen();try{sibInbox()}catch(e){}frBadge();if(GIFTQ.length)setTimeout(showGifts,700);bindSceneRow(home);bindSceneBg(app);setTimeout(()=>{if(screen==="home"&&!document.querySelector(".modal"))sceneCheck()},450);$("#mw").onclick=()=>mwDone?(say(mw.w),toast(`${mw.e} ${esc(mw.w)} · ${esc(mw.zh)}`,1500)):startLearn({mystery:mw});
+ if($("#todayGo"))$("#todayGo").onclick=()=>startTodayGoal();if($("#teach"))$("#teach").onclick=startTeach;
+ if($("#ex"))$("#ex").onclick=startExam;if($("#rv"))$("#rv").onclick=()=>{todayLog().activeGoal="examRev";save();startLearn({words:es.lock.map(k=>WI[k]),examReview:lv})};if($("#rePlH"))$("#rePlH").onclick=()=>requestPlaceRetake("home");
+ if($("#todayChal"))$("#todayChal").onclick=()=>{if($("#todayChal").disabled)return;todayLog().activeGoal="chal";save();startChallenge(+$("#todayChal").dataset.c)};
+ if($("#allUnitsBtn"))$("#allUnitsBtn").onclick=()=>{const a=$("#unitsAll"),b=$("#allUnitsBtn");const on=a.classList.toggle("on");b.textContent=on?"收起":("查看全部（"+a.querySelectorAll(".ucard").length+"）")};
+ if($("#goldToggle"))$("#goldToggle").onclick=()=>$("#goldFold").classList.toggle("open");
  app.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>startLearn({unit:+b.dataset.u}));
- app.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>startChallenge(+b.dataset.c));
 }
-function homePetTap(){bounce();const known=W.filter(isKnown);if(!known.length){say(pick1(["Hi!","Let's learn!","Hello, friend!"]),"c");return}
+let homeIdleT=null,homeTapAt=0;
+function preferReduce(){try{return !!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)}catch(e){return false}}
+function stopHomeIdle(){if(homeIdleT){clearTimeout(homeIdleT);homeIdleT=null}}
+function startHomeIdle(ms){stopHomeIdle();if(preferReduce())return;
+ homeIdleT=setTimeout(function(){homeIdleT=null;if(screen!=="home"||!$("#pet")||document.querySelector(".modal")){startHomeIdle();return}
+  petAct(pick1(["look","yawn","jump"]));startHomeIdle()},ms!=null?ms:(8000+Math.random()*4000))}
+function startHomeQuiz(){homeTapAt=0;const known=W.filter(isKnown);if(!known.length){say(pick1(["Hi!","Let's learn!","Hello, friend!"]),"c");toast("先学几个单词，再来考考我吧",1400);return}
  const w=known.slice().sort((a,b)=>S.w[a.w].d-S.w[b.w].d)[Math.floor(Math.random()*Math.min(5,known.length))];
- if(known.length>=4&&Math.random()<.35)return popQuiz(w);
+ if(known.length>=4)return popQuiz(w);
  const s=ws(w);s.d=Math.max(s.d,Date.now()+INTERVALS[Math.max(1,s.b)]);save();
  toast(`<div style="font-size:40px">${w.e}</div>${esc(w.w)}<br><small style="font-size:15px;font-weight:600">${esc(w.s)}</small>`,2600);say(w.w);setTimeout(()=>say(w.s,"s"),900)}
+function homePetTap(){bounce();petAct(pick1(["spin","jump","dance"]));
+ const known=W.filter(isKnown);
+ if(!known.length){say(pick1(["Hi!","Let's learn!","Hello, friend!"]),"c");return}
+ const now=Date.now();
+ if(!homeTapAt||now-homeTapAt>6000){homeTapAt=now;say(pick1(["Yay!","Hehe!","Hello, friend!","I love you!","Let's play!"]),"c");return}
+ startHomeQuiz()}
 function popQuiz(w){newRound();let ans=0;const opts=shuffle([w,...distract(w,2,x=>isKnown(x)||true)]);say(w.w);
  const m=modal(`<div style="width:90px;height:90px;margin:0 auto" class="petIdle">${mini(P().sp,ART(stageIdx()),90)}</div><h2>${L_("quiz")} 🔊</h2><button class="speak" id="sp">🔊</button><div class="opts">${opts.map((o,i)=>`<button class="opt ${w.pic?"":"txt"}" data-o="${i}">${w.pic?o.e:esc(o.zh)}</button>`).join("")}</div><button class="btn gray full" id="x" style="margin-top:10px">等会儿</button>`);
  m.querySelector("#sp").onclick=()=>say(w.w);m.querySelector("#x").onclick=()=>m.remove();
@@ -1764,7 +1839,7 @@ function summary(){screen="summary";scrollTo(0,0);
   <h3>🥚 新伙伴</h3><div class="row" style="flex-wrap:wrap">${P_.pets.map(k=>`<div class="center" style="width:70px"><div style="width:60px;height:60px;margin:0 auto">${mini(k,1,60)}</div><small>${SP[k].zh}</small></div>`).join("")||'<span class="muted">还没有</span>'}</div></div>
  <div class="card"><h2>🌟 总进度</h2><div class="row"><div style="width:70px;height:70px">${mini(P().sp,ART(stageIdx()),70)}</div><div>${lvBadge(S.level,true)}<div class="muted">${LVI[S.level].nm} · ${LVI[S.level].cefr} · 答对率 ${acc}% · 记住 ${known}/${W.length}</div></div></div>
   <div class="chart">${d7.map(d=>`<div><span>${d.v||""}</span><i style="height:${d.v/mx*90}%"></i>${d.l}</div>`).join("")}</div>
-  ${Array.from({length:MAXLV},(_,i)=>i+1).map(l=>`<div style="margin:6px 0">${lvBadge(l)} <span class="muted">已学 ${lvKnown(l)} · 🏅 已掌握 ${lvMastered(l)} / ${LVW[l].length} · ${LVI[l].cefr}${S.exam[l]&&S.exam[l].pass?" · 🎓":""}${S.goldLv[l]?" · 🌟":""}</span><div class="bar" style="height:12px"><i style="width:${lvKnown(l)/LVW[l].length*100}%"></i></div><div class="bar mbar" style="height:8px;margin-top:2px"><i style="width:${lvMastered(l)/LVW[l].length*100}%"></i></div></div>`).join("")}
+  ${Array.from({length:MAXLV},(_,i)=>i+1).map(l=>`<div style="margin:6px 0">${lvBadge(l)} <span class="muted">已会 ${lvKnown(l)} · 🏅 已记住 ${lvMastered(l)} / ${LVW[l].length} · ${LVI[l].cefr}${S.exam[l]&&S.exam[l].pass?" · 🎓":""}${S.goldLv[l]?" · 🌟":""}</span><div class="bar" style="height:12px"><i style="width:${lvKnown(l)/LVW[l].length*100}%"></i></div><div class="bar mbar" style="height:8px;margin-top:2px"><i style="width:${lvMastered(l)/LVW[l].length*100}%"></i></div></div>`).join("")}
   <p class="muted center">🥚 待孵化 ${S.eggList.length} · 🐾 宠物 ${S.pets.length} · 🎨 装饰 ${Object.keys(S.inv).length}/${ITEMS.length} · ✨ 星尘 ${S.dust}</p></div>`;
  back(home);app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>say(b.dataset.s));app.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{sumTab=b.dataset.tab;summary()})}
 
@@ -1775,7 +1850,7 @@ function petsScreen(){
   <b style="font-size:13px">${e.gold?"🌟 ":""}${EGGN[e.src]||"宠物蛋"}</b>${l?`<small>再完成 1 次学习就能孵化</small>`:`<button class="btn" style="font-size:15px;min-height:44px;padding:6px 14px" data-h="${i}">🐣 孵化！</button>`}</div>`}).join("");
  app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">🐾 我的宠物屋</h1><div class="chip">${S.pets.length}</div></div>
  <div class="card center"><h2>🥚 宠物蛋 ${S.eggList.length?"× "+S.eggList.length:""}</h2>${eggs?`<div class="opts" style="grid-template-columns:repeat(${Math.min(3,S.eggList.length)},1fr)">${eggs}</div>`:""}
-  <p class="muted">怎么得到宠物蛋？<br>🎓 考级成绩 ≥90% → 宠物蛋<br>📚 每掌握 100 个单词 → 里程碑蛋（还差 ${toMile} 个）<br>🌟 一个星级的单词全部掌握 + 考级通过 → 金色宝宝蛋（必出 ⭐⭐⭐ 70% / 🌈 30%）<br><small>🏅 掌握 = 在不同轮次答对 3 次、跨越至少 2 天、最近一次答对</small><br>得到蛋后，再完成 1 次学习就能孵化出 1 只新萌宠！</p>
+  <p class="muted">怎么得到宠物蛋？<br>🎓 考级成绩 ≥90% → 宠物蛋<br>📚 每记住 100 个单词 → 里程碑蛋（还差 ${toMile} 个）<br>🌟 一个星级的单词全部记住 + 考级通过 → 金色宝宝蛋（必出 ⭐⭐⭐ 70% / 🌈 30%）<br><small>🏅 记住了 = 在不同轮次答对 3 次、跨越至少 2 天、最近一次答对</small><br>得到蛋后，再完成 1 次学习就能孵化出 1 只新萌宠！</p>
   ${S.zodiacTickets?`<button class="banner" id="zt">🎊 可以选一只新的生肖宠物！▶</button>`:""}${S.poolTickets?`<button class="banner" id="pt">🎁 打开神秘萌宠惊喜！▶</button>`:""}</div>
  <div class="wgrid">${S.pets.map((p,i)=>`<button class="zcard ${i===S.active?"sel":""}" data-p="${i}" style="min-height:150px">${mini(p.sp,ART(stageIdx(p)),80)}<b>${esc(p.name)}</b><small>${SP[p.sp].zh} · ${STAGES[stageIdx(p)].name}${p.maxed?" 🌟":""}</small><small>${i===S.active?"✅ 当前":"点我出战"}</small></button>`).join("")}</div>
  <div style="height:12px"></div><button class="btn blue full" id="alb">📖 宠物图鉴 (${HATCH.filter(ownedSp).length}/${HATCH.length})</button><div style="height:12px"></div><button class="btn gray full" id="rn" style="font-size:16px">✏️ 给 ${esc(P().name)} 改名字</button>
@@ -4246,20 +4321,20 @@ function kidStats(s){const lg=s.log||{},day=k=>lg[k]||{},sum=(ks,f)=>ks.reduce((
 const acc=(c,w)=>c+w?Math.round(c/(c+w)*100)+"%":"—";
 function parentReport(){const kids=allKids();if(!PKID||!kids.some(k=>k.cid===PKID))PKID=S.cid;const s=kids.find(k=>k.cid===PKID),st=kidStats(s),mx=Math.max(5,...st.week.map(d=>d.learned+d.correct+d.wrong));
  $("#pc").innerHTML=`<div class="kidbar">${kids.map(k=>`<button class="kidchip ${k.cid===PKID?"on":""}" data-k="${k.cid}">${kidTag(k,kids)}</button>`).join("")}</div>
- <div class="card"><h2>${kidTag(s,kids)} 的学习报告 <span class="muted" style="font-size:14px">${lvBadge(st.level)} · 已学 ${st.known} · 🏅 已掌握 ${st.mastered}</span></h2>
+ <div class="card"><h2>${kidTag(s,kids)} 的学习报告 <span class="muted" style="font-size:14px">${lvBadge(st.level)} · 已会 ${st.known} · 🏅 已记住 ${st.mastered}</span></h2>
   <h3 style="margin:8px 0 4px">今天</h3><div class="stats"><div class="stat"><b>${st.today.learned}</b><small>新学单词</small></div><div class="stat"><b>${st.today.correct+st.today.wrong}</b><small>答题</small></div><div class="stat"><b>${acc(st.today.correct,st.today.wrong)}</b><small>正确率</small></div></div>
   <h3 style="margin:12px 0 4px">这一周 <span class="muted" style="font-size:13px">新学 ${st.weekSum.learned} · 答题 ${st.weekSum.correct+st.weekSum.wrong} · 正确率 ${acc(st.weekSum.correct,st.weekSum.wrong)}</span></h3>
   <div class="wkchart">${st.week.map(d=>`<div class="wkd"><div class="wkb"><i class="c" style="height:${d.correct/mx*100}%"></i><i class="x" style="height:${d.wrong/mx*100}%"></i></div><small>${d.k.slice(5).replace("-","/")}</small><b>${d.learned||""}</b></div>`).join("")}</div>
   <p class="muted" style="font-size:12px;margin:4px 0 0">🟩 答对 · 🟥 答错 · 数字 = 当天新学单词</p></div>
  <div class="card"><h2>❗ 常错单词</h2>${st.wrongWords.length?`<div class="wlist">${st.wrongWords.map(x=>`<button class="wrow" data-say="${esc(x.w.w)}"><span>${x.w.pic?x.w.e:"🔤"}</span><b>${esc(x.w.w)}</b><small>${esc(x.w.zh)}</small><em>错 ${x.m} · 对 ${x.ok}${x.mast?" · 🏅":""}</em></button>`).join("")}</div>`:`<p class="muted">还没有错题，真棒！</p>`}</div>
- <div class="card"><h2>⭐ 星级进度</h2>${st.levels.map((l,i)=>`<div class="lvrow">${lvBadge(i+1)}<div style="flex:1"><div class="bar" style="height:10px"><i style="width:${l.k/l.n*100}%"></i></div><div class="bar mbar" style="height:8px;margin-top:2px"><i style="width:${l.m/l.n*100}%"></i></div></div><small>${l.k}/${l.m}/${l.n}${l.pass?" 🎓":""}</small></div>`).join("")}<p class="muted" style="font-size:12px">已学 / 已掌握 / 总词数 · 🎓 = 考级通过</p></div>
+ <div class="card"><h2>⭐ 星级进度</h2>${st.levels.map((l,i)=>`<div class="lvrow">${lvBadge(i+1)}<div style="flex:1"><div class="bar" style="height:10px"><i style="width:${l.k/l.n*100}%"></i></div><div class="bar mbar" style="height:8px;margin-top:2px"><i style="width:${l.m/l.n*100}%"></i></div></div><small>${l.k}/${l.m}/${l.n}${l.pass?" 🎓":""}</small></div>`).join("")}<p class="muted" style="font-size:12px">已会 / 已记住 / 总词数 · 🎓 = 考级通过</p></div>
  <div class="card center"><button class="btn gray full" id="rePlR">🎯 重新定级考试</button></div>`;
  app.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{PKID=b.dataset.k;parentReport()});app.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>say(b.dataset.say));
  const re=$("#rePlR");if(re)re.onclick=()=>{if(s.cid!==S.cid){toast("请先在「孩子」里切换到这个孩子，再重新定级",1800);return}requestPlaceRetake("report")}}
 function kidsPanel(){const kids=allKids();
  ensureAllSysNicks();
  $("#pc").innerHTML=`<div class="card"><h2>🧒 孩子档案</h2><p class="muted" style="font-size:13px">每个孩子有自己的宠物、进度和装饰。名字是系统昵称（例如「闪亮小兔」），不会使用真实姓名。</p>
- ${kids.map(k=>`<div class="kidrow"><span style="font-size:30px">${k.cemo||KIDE[0]}</span><div style="flex:1"><b>${esc(kidLabel(k,kids))}</b>${k.cid===S.cid?` <small class="rt rt1">当前</small>`:""}<br><small class="muted">${lvBadge(k.level||1)} · 已学 ${W.filter(x=>k.w&&k.w[x.w]&&k.w[x.w].k).length} 词 · 宠物 ${(k.pets||[]).length}</small></div>
+ ${kids.map(k=>`<div class="kidrow"><span style="font-size:30px">${k.cemo||KIDE[0]}</span><div style="flex:1"><b>${esc(kidLabel(k,kids))}</b>${k.cid===S.cid?` <small class="rt rt1">当前</small>`:""}<br><small class="muted">${lvBadge(k.level||1)} · 已会 ${W.filter(x=>k.w&&k.w[x.w]&&k.w[x.w].k).length} 词 · 宠物 ${(k.pets||[]).length}</small></div>
   ${k.cid===S.cid?"":`<button class="btn sm" data-sw="${k.cid}">切换</button><button class="btn gray sm" data-del="${k.cid}">🗑️</button>`}</div>`).join("")}
  <div class="row" style="margin-top:10px;align-items:center"><p class="muted" style="flex:1;margin:0;font-size:13px">选一个头像，再添加孩子</p><button class="btn green" id="kadd">➕ 添加孩子</button></div>
  <div class="emorow">${KIDE.map((e,i)=>`<button class="emo ${i===1?"on":""}" data-e="${e}">${e}</button>`).join("")}</div></div>`;
@@ -4435,7 +4510,7 @@ function renderVisit(){const v=VIS,s=v.snap,mk=(s.deco||[]).find(d=>d&&typeof d.
  app.innerHTML=`<div class="top"><button class="iconbtn" id="back" aria-label="返回">⬅️</button><h1 style="margin:0;font-size:22px">🏡 ${v.sib?esc(v.emo+" "+v.name):esc(nickTxt(v.nick))}的家</h1><span style="width:52px"></span></div>
  <div class="visitwrap">${scene(pet,false)}<div class="vtag">${lvBadge(s.level,true)}</div><div class="vlike">👍 ${v.likes}</div><div id="stk"></div></div>
  <div class="card"><div class="vhead"><b style="font-size:19px">${esc(sp.zh)}</b> <small class="rt rt${sp.r||0}">${["⭐","⭐⭐","⭐⭐⭐","🌈"][sp.r||0]}</small><span class="vmood">💗 心情 Lv.${(s.bond||0)+1}</span></div>
-  <div class="stats"><div class="stat"><b>${s.mastered}</b><small>🏅 已掌握</small></div><div class="stat"><b>${s.learned}</b><small>📚 已学单词</small></div><div class="stat"><b>${s.pets}</b><small>🐾 宠物</small></div><div class="stat"><b>${s.items}</b><small>🎀 装饰</small></div></div></div>
+  <div class="stats"><div class="stat"><b>${s.mastered}</b><small>🏅 已记住</small></div><div class="stat"><b>${s.learned}</b><small>📚 已会单词</small></div><div class="stat"><b>${s.pets}</b><small>🐾 宠物</small></div><div class="stat"><b>${s.items}</b><small>🎀 装饰</small></div></div></div>
  <div class="card"><div class="row"><button class="btn ${v.liked_today?"gray":"pink"}" id="lk" style="flex:1" ${v.liked_today?"disabled":""}>${v.liked_today?"✅ 今天已点赞":"👍 点个赞"}</button><button class="btn ${v.gifts_left>0?"green":"gray"}" id="gf" style="flex:1" ${v.gifts_left>0?"":"disabled"}>${v.gifts_left>0?"🎁 送礼物":"🎁 今天送完啦"}</button></div>
   <p class="muted" style="margin:8px 0 0;font-size:13px;text-align:right">🎁 今天还能给 TA 送 ${Math.max(0,v.gifts_left||0)} 件礼物</p><p class="muted" style="margin:6px 0 4px;font-size:13px">送一个贴纸（每天 3 个，还剩 ${Math.max(0,3-v.stickers_today)} 个）</p><div class="stkrow">${STICKERS.map((e,i)=>`<button class="stkb" data-s="${i}" ${v.stickers_today>=3?"disabled":""}>${e}</button>`).join("")}</div></div>`;
  back(friendsScreen);const tok=SYST().token;
