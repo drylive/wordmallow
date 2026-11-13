@@ -78,7 +78,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .opt.ok{background:#c9f7c0;box-shadow:0 5px 0 #6fcf5f}
 .opt.bad{background:#ffd0d8;box-shadow:0 5px 0 #f07a8e;animation:shake .4s}
 .opt.sel{outline:4px solid #3fa3f5}
-.opt.done{opacity:.35;pointer-events:none}
+.opt.done{opacity:.35;pointer-events:none}.bub.done{opacity:.35;pointer-events:none}.pgKeys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:12px auto 0}.pgKeys button{min-height:48px;font-size:22px;font-weight:800}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .swatch{display:inline-block;width:1em;height:1em;border-radius:50%;border:3px solid rgba(0,0,0,.12);vertical-align:middle}
 .speak{display:block;margin:6px auto;width:72px;height:72px;border-radius:50%;font-size:36px;background:linear-gradient(#7cc8ff,#3fa3f5);box-shadow:0 5px 0 #2a7fc8;color:#fff}
@@ -116,7 +116,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .wrow span{grid-row:1/3;font-size:24px}.wrow b{font-size:17px}.wrow small{grid-column:2;color:#8a7a98}.wrow em{grid-row:1/3;grid-column:3;font-style:normal;font-size:12px;color:#d9456a;font-weight:800}
 .lvrow{display:flex;align-items:center;gap:8px;margin:6px 0}.lvrow small{font-size:11px;color:#8a7a98;min-width:74px;text-align:right}
 .kidrow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f2e8f7}.btn.sm{font-size:14px;min-height:38px;padding:4px 10px;width:auto}
-.codeIn{font-size:28px;font-weight:900;letter-spacing:6px;text-align:center;border:2px solid #ead9f5;border-radius:14px;padding:10px;width:100%;box-sizing:border-box;background:#fff;color:#4a3b5c}
+.codeIn{font-size:22px;font-weight:900;letter-spacing:0;text-align:center;border:2px solid #ead9f5;border-radius:14px;padding:10px;width:100%;box-sizing:border-box;background:#fff;color:#4a3b5c}
 .famcode{font-size:40px;font-weight:900;letter-spacing:8px;color:#7a5ae0;margin:2px 0 10px;font-family:ui-monospace,Menlo,monospace}.mono{font-family:ui-monospace,Menlo,monospace;letter-spacing:2px}
 .qrbox{display:flex;justify-content:center;margin:6px 0}.reqrow{display:flex;align-items:center;gap:6px;justify-content:space-between;background:#effbea;border-radius:12px;padding:8px;margin:6px 0}
 .emorow{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.emo{font-size:24px;border:0;background:#fff;border-radius:12px;padding:4px 8px}.emo.on{background:#ffe0ef;box-shadow:0 0 0 2px #ff8fc1}
@@ -305,11 +305,11 @@ body{min-height:100vh;min-height:100dvh}
 .bub{position:absolute;bottom:-90px;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 12%,rgba(160,215,255,.55) 40%,rgba(120,180,255,.75));border:2px solid rgba(255,255,255,.9);font-weight:900;font-size:15px;color:#2a4a7a;animation:rise linear infinite;padding:4px;word-break:break-word}
 @keyframes rise{0%{bottom:-90px;transform:translateX(0)}50%{transform:translateX(14px)}100%{bottom:310px;transform:translateX(-6px)}}
 .bub.popped{animation:none!important;transform:scale(1.6);opacity:0;transition:all .3s}.bub.wob{filter:hue-rotate(120deg)}
-.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
-.mcard{min-height:96px;border-radius:16px;background:linear-gradient(#ffb3d6,#ff8fc1);box-shadow:0 4px 0 #d9458a;font-size:15px;font-weight:900;color:#fff;position:relative;transition:transform .3s;padding:4px}
-.mcard .mf{display:none;color:#4a3b5c;font-size:32px}.mcard .mf small{font-size:13px}.mcard.up{background:#fff;box-shadow:0 4px 0 #ecdcf5;transform:rotateY(180deg)}.mcard.up .mf{display:block;transform:rotateY(180deg)}.mcard.up .mb{display:none}
-.mcard.up .mf:not(:has(small)){font-size:inherit}.mcard.got{background:#c9f7c0;opacity:.8}
-.mcard .mf{word-break:break-word}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.mcard{min-height:124px;border-radius:16px;background:linear-gradient(#ffb3d6,#ff8fc1);box-shadow:0 4px 0 #d9458a;font-size:15px;font-weight:900;color:#fff;position:relative;transition:transform .3s;padding:4px;display:flex;align-items:center;justify-content:center}
+.mcard .mf{display:none;color:#4a3b5c;font-size:34px;line-height:1.15;text-align:center}.mcard .mf small{font-size:17px;line-height:1.2}.mcard.up{background:#fff;box-shadow:0 4px 0 #ecdcf5;transform:rotateY(180deg)}.mcard.up .mf{display:block;transform:rotateY(180deg)}.mcard.up .mb{display:none}
+.mcard.got{background:#c9f7c0;opacity:.8}
+.mcard .mf{word-break:normal;overflow-wrap:break-word}
 .wcard{padding-top:10px}.syl{background:#fff3c4;border-radius:14px;padding:6px 12px;font-weight:900;font-size:18px;color:#7a5a00;box-shadow:0 3px 0 #e8c86a;min-height:44px}
 .ipa{color:#8a7a9a;font-size:16px}.ps{color:#3fa3f5;font-weight:800}
 .zhHint{display:block;margin:8px auto 0;background:#f6f0fb;border-radius:14px;padding:8px 14px;font-weight:800;color:#8a7a9a;min-height:44px}.idkRow{display:flex;justify-content:center;margin-top:12px}.idkBtn{font-size:16px;min-height:44px;min-width:140px}.zhShow{margin:8px 0 0;font-weight:800;color:#7c57cf;text-align:center}.zhHint.on{color:#7c57cf;background:#efe6ff}
@@ -336,7 +336,7 @@ body{min-height:100vh;min-height:100dvh}
 .mbar i{background:linear-gradient(90deg,#ffd25e,#ff9a5c)!important}
 .mrule{font-size:12px;line-height:1.5}
 .prog{flex:1;min-width:0;gap:3px}.prog i{flex:0 1 14px;min-width:4px;height:12px}
-.mcard.up .mf.emo{font-size:44px;line-height:1}
+.mcard.up .mf.emo{font-size:68px;line-height:1}
 </style>
 
 </head>
@@ -745,9 +745,9 @@ function picOf(w,cls){return `<span class="${cls||""} ${w.pic?"":"absPic"}">${w.
 let voice=null;
 function pickVoice(){if(!window.speechSynthesis)return;const v=speechSynthesis.getVoices();voice=v.find(x=>/en[-_]US/i.test(x.lang)&&/Samantha|Google US English|Natural|Aria|Jenny/i.test(x.name))||v.find(x=>/en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null}
 if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
-const RATE={w:[.75,.6],s:[.8,.6],c:[.95,.8],x:[.5,.45]};
+const RATE={w:[.75,.6],s:[.62,.48],c:[.95,.8],x:[.5,.45]};
 let lastSaid=null;
-function utter(text,kind){const u=new SpeechSynthesisUtterance(text);u.lang="en-US";if(voice)u.voice=voice;const r=RATE[kind]||RATE.w;u.rate=S.slow?r[1]:r[0];u.pitch=1.08;return u}
+function utter(text,kind){const u=new SpeechSynthesisUtterance(text);u.lang="en-US";if(voice)u.voice=voice;const r=RATE[kind]||RATE.w;let rate=S.slow?r[1]:r[0];if(kind==="s"&&text){const n=text.length;if(n>50)rate=Math.max(.42,rate-.06);else if(n>32)rate=Math.max(.42,rate-.03)}u.rate=rate;u.pitch=1.08;return u}
 function say(text,kind){if(typeof kind==="number")kind=kind>=1?"c":"w";lastSaid={text,kind:kind||"w",t:Date.now()};if(!S.sound||!window.speechSynthesis)return;try{speechSynthesis.cancel();speechSynthesis.speak(utter(text,kind||"w"))}catch(e){}}
 function saySyll(w){lastSaid={text:w.sy,kind:"syl",t:Date.now()};if(!S.sound||!window.speechSynthesis)return;try{speechSynthesis.cancel();const parts=w.sy.split("·");if(parts.length>1)parts.forEach(p=>speechSynthesis.speak(utter(p,"x")));speechSynthesis.speak(utter(w.w,"w"))}catch(e){}}
 function speedBtn(){return `<button class="spd" id="spd" aria-label="语速">${S.slow?"🐢 慢":"🐇 正常"}</button>`}
@@ -832,12 +832,14 @@ function nOpts(w){return w.lv<=1?3:4}
 function optGrid(opts,render,onPick){return {html:`<div class="opts">${opts.map((o,i)=>`<button class="opt ${render(o).cls||""}" data-o="${i}">${render(o).h}</button>`).join("")}</div>`,bind:root=>root.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>onPick(opts[+b.dataset.o],b)})}}
 function head(t,sub){return `<h2 class="center gtitle">${t}</h2>${sub?`<p class="muted center" style="margin:-6px 0 6px">${sub}</p>`:""}`}
 const GNAME={hear:"👂 听音选图",see:"👀 看图选词",mean:"💡 选意思",cloze:"✏️ 句子填空",spell:"🔤 字母拼拼乐",sb:"🧱 句子积木",bub:"🫧 泡泡大作战",mem:"🃏 记忆翻翻乐",read:"📖 小阅读",teach:"🎓 教宠物"};
+function isChoiceQ(g){return g==="hear"||g==="see"||g==="mean"||g==="cloze"||g==="read"||g==="bub"}
 function runQ(el,q,cb){
- const w=q.w,once=!!q.once;let first=true,locked=false;
- const right=src=>{if(locked)return;locked=true;sfx("ok");if(src)burstAt(src,8);if(!q.quiet)petRight(src);cb.done(first,q)};
- const wrong=(b)=>{if(locked)return;first=false;sfx("no");if(b){b.classList.add("bad");setTimeout(()=>b.classList.add("done"),350)}
-  if(once){locked=true;setTimeout(()=>cb.done(false,q),700);if(!q.quiet)petWrong(null);return}petWrong(w);cb.miss&&cb.miss(q)};
- const giveUp=()=>{if(locked)return;locked=true;first=false;q.quit=true;sfx("no");if(once){cb.done(false,q);return}cb.miss&&cb.miss(q);cb.done(false,q)};
+ const w=q.w,once=!!q.once;let first=true,locked=false,misses=0;
+ const right=src=>{if(locked)return;locked=true;q.ok=true;sfx("ok");if(src)burstAt(src,8);if(!q.quiet)petRight(src);cb.done(first,q)};
+ const fail=()=>{locked=true;q.ok=false;q.quit=true;if(!q.quiet)petWrong(once?null:w);cb.miss&&cb.miss(q);setTimeout(()=>cb.done(false,q),700)};
+ const wrong=(b)=>{if(locked)return;first=false;sfx("no");if(b){b.classList.add("bad");b.style.pointerEvents="none";setTimeout(()=>b.classList.add("done"),350)}
+  if(once){fail();return}misses++;if(isChoiceQ(q.g)&&misses>=2){fail();return}petWrong(w);if(!isChoiceQ(q.g))cb.miss&&cb.miss(q)};
+ const giveUp=()=>{if(locked)return;locked=true;first=false;q.ok=false;q.quit=true;sfx("no");if(once){cb.done(false,q);return}cb.miss&&cb.miss(q);cb.done(false,q)};
  const g=q.g;CMP.word=null;
  if(g==="hear"||g==="see"||g==="mean"||g==="cloze"||g==="read"){
   const n=nOpts(w),ds=distract(w,n-1,g==="read"?(x=>x.s.length<90):null),opts=shuffle([w,...ds]);let top="",render;
@@ -879,7 +881,7 @@ function runQ(el,q,cb){
   el.innerHTML=head(GNAME.bub,"听到哪个就戳哪个泡泡！")+`<button class="speak sm" id="sp">🔊</button><div class="tbar"><i id="tb"></i></div><div class="bubbles" id="bb">${opts.map((o,i)=>`<button class="bub" data-o="${i}" style="left:${8+i*22}%;animation-delay:${-i*1.3}s;animation-duration:${5+i%2*1.5}s">${esc(o.w)}</button>`).join("")}</div>`;
   const tb=el.querySelector("#tb");tb.style.transition=`width ${T}s linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>tb.style.width="0%"));
   const to=setTimeout(()=>{if(locked)return;petSay("⏰ Time! 没关系~",1200);first=false;if(once){locked=true;cb.done(false,q)}else{tb.style.transition="none";tb.style.width="100%"}},T*1000);
-  el.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>{const o=opts[+b.dataset.o];sfx("pop");if(o===w){clearTimeout(to);b.classList.add("popped");burstAt(b,10,["🫧","✨","💦"]);right(b)}else{b.classList.add("wob");setTimeout(()=>b.classList.remove("wob"),400);wrong(null)}}});
+  el.querySelectorAll("[data-o]").forEach(b=>{b.onpointerdown=()=>petLean(b);b.onclick=()=>{const o=opts[+b.dataset.o];sfx("pop");if(o===w){clearTimeout(to);b.classList.add("popped");burstAt(b,10,["🫧","✨","💦"]);right(b)}else{b.classList.add("wob");wrong(b)}}});
   el.querySelector("#sp").onclick=()=>say(w.w);setTimeout(()=>say(w.w),300);mountIdk(el,giveUp);return}
  if(g==="mem"){
   const set=(q.ws||[w]).slice(0,4);const cards=shuffle(set.flatMap(x=>[{x,f:"w"},{x,f:"p"}]));let open=[],matched=0,miss=0;
@@ -893,7 +895,7 @@ function runQ(el,q,cb){
   setTimeout(()=>{petAct("think");petSay("🤔 "+L_("ask"),2600)},100);
   const sub=Object.assign({},q,{g:spellIt?"spell":"see",quiet:true});
   const inner=el.querySelector("#tq");
-  runQ(inner,sub,{done:(c,qq)=>{if(c){petAct("dance");petSay("📝 "+L_("thanks",{w:esc(w.w)}),2600);say(w.w);const p=P();p.taught=(p.taught||0)+1;save();orbTo(inner);setTimeout(()=>cb.done(c,q),1300)}else cb.done(c,q)},miss:cb.miss});
+  runQ(inner,sub,{done:(c,qq)=>{q.ok=!!(qq&&qq.ok);q.quit=!!(qq&&qq.quit);if(q.ok){petAct("dance");petSay("📝 "+L_("thanks",{w:esc(w.w)}),2600);say(w.w);const p=P();p.taught=(p.taught||0)+1;save();orbTo(inner);setTimeout(()=>cb.done(c,q),1300)}else cb.done(c,q)},miss:cb.miss});
   if(!spellIt){const h=inner.querySelector(".gtitle");h&&h.remove();inner.querySelector(".bigPic,.zhBig")&&inner.querySelector(".bigPic,.zhBig").remove();const s=inner.querySelector("p.muted");s&&s.remove()}
   return}
 }
@@ -989,20 +991,21 @@ function showReveal(words,then){words=[].concat(words).filter(Boolean);if(!words
 function learnAnswer(st,c,q){
  const w=st.w,now=Date.now();
  const words=st.g==="mem"?st.ws:[w];
- const fast=c&&tooFast();
+ const ok=!!(c||(q&&q.ok));
+ const fast=ok&&tooFast();
  if(fast){if(noteFast(true)){} }else{FASTN=0}
  if(!st.retry&&!fast){words.forEach(x=>{if(L.attempts[x.w]!=null)return;L.attempts[x.w]=c?1:0;L.firstN=(L.firstN||0)+1;if(c)L.firstOk=(L.firstOk||0)+1})}
- if(c&&!fast){L.combo++;L.best=Math.max(L.best,L.combo);L.correct++;S.totalCorrect++;todayLog().correct++}else if(!c){L.combo=0;S.totalWrong++;todayLog().wrong++}
- words.forEach(x=>{if(c&&fast)return;recordAns(x,c);const s=ws(x);if(c){s.ok++;s.b=Math.min(INTERVALS.length-1,s.b+1)}else{s.m++;s.b=0}s.d=now+INTERVALS[s.b];
+ if(ok&&!fast){L.combo++;L.best=Math.max(L.best,L.combo);L.correct++;S.totalCorrect++;todayLog().correct++}else if(!ok){L.combo=0;S.totalWrong++;todayLog().wrong++}
+ words.forEach(x=>{if(ok&&fast)return;recordAns(x,ok);const s=ws(x);if(ok){s.ok++;s.b=Math.min(INTERVALS.length-1,s.b+1)}else{s.m++;s.b=0}s.d=now+INTERVALS[s.b];
   if(!s.k){s.k=1;s.b=Math.max(1,s.b);s.d=now+INTERVALS[s.b];L.learned.push(x);S.energy+=ENERGY_NEW;L.energy+=ENERGY_NEW;todayLog().learned++}else if(st.rev){S.energy+=ENERGY_REV;L.energy+=ENERGY_REV}
-  logAdd(c?"ok":"bad",x.w,true)});
+  logAdd(ok?"ok":"bad",x.w,true)});
  logAdd("units",UNITS[w.u].id,true);
  if(L.combo>0&&L.combo%3===0){const b=2+L.combo/3;S.energy+=b;L.energy+=b;sfx("combo");toast(`🔥 连击 x${L.combo}！+${b}⚡`,900);petAct("combo")}
- moodAdd(c?22:8);eggMilestones();save();
+ moodAdd(ok?22:8);eggMilestones();save();
  const go=()=>{L.i++;renderLearn()};
- const quit=q&&q.quit||(!c&&st.g==="mem");
+ const quit=!ok&&(q&&q.quit||st.g==="mem");
  if(quit){requeueWrong(words,st.g);showReveal(words,go);return}
- setTimeout(go,c?900:1100)}
+ setTimeout(go,ok?900:1100)}
 function learnDone(){
  const ses=L;L=null;GAME=null;const p=P();const n=ses.learned.length;
  const fav=ses.learned.filter(x=>x.pic)[0]||ses.learned[0]||ses.revs[0];
@@ -1038,7 +1041,7 @@ function startChallenge(ui){const u=UNITS[ui];const known=u.words.filter(isKnown
 function renderChallenge(){if(!C)return home();scrollTo(0,0);const q=C.qs[C.i];
  app.innerHTML=`<div class="top">${BACK}<div class="chip">🏆 ${C.i+1}/${C.qs.length}</div><div class="hearts">${"❤️".repeat(C.hearts)}${"🤍".repeat(3-C.hearts)}</div></div><div class="gwrap" id="q"></div>`+companion();
  back(()=>{C=null;home()});bindCompanion();
- runQ($("#q"),Object.assign({},q),{done:c=>{if(!C||C.hearts<=0)return;const fast=c&&tooFast();if(fast)noteFast(true);else FASTN=0;if(!fast){C.firstN++;if(c)C.firstOk++}(q.ws||[q.w]).forEach(x=>{if(!(c&&fast))recordAns(x,c)});eggMilestones();save();if(c&&!fast)GAME.combo++;else if(!c)GAME.combo=0;moodAdd(c?20:6);setTimeout(()=>{if(!C||C.hearts<=0)return;C.i++;C.i<C.qs.length?renderChallenge():chWin()},800)},
+ runQ($("#q"),Object.assign({},q),{done:(c,qq)=>{if(!C||C.hearts<=0)return;const ok=!!(c||(qq&&qq.ok));const fast=ok&&tooFast();if(fast)noteFast(true);else FASTN=0;if(!fast){C.firstN++;if(c)C.firstOk++}(q.ws||[q.w]).forEach(x=>{if(!(ok&&fast))recordAns(x,ok)});eggMilestones();save();if(ok&&!fast)GAME.combo++;else if(!ok)GAME.combo=0;moodAdd(ok?20:6);setTimeout(()=>{if(!C||C.hearts<=0)return;C.i++;C.i<C.qs.length?renderChallenge():chWin()},800)},
   miss:()=>{if(!C)return;C.hearts--;const h=app.querySelector(".hearts");if(h)h.innerHTML="❤️".repeat(Math.max(0,C.hearts))+"🤍".repeat(3-Math.max(0,C.hearts));if(C.hearts<=0)setTimeout(chFail,700)}})}
 function chFail(){if(!C)return;const u=C.u;C=null;app.innerHTML=`<div class="card center"><div style="font-size:70px">💪</div><h1>差一点点！</h1><p>复习一下 ${esc(u.zh)} 的单词，再来挑战吧</p></div><button class="btn green full" id="r">🔁 再试一次</button><div style="height:10px"></div><button class="btn blue full" id="h">🏠 回家</button>`;$("#r").onclick=()=>startChallenge(u.i);$("#h").onclick=home}
 function chWin(){const u=C.u,firstN=C.firstN||0,firstOk=C.firstOk||0,rate=firstN?Math.round(firstOk/firstN*100):100,giveBox=rate>=80;C=null;S.challenges[u.id]=(S.challenges[u.id]||0)+1;S.energy+=30;if(giveBox)S.boxes.n++;logAdd("ch",u.id);save();sfx("fan");
@@ -1074,17 +1077,20 @@ function examResult(){const e=EX;EX=null;const n=e.qs.length,need=Math.ceil(n*.8
 // ================= ADAPTIVE PLACEMENT (CAT-style staircase) =================
 let PL=null;
 const PL_TYPES=["hear","mean","cloze","read","hear","see"];
-function placeIntro(){screen="place";scrollTo(0,0);
- app.innerHTML=`<div class="card center"><div style="font-size:60px">🎯</div><h1>星级小测验</h1><p style="font-size:17px">约 20–30 道小题，会根据你的回答变难或变简单<br>帮你在 ⭐1–⭐10 里找到最合适的起点</p>
- <p class="muted">听音选图 · 选意思 · 句子填空 · 小阅读<br>不会的题可以点「我不会」，没关系！</p></div>
- <button class="btn full" id="go">🚀 开始测验</button><div style="height:12px"></div><button class="btn gray full" id="skip">从 ⭐1 开始（跳过测验）</button>`;
- $("#go").onclick=startPlace;$("#skip").onclick=()=>{S.level=1;S.placed=true;save();home()}}
-function startPlace(){PL={th:5,step:2,n:0,hist:[],used:new Set()};GAME={combo:0};CMP.mood=0;screen="place";renderPlace()}
+function leavePlace(from){PL=null;if(from==="report"&&typeof parentCenter==="function")parentCenter("report");else home()}
+function requestPlaceRetake(from){const go=()=>{if(confirm("重新测验大约 20–30 题，会根据结果调整学习星级。已经学会的单词、宠物和装饰都会保留。"))placeIntro(true,from)};
+ if(from==="home"&&typeof parentGate==="function")parentGate(go);else go()}
+function placeIntro(retake,from){screen="place";scrollTo(0,0);const isR=!!retake;
+ app.innerHTML=`<div class="card center"><div style="font-size:60px">🎯</div><h1>${isR?"重新定级测验":"星级小测验"}</h1><p style="font-size:17px">约 20–30 道小题，会根据你的回答变难或变简单<br>帮你在 ⭐1–⭐10 里找到最合适的起点</p>
+ <p class="muted">听音选图 · 选意思 · 句子填空 · 小阅读<br>不会的题可以点「我不会」，没关系！${isR?"<br>已经学会的单词、宠物和装饰都会保留。":""}</p></div>
+ <button class="btn full" id="go">🚀 开始测验</button><div style="height:12px"></div><button class="btn gray full" id="skip">${isR?"取消，保持现在的 ⭐"+S.level:"从 ⭐1 开始（跳过测验）"}</button>`;
+ $("#go").onclick=()=>startPlace(isR,from);$("#skip").onclick=()=>{if(isR){leavePlace(from);return}S.level=1;S.placed=true;save();home()}}
+function startPlace(retake,from){PL={th:5,step:2,n:0,hist:[],used:new Set(),retake:!!retake,from:from||null};GAME={combo:0};CMP.mood=0;screen="place";renderPlace()}
 function plNext(){const lv=Math.max(1,Math.min(10,Math.round(PL.th)));const g=PL_TYPES[PL.n%PL_TYPES.length];
  let cands=LVW[lv].filter(w=>!PL.used.has(w.w)&&(g!=="read"||w.s.length<90));if(g==="hear"&&lv<=4)cands=cands.filter(w=>w.pic).length?cands.filter(w=>w.pic):cands;const w=pick1(cands);PL.used.add(w.w);return {g,w,once:true,lv}}
 function renderPlace(){scrollTo(0,0);const q=PL.cur=plNext();
  app.innerHTML=`<div class="top">${BACK}<div class="chip">🎯 第 ${PL.n+1} 题</div><div class="chip">≈ ${lvBadge(q.lv)}</div></div><div class="gwrap" id="q"></div>`+companion();
- back(()=>{PL=null;placeIntro()});bindCompanion();
+ back(()=>{const retake=PL&&PL.retake,from=PL&&PL.from;PL=null;if(retake){leavePlace(from);return}placeIntro()});bindCompanion();
  let answered=false;const fin=c=>{if(answered)return;answered=true;const fast=c&&tooFast();if(fast){noteFast(true);plAnswer(q,false,true);return}FASTN=0;plAnswer(q,c)};
  runQ($("#q"),q,{done:c=>fin(c)})}
 function plAnswer(q,c){PL.hist.push({lv:q.lv,c,g:q.g});PL.n++;PL.th=Math.max(1,Math.min(10,PL.th+(c?PL.step:-PL.step)));PL.step=Math.max(.6,PL.step*.8);
@@ -1094,15 +1100,16 @@ function plEstimate(hist){const last=hist.slice(-8);let est=last.reduce((a,h)=>a
  let vocab=0;for(let l=1;l<=10;l++)vocab+=LVW[l].length/(1+Math.exp(1.7*(l-est-.5)));
  const acc=f=>{const a=hist.filter(f);return a.length?Math.round(a.filter(h=>h.c).length/a.length*100):null};
  return {est,rec:Math.max(1,Math.min(10,Math.floor(est+.15))),vocab:Math.round(vocab/10)*10,listen:acc(h=>h.g==="hear"),read:acc(h=>h.g!=="hear")}}
-function placeResult(){const r=plEstimate(PL.hist);S.placement=Object.assign({at:dk(),n:PL.n},r);save();screen="placer";
+function placeResult(){const r=plEstimate(PL.hist),retake=!!(PL&&PL.retake),cur=S.level;screen="placer";
  const sw=r.listen==null||r.read==null?"":r.listen>r.read+10?"👂 听力是你的强项，阅读可以多练练":r.read>r.listen+10?"📖 阅读是你的强项，听力可以多练练":"👂📖 听力和阅读很均衡";
  app.innerHTML=`<div class="card center"><div style="font-size:64px">🌟</div><h1>测验结果</h1><p class="muted">共 ${PL.n} 题 · 自适应难度</p>
  <div style="margin:10px 0">推荐起点 ${lvBadge(r.rec,true)}</div><h2>${LVI[r.rec].nm} · ${LVI[r.rec].cefr}</h2>
  <div class="stats"><div class="stat"><b>≈${r.vocab}</b><small>📚 估计词汇量</small></div><div class="stat"><b>${LVI[r.rec].yle}</b><small>🎯 参考水平</small></div>
  <div class="stat"><b>${r.listen??"-"}%</b><small>👂 听力正确率</small></div><div class="stat"><b>${r.read??"-"}%</b><small>📖 阅读正确率</small></div></div>
  <p>${sw}</p></div>
- <button class="btn full" id="a">${lvBadge(r.rec)} 从推荐星级开始</button><div style="height:10px"></div>${r.rec>1?`<button class="btn blue full" id="b">${lvBadge(r.rec-1)} 从低一级开始（更轻松）</button>`:""}`;
- const go=l=>{S.level=l;S.placed=true;PL=null;save();say("Let's meet your pet!","c");home()};$("#a").onclick=()=>go(r.rec);if($("#b"))$("#b").onclick=()=>go(r.rec-1)}
+ <button class="btn full" id="a">${lvBadge(r.rec)} 从推荐星级开始</button><div style="height:10px"></div>${r.rec>1?`<button class="btn blue full" id="b">${lvBadge(r.rec-1)} 从低一级开始（更轻松）</button>`:""}${retake?`<div style="height:10px"></div><button class="btn gray full" id="keep">保持现在的 ⭐${cur}</button>`:""}`;
+ const go=l=>{S.level=l;S.placed=true;S.placement=Object.assign({at:dk(),n:PL.n},r,{retake:retake?1:undefined});PL=null;save();if(retake)toast("从这一级开始学吧",1600);else say("Let's meet your pet!","c");home()};
+ $("#a").onclick=()=>go(r.rec);if($("#b"))$("#b").onclick=()=>go(r.rec-1);if($("#keep"))$("#keep").onclick=()=>go(cur)}
 
 // ================= DECORATIONS: parametric clay-SVG generator (lazy, from compact definitions) =================
 const PAL=[["草莓","Strawberry","#ff8fb1","#ffd6e3","#e0628c"],["薄荷","Mint","#7fe0c0","#dafcee","#3aae8a"],["柠檬","Lemon","#ffe066","#fff8cf","#e2b522"],["蓝莓","Blueberry","#86aaff","#dde7ff","#4d6fd8"],
@@ -1498,7 +1505,7 @@ function home(){
  <div class="card exam ${ready?"ready":""}"><div class="row"><span style="font-size:40px">🎓</span><div style="flex:1"><b>${lvBadge(lv)} 考级 → ${lv<MAXLV?lvBadge(lv+1):"🏆"}</b><div class="muted">${LVI[lv].nm} · ${LVI[lv].cefr} · ${LVI[lv].yle}</div>
   <div class="bar" style="height:14px;margin-top:4px"><i style="width:${Math.min(100,lk/need*100)}%"></i><span style="line-height:14px;font-size:11px">已学 ${lk}/${ln} · 学会 ${need} 个解锁考级</span></div>
   <div class="bar mbar" id="mprog" style="height:14px;margin-top:4px"><i style="width:${lvMastered(lv)/ln*100}%"></i><span style="line-height:14px;font-size:11px">🏅 已掌握 ${lvMastered(lv)} / ${ln}${S.goldLv[lv]?" · 🌟 金蛋已领":lvFullyMastered(lv)?"":" · 全掌握+考级通过得金蛋"}</span></div></div></div>
-  ${es.lock.length?`<button class="btn green full" id="rv" style="margin-top:8px">🔁 先复习 ${es.lock.length} 个错词再重考</button>`:`<button class="btn ${ready?"orange":"gray"} full" id="ex" style="margin-top:8px" ${ready?"":"disabled"}>${ready?"🎓 开始考级（28 题，≥80% 通过）":"🔒 学会 80% 单词解锁考级"}</button>`}</div>
+  ${es.lock.length?`<button class="btn green full" id="rv" style="margin-top:8px">🔁 先复习 ${es.lock.length} 个错词再重考</button>`:`<button class="btn ${ready?"orange":"gray"} full" id="ex" style="margin-top:8px" ${ready?"":"disabled"}>${ready?"🎓 开始考级（28 题，≥80% 通过）":"🔒 学会 80% 单词解锁考级"}</button>`}<p class="muted" style="margin:8px 0 0;font-size:13px;text-align:center"><button type="button" id="rePlH" style="background:none;border:none;padding:0;color:inherit;font:inherit;text-decoration:underline">等级不对？重新测验</button></p></div>
  <h2>📚 ${lvBadge(lv)} 主题 <span class="muted" style="font-size:14px">${units.length} 个主题 · 随机 + 联想学习</span></h2>
  <div class="units">${units.map(u=>{const k=knownCount(u),un=k>=Math.ceil(u.n*UNLOCK_PCT),wins=S.challenges[u.id]||0;
   return `<div class="ucard"><button class="unit" data-u="${u.i}"><span class="em">${u.e}</span><span style="flex:1"><b>${esc(u.zh)}</b><small>已学 ${k}/${u.n}</small><div class="bar" style="height:10px;margin-top:4px"><i style="width:${k/u.n*100}%"></i></div></span><span style="font-size:24px">▶️</span></button>
@@ -1513,7 +1520,7 @@ function home(){
  $("#snd").onclick=()=>{S.sound=!S.sound;save();if(S.sound)say("Hello!","c");home()};$("#spd2").onclick=()=>{S.slow=!S.slow;save();say("Hello, friend!","s");home()};
  $("#stage").onclick=homePetTap;$("#mw").onclick=()=>mwDone?(say(mw.w),toast(`${mw.e} ${esc(mw.w)} · ${esc(mw.zh)}`,1500)):startLearn({mystery:mw});
  $("#learn").onclick=()=>startLearn();$("#teach").onclick=startTeach;
- if($("#ex"))$("#ex").onclick=startExam;if($("#rv"))$("#rv").onclick=()=>startLearn({words:es.lock.map(k=>WI[k]),examReview:lv});
+ if($("#ex"))$("#ex").onclick=startExam;if($("#rv"))$("#rv").onclick=()=>startLearn({words:es.lock.map(k=>WI[k]),examReview:lv});if($("#rePlH"))$("#rePlH").onclick=()=>requestPlaceRetake("home");
  app.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>startLearn({unit:+b.dataset.u}));
  app.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>startChallenge(+b.dataset.c));
 }
@@ -3987,9 +3994,14 @@ function qrSVG(text,px){const q=qrcode(0,"M");q.addData(text);q.make();const n=q
 const QR_PREFIX="WMFAM:";
 // ---------- parent gate (arithmetic) ----------
 function parentGate(then){const a=6+Math.floor(Math.random()*4),b=3+Math.floor(Math.random()*7);
- const m=modal(`<h2>👨‍👩‍👧 家长验证</h2><p class="muted">请家长回答：</p><div style="font-size:34px;font-weight:900;margin:8px 0">${a} × ${b} = ?</div><input id="pgA" inputmode="numeric" class="codeIn" style="width:140px" autocomplete="off"><div class="row" style="margin-top:12px"><button class="btn gray full" id="pgX">取消</button><button class="btn full" id="pgOk">确定</button></div>`);
- const go=()=>{if(+m.querySelector("#pgA").value===a*b){m.remove();then()}else{m.querySelector("#pgA").value="";m.querySelector("#pgA").classList.add("shake");toast("答案不对哦",900)}};
- m.querySelector("#pgOk").onclick=go;m.querySelector("#pgA").onkeydown=e=>{if(e.key==="Enter")go()};m.querySelector("#pgX").onclick=()=>m.remove();setTimeout(()=>m.querySelector("#pgA").focus(),50)}
+ const m=modal(`<h2>👨‍👩‍👧 家长验证</h2><p class="muted">请家长回答：</p><div style="font-size:34px;font-weight:900;margin:8px 0">${a} × ${b} = ?</div><input id="pgA" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="3" class="codeIn" style="width:180px;font-size:22px;letter-spacing:0"><div class="pgKeys" id="pgK">${[1,2,3,4,5,6,7,8,9,"⌫",0].map(k=>`<button type="button" class="btn gray" data-k="${k}">${k}</button>`).join("")}</div><div class="row" style="margin-top:12px"><button class="btn gray full" id="pgX">取消</button><button class="btn full" id="pgOk">确定</button></div>`);
+ const inp=m.querySelector("#pgA");
+ const go=()=>{if(+inp.value===a*b){m.remove();then()}else{inp.value="";inp.classList.add("shake");toast("答案不对哦",900)}};
+ const setv=v=>{inp.value=String(v).replace(/\D/g,"").slice(0,3);if(inp.value.length===2&&+inp.value===a*b)go()};
+ inp.oninput=()=>setv(inp.value);
+ m.querySelector("#pgOk").onclick=go;inp.onkeydown=e=>{if(e.key==="Enter")go()};m.querySelector("#pgX").onclick=()=>m.remove();
+ m.querySelectorAll("#pgK [data-k]").forEach(btn=>btn.onclick=()=>{const k=btn.dataset.k;if(k==="⌫")setv(inp.value.slice(0,-1));else if(inp.value.length<3)setv(inp.value+k)});
+ setTimeout(()=>inp.focus(),50)}
 // ---------- PARENT CENTER ----------
 let PTAB="report",PKID=null;
 function parentCenter(tab){if(tab)PTAB=tab;screen="parent";scrollTo(0,0);
@@ -4014,8 +4026,10 @@ function parentReport(){const kids=allKids();if(!PKID||!kids.some(k=>k.cid===PKI
   <div class="wkchart">${st.week.map(d=>`<div class="wkd"><div class="wkb"><i class="c" style="height:${d.correct/mx*100}%"></i><i class="x" style="height:${d.wrong/mx*100}%"></i></div><small>${d.k.slice(5).replace("-","/")}</small><b>${d.learned||""}</b></div>`).join("")}</div>
   <p class="muted" style="font-size:12px;margin:4px 0 0">🟩 答对 · 🟥 答错 · 数字 = 当天新学单词</p></div>
  <div class="card"><h2>❗ 常错单词</h2>${st.wrongWords.length?`<div class="wlist">${st.wrongWords.map(x=>`<button class="wrow" data-say="${esc(x.w.w)}"><span>${x.w.pic?x.w.e:"🔤"}</span><b>${esc(x.w.w)}</b><small>${esc(x.w.zh)}</small><em>错 ${x.m} · 对 ${x.ok}${x.mast?" · 🏅":""}</em></button>`).join("")}</div>`:`<p class="muted">还没有错题，真棒！</p>`}</div>
- <div class="card"><h2>⭐ 星级进度</h2>${st.levels.map((l,i)=>`<div class="lvrow">${lvBadge(i+1)}<div style="flex:1"><div class="bar" style="height:10px"><i style="width:${l.k/l.n*100}%"></i></div><div class="bar mbar" style="height:8px;margin-top:2px"><i style="width:${l.m/l.n*100}%"></i></div></div><small>${l.k}/${l.m}/${l.n}${l.pass?" 🎓":""}</small></div>`).join("")}<p class="muted" style="font-size:12px">已学 / 已掌握 / 总词数 · 🎓 = 考级通过</p></div>`;
- app.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{PKID=b.dataset.k;parentReport()});app.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>say(b.dataset.say))}
+ <div class="card"><h2>⭐ 星级进度</h2>${st.levels.map((l,i)=>`<div class="lvrow">${lvBadge(i+1)}<div style="flex:1"><div class="bar" style="height:10px"><i style="width:${l.k/l.n*100}%"></i></div><div class="bar mbar" style="height:8px;margin-top:2px"><i style="width:${l.m/l.n*100}%"></i></div></div><small>${l.k}/${l.m}/${l.n}${l.pass?" 🎓":""}</small></div>`).join("")}<p class="muted" style="font-size:12px">已学 / 已掌握 / 总词数 · 🎓 = 考级通过</p></div>
+ <div class="card center"><button class="btn gray full" id="rePlR">🎯 重新定级考试</button></div>`;
+ app.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{PKID=b.dataset.k;parentReport()});app.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>say(b.dataset.say));
+ const re=$("#rePlR");if(re)re.onclick=()=>{if(s.cid!==S.cid){toast("请先在「孩子」里切换到这个孩子，再重新定级",1800);return}requestPlaceRetake("report")}}
 function kidsPanel(){const kids=allKids();
  $("#pc").innerHTML=`<div class="card"><h2>🧒 孩子档案</h2><p class="muted" style="font-size:13px">每个孩子有自己的宠物、进度和装饰。不需要真实姓名，起个昵称就好。</p>
  ${kids.map(k=>`<div class="kidrow"><span style="font-size:30px">${k.cemo}</span><div style="flex:1"><b>${esc(k.cname)}</b>${k.cid===S.cid?` <small class="rt rt1">当前</small>`:""}<br><small class="muted">${lvBadge(k.level||1)} · 已学 ${W.filter(x=>k.w&&k.w[x.w]&&k.w[x.w].k).length} 词 · 宠物 ${(k.pets||[]).length}</small></div>
