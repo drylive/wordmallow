@@ -78,7 +78,7 @@ h2{font-size:20px;margin:4px 0 10px}
 .opt.ok{background:#c9f7c0;box-shadow:0 5px 0 #6fcf5f}
 .opt.bad{background:#ffd0d8;box-shadow:0 5px 0 #f07a8e;animation:shake .4s}
 .opt.sel{outline:4px solid #3fa3f5}
-.opt.done{opacity:.35;pointer-events:none}.bub.done{opacity:.35;pointer-events:none}.pgKeys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:12px auto 0}.pgKeys button{min-height:48px;font-size:22px;font-weight:800}
+.opt.done{opacity:.35;pointer-events:none}.bub.done{opacity:.35;pointer-events:none}.pgKeys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:240px;margin:12px auto 0}.pgKeys button{min-height:48px;font-size:22px;font-weight:800}.jcKeys{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin:8px 0 0}.jcKeys button{min-height:42px;padding:0;font-size:18px;font-weight:800;min-width:0}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .swatch{display:inline-block;width:1em;height:1em;border-radius:50%;border:3px solid rgba(0,0,0,.12);vertical-align:middle}
 .speak{display:block;margin:6px auto;width:72px;height:72px;border-radius:50%;font-size:36px;background:linear-gradient(#7cc8ff,#3fa3f5);box-shadow:0 5px 0 #2a7fc8;color:#fff}
@@ -4077,14 +4077,16 @@ async function invitePanel(){const st=SYST();let r;try{r=await rpc("open_join",{
  clearInterval(INVT);INVT=setInterval(tick,3000);tick()}
 function joinScreen(){clearInterval(INVT);
  $("#pc").innerHTML=`<div class="card center"><h2>🔗 加入家庭</h2><p class="muted">在已经加入家庭的设备上点「邀请新设备」，然后：</p>
-  <input id="jc" class="codeIn" maxlength="6" placeholder="6 位代码" autocomplete="off" autocapitalize="characters">
+  <input id="jc" class="codeIn" type="text" placeholder="6 位代码" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase;letter-spacing:0">
+  <p class="muted" style="font-size:12px;margin:6px 0 0">键盘打不了字？用下面的按键输入</p><div class="jcKeys" id="jcK">${"ABCDEFGHJKLMNPQRSTUVWXYZ23456789".split("").concat(["⌫"]).map(k=>`<button type="button" class="btn gray" data-k="${k}">${k}</button>`).join("")}</div>
   <div style="height:10px"></div><button class="btn full" id="jgo">➡️ 加入</button><div style="height:10px"></div>
   <button class="btn blue full" id="scan">📷 扫描二维码</button><div id="cam"></div><div id="jst" class="muted" style="margin-top:8px"></div>
   <div style="height:10px"></div><button class="btn gray full" id="jx">返回</button></div>`;
- $("#jx").onclick=()=>{if(JOINP&&!confirm("取消加入请求？"))return;clearJOINP();syncPanel()};$("#jc").oninput=e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,"")};
+ $("#jx").onclick=()=>{if(JOINP&&!confirm("取消加入请求？"))return;clearJOINP();syncPanel()};const jcI=$("#jc");$("#jcK").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=jcNorm(jcI.value);jcI.value=k==="⌫"?v.slice(0,-1):(v+k).slice(0,6);if(jcI.value.length===6)toast("代码输好啦，点「加入」",900)});jcI.onblur=()=>{jcI.value=jcNorm(jcI.value).slice(0,6)};jcI.onkeydown=e=>{if(e.key==="Enter")requestJoin(jcI.value)};
  $("#jgo").onclick=()=>requestJoin($("#jc").value);$("#scan").onclick=scanQR;
  if(JOINP){const js=$("#jst");if(js)js.innerHTML="⏳ 已发送请求，请在第一台设备上点「允许」…";pollJoin()}}
-async function requestJoin(code){code=(code||"").toUpperCase().trim();if(code.length!==6)return toast("请输入 6 位代码",1000);const js=$("#jst");
+function jcNorm(v){return (v||"").toUpperCase().replace(/[^A-Z0-9]/g,"")}
+async function requestJoin(code){code=jcNorm(code).slice(0,6);if(code.length!==6)return toast("请输入 6 位代码",1000);const js=$("#jst");
  try{const r=await rpc("request_join",{p_code:code,p_label:devLabel()});JOINP={id:r.request_id,sec:r.poll_secret,until:Date.now()+600000};writeJOINP();if(js)js.innerHTML="⏳ 已发送请求，请在第一台设备上点「允许」…";pollJoin()}
  catch(e){if(js)js.textContent=e.message==="join_closed"?"代码不对，或者邀请已过期。请在第一台设备上重新点「邀请新设备」。":"失败："+e.message}}
 async function pollJoin(){if(!JOINP||JOINPOLL)return;if(Date.now()>JOINP.until){clearJOINP();const js=$("#jst");if(js)js.textContent="请求已过期，请重试";return}
