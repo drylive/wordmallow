@@ -338,6 +338,54 @@ body{min-height:100vh;min-height:100dvh}
 .mrule{font-size:12px;line-height:1.5}
 .prog{flex:1;min-width:0;gap:3px}.prog i{flex:0 1 14px;min-width:4px;height:12px}
 .mcard.up .mf.emo{font-size:68px;line-height:1}
+/* ---- scenes (spi-v15): CSS-gradient backgrounds, light emoji layer, ambient pet motion ---- */
+.scRow{display:flex;justify-content:center;flex-wrap:wrap;margin:8px 0 4px}
+.scB{position:relative;display:inline-block;width:58px;background:none;border:none;padding:0;margin:0 2px;box-shadow:none;min-height:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.scB span{display:block;width:44px;height:44px;margin:0 auto;border-radius:50%;background:#fff;box-shadow:0 3px 0 #ecdcf5;font-size:23px;line-height:44px;text-align:center}
+.scB.on span{box-shadow:0 0 0 3px #ff8fc1,0 3px 0 #ecdcf5;background:#fff3f9}
+.scB small{display:block;font-size:11px;color:#8a7a9a;margin-top:2px;font-weight:700}
+.scB.lk span{-webkit-filter:grayscale(1);filter:grayscale(1);opacity:.5}
+.scB i{position:absolute;top:-3px;right:4px;font-style:normal;font-size:14px}
+.scBg{position:absolute;top:0;right:0;bottom:0;left:0;z-index:2;pointer-events:none;overflow:hidden;border-radius:22px}
+.scene .petStage{z-index:1}.scene .decoL{z-index:3}
+.scEl{position:absolute;line-height:1;pointer-events:auto;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.scene.edit .scEl,.visitwrap .scEl{pointer-events:none}.visitwrap .vtag,.visitwrap .vlike{z-index:5}
+.scEl.tapd{animation:scTap .45s ease-out}
+@keyframes scTap{0%{transform:scale(1)}40%{transform:scale(1.35) rotate(-8deg)}100%{transform:scale(1)}}
+.scene.sc-grass{background:linear-gradient(#bfe9ff,#eaf8ff 55%,#bdeba6 55%,#93d97c)}
+.scene.sc-grass .petStage{background:radial-gradient(ellipse 48% 14% at 50% 90%,#7cc96a 0,#7cc96a 98%,transparent 100%)}
+.scene.sc-beach{background:linear-gradient(#aee3ff,#e3f5ff 34%,#7fd8f7 34%,#46b8ea 50%,#fff 50%,#fff 51.5%,#ffeab8 51.5%,#f5d38b)}
+.scene.sc-beach .petStage{background:radial-gradient(ellipse 48% 14% at 50% 90%,#efc777 0,#efc777 98%,transparent 100%)}
+.scene.sc-farm{background:repeating-linear-gradient(90deg,#b9804a 0,#b9804a 7px,transparent 7px,transparent 34px) 0 44%/100% 40px no-repeat,linear-gradient(transparent 9px,#d9a06a 9px,#d9a06a 15px,transparent 15px,transparent 25px,#d9a06a 25px,#d9a06a 31px,transparent 31px) 0 44%/100% 40px no-repeat,linear-gradient(#bfe6ff,#eef9ff 50%,#ade08f 50%,#86cc6a)}
+.scene.sc-farm .petStage{background:radial-gradient(ellipse 48% 14% at 50% 90%,#74bb58 0,#74bb58 98%,transparent 100%)}
+.scene.sc-cloud{background:radial-gradient(circle at 12% 104%,#fff 0,#fff 46px,transparent 47px),radial-gradient(circle at 42% 108%,#fff 0,#fff 62px,transparent 63px),radial-gradient(circle at 78% 104%,#fff 0,#fff 52px,transparent 53px),linear-gradient(#ffd9f0,#e7dcff 55%,#d6ecff)}
+.scene.sc-cloud .petStage{background:radial-gradient(ellipse 50% 16% at 50% 90%,#fff 0,#fff 98%,transparent 100%)}
+.petAmb{width:100%;height:100%}
+.sc-grass .petAmb{animation:scHop 3.2s ease-in-out infinite}
+.sc-beach .petAmb{animation:scSway 3s ease-in-out infinite;transform-origin:50% 100%}
+.sc-farm .petAmb{animation:scTrot 4s ease-in-out infinite}
+.sc-cloud .petAmb{animation:scFloat 4.2s ease-in-out infinite}
+@keyframes scHop{0%,55%,100%{transform:translate(0,0)}65%{transform:translate(-8px,-18px)}75%{transform:translate(-14px,0)}85%{transform:translate(-8px,-10px)}95%{transform:translate(-2px,0)}}
+@keyframes scSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes scTrot{0%,100%{transform:translate(-18px,0)}12.5%{transform:translate(-12px,-6px)}25%{transform:translate(-6px,0)}37.5%{transform:translate(6px,-6px)}50%{transform:translate(18px,0)}62.5%{transform:translate(12px,-6px)}75%{transform:translate(6px,0)}87.5%{transform:translate(-6px,-6px)}}
+@keyframes scFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.amb{position:absolute;pointer-events:none;line-height:1}
+.aBfly{left:58%;top:38%;font-size:22px;animation:scBfly 6.4s ease-in-out infinite}
+@keyframes scBfly{0%,100%{transform:translate(0,0) rotate(-10deg)}25%{transform:translate(-60px,-24px) rotate(10deg)}50%{transform:translate(-110px,10px) rotate(-6deg)}75%{transform:translate(-40px,30px) rotate(8deg)}}
+.aSplash{left:36%;top:80%;font-size:18px;opacity:0;animation:scSplash 2.8s ease-out infinite}.aSplash.a2{left:60%;animation-delay:1.4s}
+@keyframes scSplash{0%{opacity:0;transform:translateY(0) scale(.6)}20%{opacity:1}60%{opacity:.8;transform:translateY(-34px) scale(1)}100%{opacity:0;transform:translateY(-10px) scale(.8)}}
+.aDust{left:34%;top:86%;font-size:16px;opacity:0;animation:scDust 4s ease-out infinite}
+@keyframes scDust{0%,40%{opacity:0;transform:translateX(0)}50%{opacity:.8}80%,100%{opacity:0;transform:translateX(-30px)}}
+.aPuff{left:70%;top:58%;font-size:22px;opacity:.8;animation:scDriftB 9s ease-in-out infinite}
+@keyframes scDriftB{0%,100%{transform:translateX(0)}50%{transform:translateX(-50px)}}
+.scDrift{animation:scDrift 10s ease-in-out infinite}@keyframes scDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(24px)}}
+.scBob{animation:scBob 3s ease-in-out infinite}@keyframes scBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.scTw{animation:scTw 2.4s ease-in-out infinite}@keyframes scTw{0%,100%{opacity:1}50%{opacity:.35}}
+.scSide{animation:scSide 5s ease-in-out infinite}@keyframes scSide{0%,100%{transform:translateX(0)}50%{transform:translateX(-14px)}}
+.scBuzz{animation:scBuzz 4s ease-in-out infinite}@keyframes scBuzz{0%,100%{transform:translate(0,0)}33%{transform:translate(-14px,8px)}66%{transform:translate(10px,4px)}}
+.scSun{animation:scTw 5s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.petAmb,.amb,.scEl{animation:none!important}}
+.banner.visitB{position:relative;background:linear-gradient(90deg,#ffe3f1,#e3f1ff);font-size:19px}.banner.visitB .dot{position:absolute;top:-6px;right:-4px;min-width:22px;height:22px;line-height:22px;border-radius:11px;background:#ff3b5c;color:#fff;font-size:12px;font-style:normal;font-weight:900;text-align:center;padding:0 5px;box-shadow:0 0 0 2px #fff}
 .updBar{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));-webkit-transform:translateX(-50%);transform:translateX(-50%);z-index:9998;background:#7a5cff;color:#fff;border:none;border-radius:22px;padding:10px 18px;font-size:16px;font-weight:800;box-shadow:0 6px 18px rgba(80,40,160,.35)}.verLine{font-size:11px;opacity:.6;text-align:center;margin:16px 0 8px}.verLine button{font-size:12px;padding:4px 10px;border-radius:12px;border:1px solid #cbb;background:#fff;color:#4a3b5c;margin-left:6px}
 </style>
 
@@ -348,7 +396,7 @@ body{min-height:100vh;min-height:100dvh}
 <div id="toast" class="toast"></div>
 <script>
 /* ES5 boot (must stay ES5): version, polyfills for old iOS Safari, pointer-events shim, update helpers */
-var APP_VER='spi-v14';
+var APP_VER='spi-v15';
 (function(){
  function def(o,k,f){if(!o[k]){try{Object.defineProperty(o,k,{value:f,configurable:true,writable:true})}catch(e){o[k]=f}}}
  def(Array.prototype,'flat',function(d){d=d===undefined?1:Math.floor(d);var out=[];(function f(a,dd){for(var i=0;i<a.length;i++){if(!(i in a))continue;var v=a[i];if(Array.isArray(v)&&dd>0)f(v,dd-1);else out.push(v)}})(this,d);return out});
@@ -1295,10 +1343,68 @@ BASES.forEach(([k,zh,en,cat,fn],bi)=>{PAL.forEach((p,pi)=>ITEMS.push({id:`c-${k}
 BASES.forEach(([k,zh,en,cat,fn],bi)=>{for(let j=0;j<5;j++){const pt=(bi+j)%PATS.length,mo=MK[(bi*3+j*2)%MK.length],pi=(bi+j*2)%PAL.length;ITEMS.push({id:`r-${k}-${j}`,t:1,cat,zh:MOTIF[mo][0]+PATS[pt][1]+zh,en:`${MOTIF[mo][1]} ${PATS[pt][2]} ${en}`,b:bi,p:pi,pt:PATS[pt][0],mo})}});
 EBASES.forEach(([k,zh,en,cat],ei)=>EVAR.forEach((v,vi)=>ITEMS.push({id:`e-${k}-${vi}`,t:2,cat,zh:v[0]+zh,en:v[1]+" "+en,eb:ei,v:vi})));
 LEG.forEach(([k,zh,en,cat],li)=>ITEMS.push({id:`l-${k}`,t:3,cat,zh,en,lg:li}));
+// ---- scene series decorations (草地 / 沙滩 / 牧场 / 云朵): [key, zh, en, cat, tier, scene, svg]
+const SCN_ITEMS=[
+ // 🌿 grass
+ ["daisy","小雏菊","Daisy","plant",0,"grass",`<path d="M50 52v38" stroke="#5fae4a" stroke-width="5" stroke-linecap="round"/><path d="M50 74q-14-8-20 2 12 6 20-2zM50 80q14-8 20 2-12 6-20-2z" fill="#7cc96a"/>${[0,45,90,135,180,225,270,315].map(a=>`<ellipse cx="${50+Math.cos(a*Math.PI/180)*14}" cy="${36+Math.sin(a*Math.PI/180)*14}" rx="8" ry="5" transform="rotate(${a} ${50+Math.cos(a*Math.PI/180)*14} ${36+Math.sin(a*Math.PI/180)*14})" fill="#fff" stroke="#f1e3ee"/>`).join("")}<circle cx="50" cy="36" r="8" fill="#ffd24a"/>`],
+ ["tulip","郁金香","Tulip","plant",0,"grass",`<path d="M50 56v34" stroke="#5fae4a" stroke-width="5"/><path d="M50 84q-18-6-18-22 14 4 18 18zM50 84q18-6 18-22-14 4-18 18z" fill="#7cc96a"/><path d="M32 22q2 30 18 34 16-4 18-34l-9 9-9-14-9 14z" fill="#ff7aa2"/>${HL(42,34,3,7)}`],
+ ["mushroom","小红蘑菇","Red Mushroom","nature",0,"grass",`<path d="M40 56h20l3 32H37z" fill="#fff4e0"/><path d="M14 58c0-26 16-40 36-40s36 14 36 40z" fill="#ff5f5f"/><circle cx="34" cy="40" r="6" fill="#fff"/><circle cx="58" cy="32" r="5" fill="#fff"/><circle cx="70" cy="48" r="4" fill="#fff"/><circle cx="46" cy="50" r="3.5" fill="#fff"/>`],
+ ["stump","小树桩","Tree Stump","nature",0,"grass",`<path d="M22 42v38q28 12 56 0V42z" fill="#b07a4a"/><path d="M22 80l-8 8M78 80l8 8" stroke="#8a5a32" stroke-width="5" stroke-linecap="round"/><ellipse cx="50" cy="42" rx="28" ry="10" fill="#e8c28f"/><ellipse cx="50" cy="42" rx="18" ry="6" fill="none" stroke="#c79a62" stroke-width="2"/><ellipse cx="50" cy="42" rx="8" ry="3" fill="none" stroke="#c79a62" stroke-width="2"/><path d="M60 30q6-10 14-8-4 8-14 8z" fill="#7cc96a"/>`],
+ ["clover","四叶草","Four-leaf Clover","plant",0,"grass",`<path d="M50 50q6 22-4 40" stroke="#4f9a3d" stroke-width="4" fill="none"/>${[[0,-1],[1,0],[0,1],[-1,0]].map(([dx,dy])=>`<path d="M50 50q${dx*6-dy*14} ${dy*6+dx*-14} ${dx*22} ${dy*22}q${-dx*2+dy*-0} ${-dy*2} ${-dx*22} ${-dy*22}z" fill="#6cc35a"/><circle cx="${50+dx*14}" cy="${50+dy*14}" r="11" fill="#7fd36a"/>`).join("")}<circle cx="50" cy="50" r="4" fill="#4f9a3d"/>`],
+ ["butterfly","花蝴蝶","Butterfly","nature",1,"grass",`<path d="M50 50C34 22 10 26 16 46s28 10 34 4z" fill="#ff9ac6"/><path d="M50 50C66 22 90 26 84 46S56 56 50 50z" fill="#b993ff"/><path d="M50 52C36 60 24 74 34 80s16-12 16-28zM50 52c14 8 26 22 16 28S50 68 50 52z" fill="#ffd24a"/><circle cx="30" cy="40" r="5" fill="#fff" opacity=".8"/><circle cx="70" cy="40" r="5" fill="#fff" opacity=".8"/><rect x="47" y="34" width="6" height="40" rx="3" fill="#5a3b5c"/><path d="M49 34q-6-12-12-14M51 34q6-12 12-14" stroke="#5a3b5c" stroke-width="2" fill="none"/>`],
+ ["ladybug","小瓢虫","Ladybug","toy",1,"grass",`<ellipse cx="50" cy="58" rx="32" ry="26" fill="#ff4d4d"/><path d="M50 32v52" stroke="#3a2a3a" stroke-width="3"/><circle cx="50" cy="34" r="14" fill="#3a2a3a"/><circle cx="44" cy="31" r="3" fill="#fff"/><circle cx="56" cy="31" r="3" fill="#fff"/><circle cx="34" cy="52" r="6" fill="#3a2a3a"/><circle cx="66" cy="52" r="6" fill="#3a2a3a"/><circle cx="36" cy="70" r="5" fill="#3a2a3a"/><circle cx="64" cy="70" r="5" fill="#3a2a3a"/>${HL(34,44,6,3)}`],
+ ["sunflower","向日葵","Sunflower","plant",1,"grass",`<path d="M50 56v36" stroke="#4f9a3d" stroke-width="6"/><path d="M50 80q-20-2-22-16 16 0 22 16z" fill="#6cc35a"/>${Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180;return `<ellipse cx="${50+Math.cos(a)*20}" cy="${36+Math.sin(a)*20}" rx="9" ry="5" transform="rotate(${i*30} ${50+Math.cos(a)*20} ${36+Math.sin(a)*20})" fill="#ffc83a"/>`}).join("")}<circle cx="50" cy="36" r="14" fill="#8a5a32"/><circle cx="45" cy="33" r="2" fill="#3a2a1a"/><circle cx="55" cy="33" r="2" fill="#3a2a1a"/><path d="M44 40q6 5 12 0" stroke="#3a2a1a" stroke-width="2" fill="none"/>`],
+ ["snail","小蜗牛","Snail","toy",1,"grass",`<path d="M14 82h62q12 0 14-10l-4-2q-4 6-12 6H20z" fill="#ffd9a8"/><circle cx="48" cy="56" r="26" fill="#ffb36b"/><path d="M48 56m-16 0a16 16 0 1 1 16 16a10 10 0 1 1-10-10a5 5 0 1 1 5 5" stroke="#d9782e" stroke-width="3" fill="none"/><path d="M82 70l-4-22M88 70l2-20" stroke="#d9a070" stroke-width="3"/><circle cx="78" cy="46" r="4" fill="#5a3b5c"/><circle cx="90" cy="48" r="4" fill="#5a3b5c"/>`],
+ ["birdhouse","小鸟屋","Birdhouse","home",2,"grass",`<path d="M47 60h6v32h-6z" fill="#a87a50"/><path d="M24 40h52v30H24z" fill="#7fd3ff"/><path d="M16 42L50 14l34 28z" fill="#ff7aa2"/><circle cx="50" cy="52" r="8" fill="#3a2a3a"/><path d="M44 66h12" stroke="#a87a50" stroke-width="4"/><path d="M60 18q6-8 14-4-6 2-8 8z" fill="#ffd24a"/><circle cx="66" cy="16" r="1.6" fill="#3a2a3a"/>${STAR(26,24,5)}`],
+ ["picnic","野餐篮","Picnic Basket","treat",2,"grass",`<path d="M8 84l18-22h48l18 22z" fill="#ff8f8f"/><path d="M14 84h72" stroke="#fff" stroke-width="3" stroke-dasharray="6 6"/><path d="M28 46h44l-4 30H32z" fill="#d9a06a"/><path d="M32 52h36M33 60h34M34 68h32" stroke="#b07a4a" stroke-width="2"/><path d="M34 46q16-26 32 0" stroke="#b07a4a" stroke-width="4" fill="none"/><circle cx="42" cy="44" r="6" fill="#ff5f5f"/><path d="M54 40l8 6-8 4z" fill="#ffe08a"/>`],
+ ["flowerarch","花之拱门","Flower Arch","magic",3,"grass",`<path d="M18 92V48a32 32 0 0 1 64 0v44" stroke="url(#gRain)" stroke-width="8" fill="none"/>${[[18,60],[20,40],[30,24],[50,16],[70,24],[80,40],[82,60],[18,80],[82,80]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="7" fill="${["#ff8fb1","#ffd24a","#b993ff","#7fe0c0","#86aaff"][i%5]}"/><circle cx="${x}" cy="${y}" r="2.5" fill="#fff"/>`).join("")}<circle cx="50" cy="56" r="16" fill="url(#gGlow)"/>${STAR(50,56,6,"#fff8b0")}`],
+ // 🏖️ beach
+ ["shell","扇贝壳","Seashell","nature",0,"beach",`<path d="M50 84L18 46q32-32 64 0z" fill="#ffc6d9"/>${[26,38,50,62,74].map(x=>`<path d="M50 84L${x} ${x===50?18:x<50?26+(50-x)*.5:26+(x-50)*.5}" stroke="#e892b4" stroke-width="2.4"/>`).join("")}<path d="M42 84h16l-8 8z" fill="#f5a8c4"/>${HL(40,40,8,3)}`],
+ ["starfish","小海星","Starfish","nature",0,"beach",`${STAR(50,54,36,"#ff9f5a").replace('stroke="#e8a91a"','stroke="#e07a3a"')}<circle cx="44" cy="50" r="2.6" fill="#5a3b5c"/><circle cx="56" cy="50" r="2.6" fill="#5a3b5c"/><path d="M45 58q5 4 10 0" stroke="#5a3b5c" stroke-width="2" fill="none"/>${[[50,30],[30,48],[70,48],[38,70],[62,70]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2" fill="#ffd2a8"/>`).join("")}`],
+ ["pail","小水桶","Sand Pail","toy",0,"beach",`<path d="M26 40h48l-6 46H32z" fill="#4fc3f7"/><ellipse cx="50" cy="40" rx="24" ry="6" fill="#ffe08a"/><path d="M28 40q22-34 44 0" stroke="#ff7aa2" stroke-width="4" fill="none"/><path d="M30 56h40" stroke="#fff" stroke-width="5" opacity=".7"/>${STAR(50,70,7,"#fff")}`],
+ ["spade","小铲子","Toy Spade","toy",0,"beach",`<path d="M44 14h12v44H44z" fill="#ffd24a"/><path d="M38 10h24" stroke="#ff7aa2" stroke-width="7" stroke-linecap="round"/><path d="M30 56h40l-6 24q-14 12-28 0z" fill="#ff7aa2"/>${HL(40,64,4,7)}`],
+ ["crab","小螃蟹","Little Crab","toy",0,"beach",`<ellipse cx="50" cy="60" rx="28" ry="18" fill="#ff6b5b"/><path d="M24 58q-14-6-12-22 8 4 10 10M76 58q14-6 12-22-8 4-10 10" stroke="#ff6b5b" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M12 30l6 6 4-8zM88 30l-6 6-4-8z" fill="#ff6b5b"/><path d="M30 72l-10 10M38 76l-6 12M70 72l10 10M62 76l6 12" stroke="#e0503f" stroke-width="4" stroke-linecap="round"/><path d="M42 42v-10M58 42v-10" stroke="#e0503f" stroke-width="3"/><circle cx="42" cy="30" r="5" fill="#fff"/><circle cx="58" cy="30" r="5" fill="#fff"/><circle cx="42" cy="30" r="2.4" fill="#3a2a3a"/><circle cx="58" cy="30" r="2.4" fill="#3a2a3a"/><path d="M44 62q6 5 12 0" stroke="#3a2a3a" stroke-width="2.4" fill="none"/>`],
+ ["umbrella","沙滩伞","Beach Umbrella","home",1,"beach",`<path d="M50 30l6 62" stroke="#c9a37a" stroke-width="4"/><path d="M8 44Q50 2 92 44z" fill="#fff"/><path d="M8 44Q20 10 50 8 34 20 30 44zM50 8q30 2 42 36H70Q66 20 50 8z" fill="#ff7aa2"/><path d="M30 44Q34 20 50 8 52 24 50 44z" fill="#ffd24a"/><path d="M8 44q5 5 11 0 5 5 11 0 5 5 10 0 5 5 10 0 5 5 11 0 5 5 11 0 5 5 10 0 5 5 10 0" stroke="#e4d5e8" stroke-width="2" fill="none"/>`],
+ ["sandcastle","沙堡","Sandcastle","home",1,"beach",`<path d="M14 90V58h12v-8h8v8h12V40h8v18h12v-8h8v8h12v32z" fill="#f6cf86"/><path d="M40 40V24h20v16z" fill="#f0c070"/><path d="M38 24h6v-6h4v6h4v-6h4v6h6" fill="#f0c070"/><path d="M50 18V6l12 4-12 4" stroke="#c9a37a" fill="#ff7aa2"/><path d="M44 90V76a6 6 0 0 1 12 0v14z" fill="#d9a05a"/><circle cx="28" cy="70" r="2.5" fill="#d9a05a"/><circle cx="72" cy="70" r="2.5" fill="#d9a05a"/>${HL(24,62,4,2)}`],
+ ["beachball","沙滩球","Beach Ball","toy",1,"beach",`<circle cx="50" cy="52" r="34" fill="#fff"/><path d="M50 18a34 34 0 0 1 30 18L50 52z" fill="#ff5f5f"/><path d="M80 36a34 34 0 0 1-6 40L50 52z" fill="#ffd24a"/><path d="M74 76a34 34 0 0 1-40 4L50 52z" fill="#4fc3f7"/><path d="M34 80a34 34 0 0 1-16-34L50 52z" fill="#7fe0c0"/><path d="M18 46a34 34 0 0 1 32-28v34z" fill="#b993ff"/><circle cx="50" cy="52" r="6" fill="#fff"/>${HL(36,32,8,4)}`],
+ ["surfboard","冲浪板","Surfboard","toy",1,"beach",`<path d="M50 6c18 20 18 68 0 88-18-20-18-68 0-88z" fill="#4fc3f7"/><path d="M50 6c6 30 6 58 0 88" stroke="#fff" stroke-width="4" fill="none"/><path d="M40 40q10 6 20 0M38 56q12 6 24 0" stroke="#ffd24a" stroke-width="3" fill="none"/>${HL(44,22,3,8)}`],
+ ["palm","椰子树","Palm Tree","plant",2,"beach",`<path d="M48 40q-8 26 2 54h10q-10-28-2-54z" fill="#b07a4a"/><path d="M50 92h12" stroke="#8a5a32" stroke-width="3"/><path d="M52 40Q30 18 8 30q22-2 44 10zM52 40q20-26 42-14-24 0-42 14zM52 40Q40 10 54 4q-2 18-2 36zM52 40q22-4 36 18-18-12-36-18zM52 40Q30 42 18 62q16-16 34-22z" fill="#5fc05a"/><circle cx="46" cy="44" r="6" fill="#8a5a32"/><circle cx="56" cy="46" r="6" fill="#7a4a28"/>`],
+ ["lighthouse","小灯塔","Lighthouse","light",2,"beach",`<path d="M36 90l6-56h16l6 56z" fill="#fff"/><path d="M38 72h24l1 10H37zM40 50h20l1 10H39z" fill="#ff5f5f"/><rect x="38" y="24" width="24" height="12" rx="2" fill="#ffe08a"/><circle cx="50" cy="30" r="16" fill="url(#gGlow)"/><path d="M34 24h32L50 12z" fill="#ff5f5f"/><path d="M62 28l30-8v16zM38 28L8 20v16z" fill="#fff8b0" opacity=".6"/><path d="M28 92h44" stroke="#c9a37a" stroke-width="5" stroke-linecap="round"/>`],
+ ["pearlshell","闪耀珍珠贝","Pearl Shell","magic",3,"beach",`<path d="M14 60q36 34 72 0z" fill="url(#gSilv)"/><path d="M14 60Q20 14 50 12q30 2 36 48z" fill="url(#gRain)" opacity=".9"/>${[24,36,50,64,76].map(x=>`<path d="M50 58L${x} ${x===50?14:22}" stroke="#fff" stroke-width="2" opacity=".7"/>`).join("")}<circle cx="50" cy="62" r="16" fill="url(#gGlow)"/><circle cx="50" cy="62" r="10" fill="#fff"/><circle cx="46" cy="58" r="3" fill="#fff8ff"/>${STAR(78,18,6,"#fff")}`],
+ // 🐑 farm
+ ["fence","木栅栏","Wooden Fence","home",0,"farm",`${[16,38,60,82].map(x=>`<path d="M${x-7} 30l7-10 7 10v58h-14z" fill="#d9a06a" stroke="#b07a4a" stroke-width="1.5"/>`).join("")}<rect x="6" y="40" width="88" height="8" rx="3" fill="#c98d55"/><rect x="6" y="66" width="88" height="8" rx="3" fill="#c98d55"/>`],
+ ["haybale","干草堆","Hay Bale","nature",0,"farm",`<rect x="12" y="40" width="76" height="46" rx="12" fill="#f2cf5b"/><path d="M12 54h76M12 72h76" stroke="#d9a822" stroke-width="2"/><path d="M34 40v46M66 40v46" stroke="#b07a4a" stroke-width="4"/><path d="M18 40l-4-8M30 40l2-10M48 40l-2-9M70 40l4-8M84 40l-2-10" stroke="#e8b83a" stroke-width="2"/>`],
+ ["trough","小水槽","Water Trough","home",0,"farm",`<path d="M10 46h80l-8 30H18z" fill="#b07a4a"/><path d="M14 50h72l-2 6H16z" fill="#6fc6f2"/><path d="M22 76v14M78 76v14" stroke="#8a5a32" stroke-width="6"/><path d="M18 62h64" stroke="#8a5a32" stroke-width="2"/><circle cx="40" cy="52" r="2" fill="#fff"/>`],
+ ["carrot","胡萝卜","Carrot","treat",0,"farm",`<path d="M38 34q12-6 24 0L52 92q-2 4-4 0z" fill="#ff9a3c"/><path d="M42 48h8M46 62h6M44 76h5" stroke="#e07a1a" stroke-width="2.4" stroke-linecap="round"/><path d="M50 34Q40 14 30 12q8 12 14 22M50 34q4-22 14-26-4 14-8 26M50 34q14-14 24-10-12 2-20 12" fill="#5fc05a" stroke="#5fc05a" stroke-width="3"/>`],
+ ["wheat","麦穗","Wheat","plant",0,"farm",`${[38,50,62].map((x,j)=>`<path d="M${x} 92Q${x+(j-1)*4} 60 ${x+(j-1)*8} 24" stroke="#c9a03a" stroke-width="3" fill="none"/>${[0,1,2,3,4].map(i=>`<ellipse cx="${x+(j-1)*(8-i*1.4)-4}" cy="${28+i*8}" rx="3.5" ry="6" transform="rotate(-25 ${x+(j-1)*(8-i*1.4)-4} ${28+i*8})" fill="#f2cf5b"/><ellipse cx="${x+(j-1)*(8-i*1.4)+4}" cy="${28+i*8}" rx="3.5" ry="6" transform="rotate(25 ${x+(j-1)*(8-i*1.4)+4} ${28+i*8})" fill="#f2cf5b"/>`).join("")}`).join("")}`],
+ ["barn","小谷仓","Little Barn","home",1,"farm",`<path d="M14 44L50 14l36 30v46H14z" fill="#e8544f"/><path d="M10 46L50 12l40 34" stroke="#fff" stroke-width="5" fill="none" stroke-linejoin="round"/><rect x="34" y="56" width="32" height="34" fill="#fff"/><path d="M34 56l32 34M66 56L34 90" stroke="#e8544f" stroke-width="4"/><rect x="42" y="30" width="16" height="12" fill="#fff"/><path d="M50 30v12" stroke="#e8544f" stroke-width="2"/>`],
+ ["cart","小推车","Wooden Cart","toy",1,"farm",`<path d="M14 40h64l-6 30H20z" fill="#d9a06a"/><path d="M14 50h62M16 60h58" stroke="#b07a4a" stroke-width="2"/><path d="M78 46l16-12" stroke="#8a5a32" stroke-width="4" stroke-linecap="round"/><circle cx="30" cy="76" r="12" fill="#8a5a32"/><circle cx="30" cy="76" r="5" fill="#d9a06a"/><circle cx="64" cy="76" r="12" fill="#8a5a32"/><circle cx="64" cy="76" r="5" fill="#d9a06a"/><circle cx="34" cy="34" r="8" fill="#ff5f5f"/><circle cx="50" cy="32" r="8" fill="#ff9a3c"/><circle cx="64" cy="34" r="7" fill="#7fd36a"/>`],
+ ["milkcan","牛奶罐","Milk Can","treat",1,"farm",`<path d="M34 36h32v8l6 6v38q-22 6-44 0V50l6-6z" fill="url(#gSilv)"/><rect x="38" y="22" width="24" height="14" rx="3" fill="#dfe6ee"/><rect x="34" y="18" width="32" height="7" rx="3" fill="#c5ced8"/><path d="M28 56h44" stroke="#3fa3f5" stroke-width="6"/><path d="M42 66q8-6 16 0-2 10-8 12-6-2-8-12z" fill="#fff"/><text x="50" y="74" font-size="9" text-anchor="middle" fill="#3fa3f5" font-weight="900">MILK</text>`],
+ ["mailbox","小邮箱","Farm Mailbox","home",1,"farm",`<path d="M46 52h8v40h-8z" fill="#a87a50"/><path d="M20 30h50a14 14 0 0 1 14 14v12H20z" fill="#4fc3f7"/><path d="M20 30a12 12 0 0 1 12 12v14H8V42a12 12 0 0 1 12-12z" fill="#3a9bd0"/><path d="M70 18v22" stroke="#8a5a32" stroke-width="3"/><path d="M70 18h14v8H70z" fill="#ff5f5f"/><path d="M30 40l10 6 10-6" stroke="#fff" stroke-width="2" fill="none"/>`],
+ ["windmill","小风车","Windmill","home",2,"farm",`<path d="M36 92l6-50h16l6 50z" fill="#fff4e0" stroke="#d9a06a" stroke-width="2"/><path d="M34 44l16-14 16 14z" fill="#ff7aa2"/><path d="M45 92v-14a5 5 0 0 1 10 0v14z" fill="#b07a4a"/><g><path d="M50 36L30 6l-6 6zM50 36l30-20 6 6zM50 36l20 30 6-6zM50 36L20 56l-6-6z" fill="#86aaff"/></g><circle cx="50" cy="36" r="4" fill="#5a3b5c"/>`],
+ ["scarecrow","稻草人","Scarecrow","toy",2,"farm",`<path d="M50 40v52" stroke="#8a5a32" stroke-width="5"/><path d="M14 52h72" stroke="#8a5a32" stroke-width="5"/><path d="M32 46h36l-4 30H36z" fill="#86aaff"/><path d="M40 46h20v30" stroke="#5a7ad0" stroke-width="2" fill="none"/><path d="M14 52l-6 6M14 52l-6-4M86 52l6 6M86 52l6-4" stroke="#f2cf5b" stroke-width="3"/><circle cx="50" cy="30" r="14" fill="#ffe0a8"/><path d="M28 22h44l-8-6H36z" fill="#b07a4a"/><path d="M36 16q14-14 28 0z" fill="#b07a4a"/><circle cx="45" cy="30" r="2" fill="#3a2a1a"/><circle cx="55" cy="30" r="2" fill="#3a2a1a"/><path d="M44 36q6 4 12 0" stroke="#3a2a1a" stroke-width="2" fill="none"/>`],
+ ["goldtree","金苹果树","Golden Apple Tree","magic",3,"farm",`<path d="M44 60q-2 18-6 32h24q-4-14-6-32z" fill="#b07a4a"/><circle cx="50" cy="40" r="30" fill="#5fc05a"/><circle cx="30" cy="46" r="16" fill="#6cc35a"/><circle cx="70" cy="46" r="16" fill="#6cc35a"/>${[[36,30],[60,26],[48,46],[70,48],[28,50],[56,58]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="9" fill="url(#gGlow)"/><circle cx="${x}" cy="${y}" r="5.5" fill="url(#gGold)"/>`).join("")}${STAR(80,16,6,"#fff8b0")}`],
+ // ☁️ cloud
+ ["star","小星星","Little Star","light",0,"cloud",`<circle cx="50" cy="50" r="30" fill="url(#gGlow)"/>${STAR(50,50,34)}<circle cx="42" cy="48" r="2.6" fill="#5a4a6a"/><circle cx="58" cy="48" r="2.6" fill="#5a4a6a"/><path d="M44 56q6 5 12 0" stroke="#5a4a6a" stroke-width="2" fill="none"/>`],
+ ["moon","弯弯月亮","Crescent Moon","light",0,"cloud",`<path d="M62 10a40 40 0 1 0 26 66A32 32 0 1 1 62 10z" fill="#ffe680"/><circle cx="34" cy="50" r="2.6" fill="#5a4a6a"/><path d="M30 60q6 4 12 0" stroke="#5a4a6a" stroke-width="2" fill="none"/><path d="M40 62a3 2 0 0 0 0 .1" stroke="#ff9ac6" stroke-width="5"/>`],
+ ["cushion2","云朵靠垫","Cloud Cushion","home",0,"cloud",`<path d="M20 74a16 16 0 0 1 4-30 18 18 0 0 1 30-14 16 16 0 0 1 28 10 16 16 0 0 1-2 34z" fill="#fff" stroke="#d8e6ff" stroke-width="3"/><circle cx="40" cy="56" r="2.6" fill="#5a4a6a"/><circle cx="60" cy="56" r="2.6" fill="#5a4a6a"/><path d="M45 62q5 4 10 0" stroke="#5a4a6a" stroke-width="2" fill="none"/><circle cx="32" cy="62" r="4" fill="#ffc6d9"/><circle cx="68" cy="62" r="4" fill="#ffc6d9"/>`],
+ ["raindrop","小雨滴","Raindrop","nature",0,"cloud",`<path d="M50 10q28 38 28 54a28 28 0 0 1-56 0q0-16 28-54z" fill="#7fd3ff"/><circle cx="42" cy="62" r="2.6" fill="#2a5a8a"/><circle cx="58" cy="62" r="2.6" fill="#2a5a8a"/><path d="M45 70q5 4 10 0" stroke="#2a5a8a" stroke-width="2" fill="none"/>${HL(38,44,4,8)}`],
+ ["balloon","彩色气球","Balloon","toy",0,"cloud",`<path d="M50 70q-4 12 2 24" stroke="#9a8aa8" stroke-width="2" fill="none"/><ellipse cx="50" cy="40" rx="26" ry="30" fill="#ff7aa2"/><path d="M46 70h8l-4-6z" fill="#e0628c"/>${HL(40,28,6,10)}`],
+ ["rainbow","小彩虹","Rainbow","magic",1,"cloud",`${["#ff6b6b","#ffa94d","#ffd43b","#69db7c","#4dabf7","#9775fa"].map((c,i)=>`<path d="M${10+i*5} 70a${40-i*5} ${40-i*5} 0 0 1 ${80-i*10} 0" stroke="${c}" stroke-width="5" fill="none"/>`).join("")}<path d="M4 76a10 10 0 0 1 10-12 12 12 0 0 1 20 4 8 8 0 0 1-2 14H8a6 6 0 0 1-4-6zM66 76a10 10 0 0 1 10-12 12 12 0 0 1 20 4 8 8 0 0 1-2 14H70a6 6 0 0 1-4-6z" fill="#fff"/>`],
+ ["cloudbed","云朵小床","Cloud Bed","home",1,"cloud",`<path d="M10 80V56h80v24" stroke="#c5b4f0" stroke-width="5" fill="none"/><path d="M12 64a12 12 0 0 1 10-18 14 14 0 0 1 24-6 14 14 0 0 1 24 2 12 12 0 0 1 18 14 10 10 0 0 1-2 16H14z" fill="#fff" stroke="#e0e8ff" stroke-width="2"/><ellipse cx="28" cy="52" rx="12" ry="7" fill="#ffd6e8"/>${STAR(80,30,6)}`],
+ ["kite","风筝","Kite","toy",1,"cloud",`<path d="M50 6L78 40 50 74 22 40z" fill="#86aaff"/><path d="M50 6v68M22 40h56" stroke="#fff" stroke-width="2"/><path d="M50 6L78 40H50zM50 74L22 40h28z" fill="#ff7aa2"/><path d="M50 74q-6 8 2 12t-2 10" stroke="#9a8aa8" stroke-width="2" fill="none"/><path d="M46 84l-6 2 4 4zM54 92l6 2-4 4z" fill="#ffd24a"/>`],
+ ["starjar","星星罐","Star Jar","light",1,"cloud",`<path d="M30 30h40v4q8 6 8 18v26q0 10-10 10H32q-10 0-10-10V52q0-12 8-18z" fill="#dff4ff" opacity=".85" stroke="#b5d8f0" stroke-width="2"/><rect x="32" y="20" width="36" height="10" rx="3" fill="#ff9ac6"/><circle cx="50" cy="62" r="20" fill="url(#gGlow)"/>${STAR(40,58,6)}${STAR(58,68,5)}${STAR(54,50,4)}${STAR(38,76,4)}`],
+ ["moonswing","月亮秋千","Moon Swing","magic",2,"cloud",`<path d="M30 4v44M70 4v40" stroke="#c9a37a" stroke-width="2.4"/><path d="M78 40a34 34 0 1 1-56 18 28 28 0 0 0 56-18z" fill="url(#gGold)"/><circle cx="46" cy="70" r="2.4" fill="#5a4a6a"/><path d="M42 78q5 4 10 0" stroke="#5a4a6a" stroke-width="2" fill="none"/>${STAR(20,20,5,"#fff8b0")}${STAR(84,14,4,"#fff8b0")}`],
+ ["hotair","热气球","Hot-air Balloon","toy",2,"cloud",`<path d="M50 8a30 30 0 0 1 30 30c0 16-16 26-22 36H42C36 64 20 54 20 38A30 30 0 0 1 50 8z" fill="#ff7aa2"/><path d="M50 8c-10 10-12 50-8 66M50 8c10 10 12 50 8 66" stroke="#ffd24a" stroke-width="6" fill="none"/><path d="M42 74l2 8M58 74l-2 8" stroke="#8a5a32" stroke-width="2"/><rect x="40" y="82" width="20" height="12" rx="3" fill="#d9a06a"/>${HL(34,28,5,9)}`],
+ ["skycastle","云上城堡","Sky Castle","magic",3,"cloud",`<path d="M8 84a12 12 0 0 1 12-14 16 16 0 0 1 28-4 14 14 0 0 1 26 2 12 12 0 0 1 18 16z" fill="#fff"/><rect x="30" y="40" width="40" height="30" fill="url(#gSilv)"/><rect x="22" y="30" width="12" height="40" fill="#e7dcff"/><rect x="66" y="30" width="12" height="40" fill="#e7dcff"/><path d="M20 32l8-18 8 18zM64 32l8-18 8 18zM38 42l12-26 12 26z" fill="url(#gRain)"/><path d="M44 70V58a6 6 0 0 1 12 0v12z" fill="#b993ff"/><circle cx="50" cy="48" r="4" fill="url(#gGold)"/>${STAR(14,16,5,"#fff8b0")}${STAR(88,10,4,"#fff8b0")}`]
+];
+SCN_ITEMS.forEach(([k,zh,en,cat,t,scn,sv])=>ITEMS.push({id:"s-"+k,t,cat,zh,en,scn,sv}));
+
 const ITEM=Object.fromEntries(ITEMS.map(it=>[it.id,it]));
 const SVGC={};
 function itemInner(it){if(SVGC[it.id])return SVGC[it.id];let s="";
- if(it.t<=1){const p=PAL[it.p],c={m:p[2],l:p[3],d:p[4]},o=BASES[it.b][4](c);const g=`url(#g${it.p})`;
+ if(it.sv){s=`<g filter="url(#isd)">${it.sv}</g>`+(it.t>=2?`<g class="glint"><path d="M18 18q1.5 6 7 7-5.5 1-7 7-1.5-6-7-7 5.5-1 7-7z" fill="#fff"/></g>`:"")}
+ else if(it.t<=1){const p=PAL[it.p],c={m:p[2],l:p[3],d:p[4]},o=BASES[it.b][4](c);const g=`url(#g${it.p})`;
   s=`<g filter="url(#isd)">${o.m.split(F).join(g)}${it.pt?o.m.split(F).join(`url(#p-${it.pt})`):""}${o.r}</g>`+(it.mo?MOTIF[it.mo][2](o.a[0],o.a[1]):"")}
  else if(it.t===2){const v=EVAR[it.v],c={p:v[2],q:v[3]};s=`<g filter="url(#isd)">${EBASES[it.eb][4](c,it.v)}</g>${MOTIF[v[4]][2](84,16)}<g class="glint"><path d="M18 18q1.5 6 7 7-5.5 1-7 7-1.5-6-7-7 5.5-1 7-7z" fill="#fff"/></g>`}
  else s=`<g filter="url(#isd)">${LEG[it.lg][4]}</g>`;
@@ -1347,37 +1453,76 @@ function galleryScreen(){screen="gallery";const sc=scrollY;
  back(home);lazySVG(app);scrollTo(0,sc);
  app.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{galCat=b.dataset.cat;galleryScreen()});app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{galTier=+b.dataset.t;galleryScreen()});
  app.querySelectorAll(".icard").forEach(b=>b.onclick=()=>{const it=ITEM[b.dataset.id];const cost=TIER[it.t].cost;
-  const m=modal(`<div class="rv rv${it.t}" style="margin:0 auto">${itemSVG(it.id,150)}</div><h2>${esc(it.zh)}</h2><p class="muted">${esc(it.en)} · ${CAT[it.cat][0]} ${CAT[it.cat][1]}</p><p>${tierTag(it.t)}</p>
+  const m=modal(`<div class="rv rv${it.t}" style="margin:0 auto">${itemSVG(it.id,150)}</div><h2>${esc(it.zh)}</h2><p class="muted">${esc(it.en)} · ${CAT[it.cat][0]} ${CAT[it.cat][1]}${it.scn&&SCN[it.scn]?` · ${SCN[it.scn].e} ${SCN[it.scn].zh}系列`:""}</p><p>${tierTag(it.t)}</p>
   ${S.inv[it.id]?`<button class="btn green full" id="d">🎨 去摆放</button>`:`<button class="btn orange full" id="buy" ${S.dust>=cost?"":"disabled"}>✨ 用 ${cost} 星尘兑换（有 ${S.dust}）</button>`}<div style="height:8px"></div><button class="btn gray full" id="x">关闭</button>`);
   m.querySelector("#x").onclick=()=>m.remove();const d=m.querySelector("#d");if(d)d.onclick=()=>{m.remove();decoMode()};
   const by=m.querySelector("#buy");if(by)by.onclick=()=>{if(S.dust<cost)return;S.dust-=cost;S.inv[it.id]=1;save();sfx("reveal");m.remove();toast("✨ 兑换成功！",1000);galleryScreen()}})}
+// ================= SCENES 场景 (per-pet: p.sc = active scene, p.deco = its layout, p.dz = other scenes' layouts) =================
+const SCENES=[
+ {id:"room",e:"🏠",zh:"房间",ok:()=>true},
+ {id:"grass",e:"🌿",zh:"草地",need:"掌握 50 个单词",ok:()=>totalMastered()>=50,prog:()=>`已掌握 ${Math.min(50,totalMastered())}/50`},
+ {id:"beach",e:"🏖️",zh:"沙滩",need:"通过任意一级考级",ok:()=>Object.keys(S.exam||{}).some(l=>S.exam[l]&&S.exam[l].pass)},
+ {id:"farm",e:"🐑",zh:"牧场",need:"拥有 5 只宠物",ok:()=>(S.pets||[]).length>=5,prog:()=>`已有 ${(S.pets||[]).length}/5 只`},
+ {id:"cloud",e:"☁️",zh:"云朵",need:"获得一颗金蛋，或拥有一只 🌈闪耀 宠物",ok:()=>Object.keys(S.goldLv||{}).some(l=>S.goldLv[l])||(S.pets||[]).some(p=>SP[p.sp]&&SP[p.sp].r===3)}];
+const SCN={};SCENES.forEach(s=>SCN[s.id]=s);
+// tappable background bits: [emoji, word, 中文, left%, top%, font px, extra class]
+const SCBG={
+ room:[["🪟","window","窗户",8,8,30],["🕰️","clock","时钟",86,8,26]],
+ grass:[["☀️","sun","太阳",86,4,34,"scSun"],["☁️","cloud","云",14,6,30,"scDrift"],["🌳","tree","树",4,30,46],["🌼","flower","花",88,62,24],["🌱","grass","草",10,76,24],["🐝","bee","蜜蜂",70,20,20,"scBuzz"]],
+ beach:[["☀️","sun","太阳",86,3,34,"scSun"],["⛵","boat","小船",16,26,26,"scBob"],["🌊","wave","海浪",76,34,26,"scBob"],["🐚","shell","贝壳",8,80,22],["🦀","crab","螃蟹",88,78,22,"scSide"],["🏝️","island","小岛",44,22,22]],
+ farm:[["☀️","sun","太阳",86,4,32,"scSun"],["☁️","cloud","云",30,6,26,"scDrift"],["🐄","cow","奶牛",8,38,30],["🐑","sheep","绵羊",84,40,28,"scBob"],["🌾","hay","干草",10,78,24],["🐓","chicken","小鸡",88,78,22]],
+ cloud:[["🌈","rainbow","彩虹",10,6,34],["🌙","moon","月亮",86,4,30],["⭐","star","星星",30,14,20,"scTw"],["✨","sparkle","闪光",66,12,18,"scTw"],["☁️","cloud","云",6,64,30,"scDrift"],["🎈","balloon","气球",88,54,24,"scBob"]]};
+function scFix(p){if(!p)return p;if(!SCN[p.sc])p.sc="room";if(!p.dz||typeof p.dz!=="object"||Array.isArray(p.dz))p.dz={};delete p.dz[p.sc];p.deco=p.deco||[];return p}
+function scLayouts(p){const r={};const dz=(p&&p.dz)||{};Object.keys(dz).forEach(k=>{if(SCN[k]&&Array.isArray(dz[k]))r[k]=dz[k]});r[(p&&SCN[p.sc])?p.sc:"room"]=(p&&p.deco)||[];return r}
+function scUnlocked(id){const s=SCN[id];if(!s)return false;if(id==="room"||(S.scU&&S.scU[id]))return true;try{return !!s.ok()}catch(e){return false}}
+function setScene(p,id){p=scFix(p||P());if(!SCN[id]||p.sc===id)return;p.dz[p.sc]=p.deco||[];p.deco=Array.isArray(p.dz[id])?p.dz[id]:[];delete p.dz[id];p.sc=id;save()}
+// item -> scene id where THIS pet already placed it (an item sits in only one scene of a pet)
+function placedWhere(p){const m={};const L=scLayouts(p);Object.keys(L).forEach(k=>L[k].forEach(d=>{if(!m[d.i])m[d.i]=k}));return m}
+function scBgHTML(id){const bg=SCBG[id]||[];let x=`<div class="scBg">`;
+ x+=bg.map(b=>`<span class="scEl ${b[6]||""}" data-w="${b[1]}" data-zh="${b[2]}" style="left:${b[3]}%;top:${b[4]}%;font-size:${b[5]}px">${b[0]}</span>`).join("");
+ if(id==="grass")x+=`<span class="amb aBfly">🦋</span>`;if(id==="beach")x+=`<span class="amb aSplash">💦</span><span class="amb aSplash a2">💧</span>`;if(id==="farm")x+=`<span class="amb aDust">💨</span>`;if(id==="cloud")x+=`<span class="amb aPuff">☁️</span>`;
+ return x+`</div>`}
+function sceneRow(p){p=p||P();const cur=SCN[p.sc]?p.sc:"room";return `<div class="scRow" id="scRow">${SCENES.map(s=>{const u=scUnlocked(s.id);return `<button type="button" class="scB ${cur===s.id?"on":""} ${u?"":"lk"}" data-sc="${s.id}" aria-label="${s.zh}"><span>${s.e}</span>${u?"":`<i>🔒</i>`}<small>${s.zh}</small></button>`}).join("")}</div>`}
+function bindSceneRow(after){const r=$("#scRow");if(!r)return;r.querySelectorAll("[data-sc]").forEach(b=>b.onclick=()=>{const s=SCN[b.dataset.sc];if(!s)return;
+ if(!scUnlocked(s.id)){sfx("no");toast(`🔒 ${s.e} ${s.zh}<br><small>解锁条件：${s.need}${s.prog?`<br>${s.prog()}`:""}</small>`,2200);return}
+ if((SCN[P().sc]?P().sc:"room")===s.id)return;setScene(P(),s.id);sfx("whoosh");after()})}
+function bindSceneBg(root){(root||document).querySelectorAll(".scene:not(.edit) .scEl").forEach(el=>el.onclick=e=>{e.stopPropagation();say(el.dataset.w,"w");
+ toast(`<span style="font-size:34px">${el.textContent}</span><br>${esc(el.dataset.w)} · ${esc(el.dataset.zh)}`,1100);el.classList.remove("tapd");void el.offsetWidth;el.classList.add("tapd")})}
+S.pets.forEach(scFix);S.scU=S.scU||{};S.scCel=S.scCel||{};   // migrate: old saves' placed decorations become the 房间 layout
+// newly met unlock conditions -> remember + celebrate once (S.scCel syncs, so other devices don't repeat it)
+function sceneCheck(){S.scU=S.scU||{};S.scCel=S.scCel||{};const fresh=[];
+ SCENES.forEach(s=>{if(s.id==="room")return;let ok=false;try{ok=!!s.ok()}catch(e){}if(ok&&!S.scU[s.id])S.scU[s.id]=Date.now();if(S.scU[s.id]&&!S.scCel[s.id])fresh.push(s)});
+ if(!fresh.length)return false;fresh.forEach(s=>S.scCel[s.id]=Date.now());save();
+ const m=modal(`<div style="font-size:64px;line-height:1.1">${fresh.map(s=>s.e).join(" ")}</div><h1>🎉 新场景解锁！</h1><p>${fresh.map(s=>`<b>${s.e} ${s.zh}</b>`).join("、")}<br><small class="muted">在宠物家上方切换场景，每个场景都能单独装饰哦</small></p><div class="row"><button class="btn green full" id="scGo">去看看 ${fresh[0].e}</button><button class="btn gray full" id="scX">好的</button></div>`);
+ sfx("shiny");const r=m.querySelector(".card").getBoundingClientRect();burst(r.left+r.width/2,r.top+60,24,["🎉","✨","🌟",fresh[0].e]);
+ m.querySelector("#scX").onclick=()=>{m.remove();setTimeout(()=>{try{showGifts()}catch(e){}},300)};m.querySelector("#scGo").onclick=()=>{m.remove();setScene(P(),fresh[0].id);home()};return true}
 // ================= HOME SCENE + DECORATE MODE =================
 function decoLayer(p,edit){return (p.deco||[]).map((d,k)=>`<div class="pd ${edit?"ed":""}" data-k="${k}" style="left:${d.x*100}%;top:${d.y*100}%;z-index:${d.z||1};transform:translate(-50%,-50%) rotate(${d.r||0}deg) scale(${d.s||1})">${itemSVG(d.i,64)}</div>`).join("")}
 function petHTML(p,big){p=p||P();const st=ART(stageIdx(p)),scale=big?(0.72+st*0.06):0.55,sz=190;
- return `<div class="petWrap" id="pet" style="width:${sz}px;height:${sz}px;transform:scale(${scale});transform-origin:50% 100%"><div class="petIdle" style="position:relative;width:100%;height:100%">${petSVGAny(st,p.sp)}</div></div>`}
-function scene(p,edit){return `<div class="scene ${edit?"edit":""}" id="scene"><div class="petStage" id="stage">${petHTML(p,true)}</div><div class="decoL" id="decoL">${decoLayer(p,edit)}</div></div>`}
+ return `<div class="petWrap" id="pet" style="width:${sz}px;height:${sz}px;transform:scale(${scale});transform-origin:50% 100%"><div class="petAmb"><div class="petIdle" style="position:relative;width:100%;height:100%">${petSVGAny(st,p.sp)}</div></div></div>`}
+function scene(p,edit){const sc=(p&&SCN[p.sc])?p.sc:"room";return `<div class="scene sc-${sc} ${edit?"edit":""}" id="scene">${scBgHTML(sc)}<div class="petStage" id="stage">${petHTML(p,true)}</div><div class="decoL" id="decoL">${decoLayer(p,edit)}</div></div>`}
 let DM=null;
 function decoMode(){screen="deco";scrollTo(0,0);const p=P();DM={sel:-1,cat:"all"};
  app.innerHTML=`<div class="top"><button class="iconbtn" id="dn" aria-label="完成">✅</button><h1 style="margin:0">🎨 装饰模式</h1><div class="chip" id="dc">${p.deco.length}/${DECO_MAX}</div></div>
- <div class="row" style="justify-content:space-between;align-items:center;margin:2px 0"><p class="muted" style="margin:0;font-size:13px">拖装饰到场景 · 拖动移动 · 双指缩放 · 拖回下方收回</p><button class="btn gray" id="clrAll" style="font-size:13px;min-height:36px;padding:4px 10px;white-space:nowrap;flex-shrink:0;width:auto">🧹 清空</button></div>${scene(p,true)}
+ <div class="row" style="justify-content:space-between;align-items:center;margin:2px 0"><p class="muted" style="margin:0;font-size:13px">拖装饰到场景 · 拖动移动 · 双指缩放 · 拖回下方收回</p><button class="btn gray" id="clrAll" style="font-size:13px;min-height:36px;padding:4px 10px;white-space:nowrap;flex-shrink:0;width:auto">🧹 清空</button></div>${sceneRow(p)}${scene(p,true)}
  <div class="tools" id="tools"><button data-a="minus">➖</button><button data-a="plus">➕</button><button data-a="rot">🔄</button><button data-a="front">⬆️</button><button data-a="del">🗑️</button></div>
  <div class="sheet" id="sheet"><div class="tabs sm">${[["all","全部"],...Object.entries(CAT).map(([k,v])=>[k,v[0]+v[1]])].map(([k,n])=>`<button class="tab ${k==="all"?"on":""}" data-cat="${k}">${n}</button>`).join("")}</div><div class="tray" id="tray"></div></div>`;
- $("#dn").onclick=()=>{DM=null;home()};
+ $("#dn").onclick=()=>{DM=null;home()};bindSceneRow(decoMode);
  $("#clrAll").onclick=()=>{if(!p.deco.length)return toast("场景是空的",800);if(confirm("把场景里的 "+p.deco.length+" 件装饰全部收回？（装饰还在你的收藏里）")){p.deco=[];DM.sel=-1;save();sfx("whoosh");redrawDeco();toast("已全部收回 ↩️",900)}};
- const fillTray=()=>{const own=ITEMS.filter(i=>S.inv[i.id]&&(DM.cat==="all"||i.cat===DM.cat));const used=new Set(p.deco.map(d=>d.i));
-  $("#tray").innerHTML=own.length?own.map(i=>`<div class="ti rc${i.t} ${used.has(i.id)?"used":""}" data-id="${i.id}"><span class="lz" data-id="${i.id}"></span></div>`).join(""):`<p class="muted center">还没有装饰，学习得神秘盒子吧 🎁</p>`;lazySVG($("#tray"));
+ const fillTray=()=>{const own=ITEMS.filter(i=>S.inv[i.id]&&(DM.cat==="all"||i.cat===DM.cat));const pw=placedWhere(p);
+  $("#tray").innerHTML=own.length?own.map(i=>`<div class="ti rc${i.t} ${pw[i.id]?"used":""}" data-id="${i.id}"${pw[i.id]?` data-where="${SCN[pw[i.id]].e}${SCN[pw[i.id]].zh}"`:""}><span class="lz" data-id="${i.id}"></span></div>`).join(""):`<p class="muted center">还没有装饰，学习得神秘盒子吧 🎁</p>`;lazySVG($("#tray"));
   $("#tray").querySelectorAll(".ti").forEach(el=>trayDrag(el))};
  app.querySelectorAll("#sheet [data-cat]").forEach(b=>b.onclick=()=>{DM.cat=b.dataset.cat;app.querySelectorAll("#sheet [data-cat]").forEach(x=>x.classList.toggle("on",x===b));fillTray()});
  fillTray();bindPlaced();
  $("#tools").onclick=e=>{const a=e.target.dataset.a;if(!a||DM.sel<0)return;const d=p.deco[DM.sel];if(!d)return;
   if(a==="minus")d.s=Math.max(.4,(d.s||1)-.15);if(a==="plus")d.s=Math.min(2.6,(d.s||1)+.15);if(a==="rot")d.r=((d.r||0)+15)%360;if(a==="front")d.z=Math.max(...p.deco.map(x=>x.z||1))+1;
   if(a==="del"){p.deco.splice(DM.sel,1);DM.sel=-1;sfx("whoosh")}else sfx("tick");save();redrawDeco()}}
-function redrawDeco(){const p=P();$("#decoL").innerHTML=decoLayer(p,true);$("#dc").textContent=p.deco.length+"/"+DECO_MAX;const used=new Set(p.deco.map(d=>d.i));$("#tray").querySelectorAll(".ti").forEach(el=>el.classList.toggle("used",used.has(el.dataset.id)));bindPlaced();
+function redrawDeco(){const p=P();$("#decoL").innerHTML=decoLayer(p,true);$("#dc").textContent=p.deco.length+"/"+DECO_MAX;const pw=placedWhere(p);$("#tray").querySelectorAll(".ti").forEach(el=>{const w=pw[el.dataset.id];el.classList.toggle("used",!!w);if(w)el.setAttribute("data-where",SCN[w].e+SCN[w].zh);else el.removeAttribute("data-where")});bindPlaced();
  $("#tools").classList.toggle("on",DM.sel>=0);if(DM.sel>=0){const el=$(`.pd[data-k="${DM.sel}"]`);el&&el.classList.add("sel")}}
 function overSheet(y){const r=$("#sheet").getBoundingClientRect();return y>=r.top}
 function relPos(x,y){const r=$("#scene").getBoundingClientRect();return {x:Math.max(.03,Math.min(.97,(x-r.left)/r.width)),y:Math.max(.03,Math.min(.97,(y-r.top)/r.height)),inside:x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom}}
 function trayDrag(el){let ghost=null,id=null;
- el.addEventListener("pointerdown",e=>{if(el.classList.contains("used"))return toast("已经摆在场景里啦",800);id=e.pointerId;try{el.setPointerCapture(id)}catch(_){}ghost=document.createElement("div");ghost.className="dghost";ghost.innerHTML=itemSVG(el.dataset.id,64);document.body.appendChild(ghost);mv(e)});
+ el.addEventListener("pointerdown",e=>{if(el.classList.contains("used"))return toast(el.getAttribute("data-where")?"已经摆在「"+el.getAttribute("data-where")+"」里啦":"已经摆在场景里啦",900);id=e.pointerId;try{el.setPointerCapture(id)}catch(_){}ghost=document.createElement("div");ghost.className="dghost";ghost.innerHTML=itemSVG(el.dataset.id,64);document.body.appendChild(ghost);mv(e)});
  const mv=e=>{if(!ghost||e.pointerId!==id)return;ghost.style.left=(e.clientX-32)+"px";ghost.style.top=(e.clientY-32)+"px"};
  el.addEventListener("pointermove",mv);
  const up=e=>{if(!ghost||e.pointerId!==id)return;ghost.remove();ghost=null;id=null;const p=P();const r=relPos(e.clientX,e.clientY);
@@ -1547,11 +1692,12 @@ function home(){
  ${S.eggList.length?`<button class="banner" id="eg">${S.eggList.some(e=>!eggLeft(e))?"🐣 宠物蛋可以孵化啦！快去看看":"🥚 宠物蛋 ×"+S.eggList.length+"：再完成 1 次学习就能孵化"}<span style="margin-left:auto">▶</span></button>`:""}
  <div class="card" style="padding-bottom:12px">
   <div class="center"><b style="font-size:20px">${esc(p.name)}</b> · <span class="muted">${sp.z?sp.z+" ":""}${sp.zh} · Lv.${st+1} ${cur.name} · 💗${p.bond+1}</span></div>
-  ${scene(p,false)}
+  ${sceneRow(p)}${scene(p,false)}
   <div class="bar xp"><i style="width:${pct}%"></i><span>${nxt?`成长 ${p.growth}/${nxt.need} → ${nxt.name}`:`满级大明星！成长 ${p.growth}`}</span></div>
   <div class="row" style="margin-top:12px"><button class="btn orange full" id="feed" ${S.energy<FEED_COST?"disabled":""}>🍖 喂食 -${FEED_COST}⚡</button><button class="btn blue full" id="dec">🎨 装饰</button></div>
   <p class="muted center" style="margin:8px 0 0">点宠物，它会考考你学过的单词 💬</p>
  </div>
+ <button class="banner visitB" id="goVisit">🏡 去串门<small style="font-weight:700;opacity:.8;margin-left:8px">${siblings().length?"看看家里的小伙伴":"去好朋友家玩"}</small><span style="margin-left:auto">▶</span></button>
  <button class="banner" id="mw">${mwDone?"🔮 今日神秘单词已完成："+esc(mw.w)+" ✅":"🔮 今日神秘单词：点开看看是什么！+15⚡"}<span style="margin-left:auto">▶</span></button>
  <div class="row" style="margin-top:12px"><button class="btn green full" id="learn" style="min-height:64px;font-size:21px">📚 开始学习</button><button class="btn full" id="teach" style="min-height:64px;font-size:18px">🎓 教宠物</button></div>
  <div class="card exam ${ready?"ready":""}"><div class="row"><span style="font-size:40px">🎓</span><div style="flex:1"><b>${lvBadge(lv)} 考级 → ${lv<MAXLV?lvBadge(lv+1):"🏆"}</b><div class="muted">${LVI[lv].nm} · ${LVI[lv].cefr} · ${LVI[lv].yle}</div>
@@ -1570,7 +1716,7 @@ function home(){
  $("#lvl").onclick=()=>toast(`${lvBadge(lv)} ${LVI[lv].nm}<br><small>${LVI[lv].cefr} · ${LVI[lv].yle}<br>${LVI[lv].kb} · 累计 ≈${LVI[lv].cum} 词</small>`,2200);
  if($("#zt"))$("#zt").onclick=()=>zodiacPicker(true);if($("#eg"))$("#eg").onclick=petsScreen;if($("#pt"))$("#pt").onclick=surprisePet;
  $("#snd").onclick=()=>{S.sound=!S.sound;save();if(S.sound)say("Hello!","c");home()};$("#spd2").onclick=()=>{S.slow=!S.slow;save();say("Hello, friend!","s");home()};
- $("#stage").onclick=homePetTap;$("#mw").onclick=()=>mwDone?(say(mw.w),toast(`${mw.e} ${esc(mw.w)} · ${esc(mw.zh)}`,1500)):startLearn({mystery:mw});
+ $("#stage").onclick=homePetTap;$("#goVisit").onclick=()=>friendsScreen();try{sibInbox()}catch(e){}frBadge();if(GIFTQ.length)setTimeout(showGifts,700);bindSceneRow(home);bindSceneBg(app);setTimeout(()=>{if(screen==="home"&&!document.querySelector(".modal"))sceneCheck()},450);$("#mw").onclick=()=>mwDone?(say(mw.w),toast(`${mw.e} ${esc(mw.w)} · ${esc(mw.zh)}`,1500)):startLearn({mystery:mw});
  $("#learn").onclick=()=>startLearn();$("#teach").onclick=startTeach;
  if($("#ex"))$("#ex").onclick=startExam;if($("#rv"))$("#rv").onclick=()=>startLearn({words:es.lock.map(k=>WI[k]),examReview:lv});if($("#rePlH"))$("#rePlH").onclick=()=>requestPlaceRetake("home");
  app.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>startLearn({unit:+b.dataset.u}));
@@ -3963,6 +4109,11 @@ const rid=(p,n)=>{const a=new Uint8Array(n||8);crypto.getRandomValues(a);return 
 const DEV=LS.get("wm.dev",null)||(()=>{const d=rid("d",8);LS.set("wm.dev",d);return d})();
 const KIDE=["🧒","👧","👦","🧑","👶","🐣"];
 // ---------- child identity on every save ----------
+// child display names: the name the parent set; "宝贝" only when none is set. Duplicates get a number so every kid is distinguishable.
+const kidName=k=>{const n=k&&typeof k.cname==="string"?k.cname.trim():"";return n||"宝贝"};
+const kidNamed=k=>{const n=k&&typeof k.cname==="string"?k.cname.trim():"";return !!n&&n!=="宝贝"};
+function kidLabels(kids){const seen={},out={};kids.forEach(k=>{const n=kidName(k);seen[n]=(seen[n]||0)+1;out[k.cid]=seen[n]>1?n+" "+seen[n]:n});kids.forEach(k=>{const n=kidName(k);if(seen[n]>1&&out[k.cid]===n)out[k.cid]=n+" 1"});return out}
+function kidTag(k,kids){const L=kidLabels(kids||allKids());return (k.cemo||KIDE[0])+" "+esc(L[k.cid]||kidName(k))}
 function ensureKid(s){if(!s.cid)s.cid=rid("kid-",8);if(!s.cname)s.cname="宝贝";if(!s.cemo)s.cemo=KIDE[0];(s.eggList||[]).forEach((e,i)=>{if(!e.id)e.id="e-"+(e.src||"x")+"-"+(e.sess||0)+"-"+i+"-"+rid("",4)});s.eggsDone=s.eggsDone||[];return s}
 ensureKid(S);try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
 // ---------- answer history per word (event log, union-mergeable) ----------
@@ -3997,13 +4148,16 @@ function mergeSave(a,b){if(!a)return cl(b);if(!b)return cl(a);a=ensureKid(cl(a))
  o.exam={};for(const l of new Set([...Object.keys(a.exam||{}),...Object.keys(b.exam||{})])){const x=(a.exam||{})[l]||{},y=(b.exam||{})[l]||{},nn=(n.exam||{})[l]||{};o.exam[l]={tries:Math.max(x.tries||0,y.tries||0),pass:(x.pass||y.pass)?1:0,lock:(x.pass||y.pass)?[]:(nn.lock||x.lock||y.lock||[])}}
  // pets: union by species; progress = max; name/decorations follow the newest save
  const byN=new Map((n.pets||[]).map(p=>[p.sp,p])),byO=new Map((old.pets||[]).map(p=>[p.sp,p]));const order=[...(n.pets||[]).map(p=>p.sp),...(old.pets||[]).map(p=>p.sp).filter(s=>!byN.has(s))];
- o.pets=order.map(sp=>{const x=byN.get(sp),y=byO.get(sp);if(!x||!y)return cl(x||y);const p=cl(x);for(const k of ["growth","bond","bx","taught"])if(x[k]!=null||y[k]!=null)p[k]=Math.max(x[k]||0,y[k]||0);p.maxed=!!(x.maxed||y.maxed);return p});
+ o.pets=order.map(sp=>{const x=byN.get(sp),y=byO.get(sp);if(!x||!y)return cl(x||y);const p=cl(x);for(const k of ["growth","bond","bx","taught"])if(x[k]!=null||y[k]!=null)p[k]=Math.max(x[k]||0,y[k]||0);p.maxed=!!(x.maxed||y.maxed);
+  // scenes: active scene + each scene layout follow the newest save; scenes the newest save never laid out keep the other device's layout
+  const lx=scLayouts(x),ly=scLayouts(y),sc=SCN[x.sc]?x.sc:"room";p.sc=sc;p.dz={};const usedX=new Set();Object.keys(lx).forEach(k=>lx[k].forEach(d=>usedX.add(d.i)));SCENES.forEach(s=>{const L=lx[s.id]||(ly[s.id]&&ly[s.id].filter(d=>!usedX.has(d.i)));if(!L)return;if(s.id===sc)p.deco=cl(L);else p.dz[s.id]=cl(L)});if(!p.deco)p.deco=[];return p});
+ o.scU=unionMax(a.scU,b.scU);o.scCel=unionMax(a.scCel,b.scCel);
  const act=(n.pets||[])[n.active||0];o.active=Math.max(0,act?o.pets.findIndex(p=>p.sp===act.sp):0);
  o.zodiacTickets=n.zodiacTickets||0;
  // eggs: union by id, minus any egg hatched on either device
  o.eggsDone=[...new Set([...(a.eggsDone||[]),...(b.eggsDone||[])])].sort();const done=new Set(o.eggsDone);const em=new Map();[...(a.eggList||[]),...(b.eggList||[])].forEach(e=>{if(!done.has(e.id)&&!em.has(e.id))em.set(e.id,e)});o.eggList=[...em.values()].sort((x,y)=>String(x.id).localeCompare(String(y.id)));
  for(const k of LOCAL_KEYS)if(a[k]!==undefined)o[k]=a[k];else delete o[k];   // device-only settings never travel
- o.log=mergeLog(a.log,b.log);o.cid=a.cid;o.cname=n.cname;o.cemo=n.cemo;return o}
+ o.log=mergeLog(a.log,b.log);o.cid=a.cid;{const pick=(a.cnAt||0)!==(b.cnAt||0)?((a.cnAt||0)>(b.cnAt||0)?a:b):kidNamed(n)?n:kidNamed(old)?old:n;o.cname=pick.cname||n.cname;o.cemo=pick.cemo||n.cemo;o.cnAt=Math.max(a.cnAt||0,b.cnAt||0)||undefined;if(!o.cnAt)delete o.cnAt}return o}
 // ---------- local child profiles ----------
 const KIDK="wm.kid.";
 function otherKids(){const out=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(KIDK)){const s=LS.get(k,null);if(s&&s.cid&&s.cid!==S.cid)out.push(s)}}return out}
@@ -4012,7 +4166,7 @@ function getKid(cid){return cid===S.cid?S:LS.get(KIDK+cid,null)}
 function rawSave(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function setKid(cid,data){if(cid===S.cid){S=data;rawSave();if(["home","pets","summary","album","parent","sync"].includes(screen))render()}else LS.set(KIDK+cid,data)}
 function switchKid(cid){if(cid===S.cid)return;const n=LS.get(KIDK+cid,null);if(!n)return;S.upd=Date.now();LS.set(KIDK+S.cid,S);localStorage.setItem(KEY,JSON.stringify(n));LS.del(KIDK+cid);location.reload()}
-function addKid(name,emo){const s=ensureKid(Object.assign(fresh(),{cname:name||"宝贝",cemo:emo||KIDE[1],upd:Date.now()}));LS.set(KIDK+s.cid,s);markDirty(s.cid);syncSoon(500);return s}
+function addKid(name,emo){const s=ensureKid(Object.assign(fresh(),{cname:name||"宝贝",cemo:emo||KIDE[1],upd:Date.now(),cnAt:name?Date.now():0}));LS.set(KIDK+s.cid,s);markDirty(s.cid);syncSoon(500);return s}
 function deleteKid(cid){if(cid===S.cid)return;LS.del(KIDK+cid);const st=SYST();delete st.revs[cid];delete st.dirty[cid];LS.set("wm.sync",st);if(st.token)rpc("delete_child",{p_token:st.token,p_child:cid}).catch(()=>{})}
 // ---------- save hook: track hatched eggs, timestamp, mark dirty ----------
 const _save0=save;let _eggIds=new Set(S.eggList.map(e=>e.id));
@@ -4076,8 +4230,8 @@ function kidStats(s){const lg=s.log||{},day=k=>lg[k]||{},sum=(ks,f)=>ks.reduce((
   known:W.filter(x=>w[x.w]&&w[x.w].k).length,mastered:W.filter(x=>isMastS(w[x.w])).length,level:s.level||1,pets:(s.pets||[]).length}}
 const acc=(c,w)=>c+w?Math.round(c/(c+w)*100)+"%":"—";
 function parentReport(){const kids=allKids();if(!PKID||!kids.some(k=>k.cid===PKID))PKID=S.cid;const s=kids.find(k=>k.cid===PKID),st=kidStats(s),mx=Math.max(5,...st.week.map(d=>d.learned+d.correct+d.wrong));
- $("#pc").innerHTML=`<div class="kidbar">${kids.map(k=>`<button class="kidchip ${k.cid===PKID?"on":""}" data-k="${k.cid}">${k.cemo} ${esc(k.cname)}</button>`).join("")}</div>
- <div class="card"><h2>${s.cemo} ${esc(s.cname)} <span class="muted" style="font-size:14px">${lvBadge(st.level)} · 已学 ${st.known} · 🏅 已掌握 ${st.mastered}</span></h2>
+ $("#pc").innerHTML=`<div class="kidbar">${kids.map(k=>`<button class="kidchip ${k.cid===PKID?"on":""}" data-k="${k.cid}">${kidTag(k,kids)}</button>`).join("")}</div>
+ <div class="card"><h2>${kidTag(s,kids)} 的学习报告 <span class="muted" style="font-size:14px">${lvBadge(st.level)} · 已学 ${st.known} · 🏅 已掌握 ${st.mastered}</span></h2>
   <h3 style="margin:8px 0 4px">今天</h3><div class="stats"><div class="stat"><b>${st.today.learned}</b><small>新学单词</small></div><div class="stat"><b>${st.today.correct+st.today.wrong}</b><small>答题</small></div><div class="stat"><b>${acc(st.today.correct,st.today.wrong)}</b><small>正确率</small></div></div>
   <h3 style="margin:12px 0 4px">这一周 <span class="muted" style="font-size:13px">新学 ${st.weekSum.learned} · 答题 ${st.weekSum.correct+st.weekSum.wrong} · 正确率 ${acc(st.weekSum.correct,st.weekSum.wrong)}</span></h3>
   <div class="wkchart">${st.week.map(d=>`<div class="wkd"><div class="wkb"><i class="c" style="height:${d.correct/mx*100}%"></i><i class="x" style="height:${d.wrong/mx*100}%"></i></div><small>${d.k.slice(5).replace("-","/")}</small><b>${d.learned||""}</b></div>`).join("")}</div>
@@ -4089,15 +4243,15 @@ function parentReport(){const kids=allKids();if(!PKID||!kids.some(k=>k.cid===PKI
  const re=$("#rePlR");if(re)re.onclick=()=>{if(s.cid!==S.cid){toast("请先在「孩子」里切换到这个孩子，再重新定级",1800);return}requestPlaceRetake("report")}}
 function kidsPanel(){const kids=allKids();
  $("#pc").innerHTML=`<div class="card"><h2>🧒 孩子档案</h2><p class="muted" style="font-size:13px">每个孩子有自己的宠物、进度和装饰。不需要真实姓名，起个昵称就好。</p>
- ${kids.map(k=>`<div class="kidrow"><span style="font-size:30px">${k.cemo}</span><div style="flex:1"><b>${esc(k.cname)}</b>${k.cid===S.cid?` <small class="rt rt1">当前</small>`:""}<br><small class="muted">${lvBadge(k.level||1)} · 已学 ${W.filter(x=>k.w&&k.w[x.w]&&k.w[x.w].k).length} 词 · 宠物 ${(k.pets||[]).length}</small></div>
+ ${kids.map(k=>`<div class="kidrow"><span style="font-size:30px">${k.cemo||KIDE[0]}</span><div style="flex:1"><b>${esc(kidLabels(kids)[k.cid])}</b>${kidNamed(k)?"":` <small class="muted">（还没起名字）</small>`}${k.cid===S.cid?` <small class="rt rt1">当前</small>`:""}<br><small class="muted">${lvBadge(k.level||1)} · 已学 ${W.filter(x=>k.w&&k.w[x.w]&&k.w[x.w].k).length} 词 · 宠物 ${(k.pets||[]).length}</small></div>
   ${k.cid===S.cid?`<button class="btn gray sm" data-ren="${k.cid}">✏️</button>`:`<button class="btn sm" data-sw="${k.cid}">切换</button><button class="btn gray sm" data-del="${k.cid}">🗑️</button>`}</div>`).join("")}
  <div class="row" style="margin-top:10px"><input id="kn" class="codeIn" type="text" style="flex:1;font-size:18px;letter-spacing:0;text-transform:none;font-weight:800" placeholder="昵称，例如 小米" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off"><button class="btn green" id="kadd">➕ 添加孩子</button></div>
  <div class="emorow">${KIDE.map((e,i)=>`<button class="emo ${i===1?"on":""}" data-e="${e}">${e}</button>`).join("")}</div></div>`;
  let emo=KIDE[1];app.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>{emo=b.dataset.e;app.querySelectorAll("[data-e]").forEach(x=>x.classList.toggle("on",x===b))});
  $("#kadd").onclick=()=>{const n=$("#kn").value.trim().slice(0,10);if(!n)return toast("先起个昵称吧",900);addKid(n,emo);toast("已添加 "+esc(n),900);kidsPanel()};
  app.querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>switchKid(b.dataset.sw));
- app.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const k=getKid(b.dataset.del);if(confirm(`删除「${k.cname}」的全部进度？${SYST().token?"（家庭里所有设备都会删除）":""}`)){deleteKid(b.dataset.del);kidsPanel()}});
- app.querySelectorAll("[data-ren]").forEach(b=>b.onclick=()=>askText("新昵称",S.cname,n=>{S.cname=n;save();kidsPanel()},{max:10}))}
+ app.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const k=getKid(b.dataset.del);if(confirm(`删除「${kidName(k)}」的全部进度？${SYST().token?"（家庭里所有设备都会删除）":""}`)){deleteKid(b.dataset.del);kidsPanel()}});
+ app.querySelectorAll("[data-ren]").forEach(b=>b.onclick=()=>askText("新昵称",kidNamed(S)?S.cname:"",n=>{S.cname=n;S.cnAt=Date.now();S.upd=Date.now();save();markDirty&&markDirty(S.cid);syncSoon(500);kidsPanel()},{max:10}))}
 const JOINPK="wm.joinp";
 let JOINP=null,INVT=null,JOINPOLL=false;
 function readJOINP(){const j=LS.get(JOINPK,null);if(j&&j.id&&j.sec&&(j.until||0)>Date.now())return j;LS.del(JOINPK);return null}
@@ -4120,9 +4274,9 @@ function syncPanel(){const st=SYST();clearInterval(INVT);
  $("#sn").onclick=async()=>{const r=await syncNow();toast(r.ok?`同步完成 ↑${r.pushed} ↓${r.pulled}`:"同步失败："+esc(r.err),1200);syncBadge()};
  $("#iv").onclick=invitePanel;
  $("#lv").onclick=async()=>{if(!confirm("这台设备退出家庭？本机进度会保留，但不再同步。"))return;try{const i=await rpc("family_info",{p_token:st.token});await rpc("remove_device",{p_token:st.token,p_device:i.me})}catch(e){}LS.set("wm.sync",{});syncPanel()};
- rpc("family_info",{p_token:st.token}).then(i=>{const d=$("#devs");if(d)d.innerHTML=(i.devices||[]).map(x=>`<div class="kidrow"><span>📱</span><div style="flex:1"><b>${esc(x.label||"设备")}</b>${x.id===i.me?` <small class="rt rt1">本机</small>`:""}<br><small class="muted">最近 ${new Date(x.last_seen).toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})}</small></div>${x.id===i.me?"":`<button class="btn gray sm" data-rm="${x.id}">移除</button>`}</div>`).join("");
+ rpc("family_info",{p_token:st.token}).then(i=>{const d=$("#devs");if(d)d.innerHTML=(i.devices||[]).map(x=>`<div class="kidrow"><span>📱</span><div style="flex:1"><b>${esc(x.label||"设备")}</b>${x.id===i.me?` <small class="rt rt1">本机</small><br><small class="muted">本机孩子：${allKids().map(k=>kidTag(k)).join("、")}</small>`:""}<br><small class="muted">最近 ${new Date(x.last_seen).toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})}</small></div>${x.id===i.me?"":`<button class="btn gray sm" data-rm="${x.id}">移除</button>`}</div>`).join("");
   app.querySelectorAll("[data-rm]").forEach(b=>b.onclick=async()=>{if(confirm("移除这台设备？它将不能再读取家庭数据。")){await rpc("remove_device",{p_token:st.token,p_device:b.dataset.rm});syncPanel()}})}).catch(e=>{const d=$("#devs");if(d)d.textContent="无法连接："+e.message})}
-function devLabel(){const u=navigator.userAgent;return (/iPad/.test(u)?"iPad":/iPhone/.test(u)?"iPhone":/Android/.test(u)?"Android":/Mac/.test(u)?"Mac":/Win/.test(u)?"Windows":"设备")+" · "+DEV.slice(1,5)}
+function devLabel(){const u=navigator.userAgent;const nm=allKids().filter(kidNamed).map(k=>k.cname.trim()).slice(0,2).join("、");return ((/iPad/.test(u)?"iPad":/iPhone/.test(u)?"iPhone":/Android/.test(u)?"Android":/Mac/.test(u)?"Mac":/Win/.test(u)?"Windows":"设备")+" · "+(nm?nm+" · ":"")+DEV.slice(1,5)).slice(0,40)}
 async function invitePanel(){const st=SYST();let r;try{r=await rpc("open_join",{p_token:st.token})}catch(e){return toast("失败："+esc(e.message),1500)}
  const until=new Date(r.until).getTime();const el=$("#inv");if(!el)return;
  el.innerHTML=`<div class="qrbox">${qrSVG(QR_PREFIX+r.code,200)}</div><p style="margin:4px 0">在另一台设备上打开 家长中心 → 家庭同步 → <b>加入家庭</b>，<br>扫码或输入代码 <b class="mono">${esc(r.code)}</b></p><p class="muted" id="ivt"></p><div id="reqs"></div><button class="btn gray full" id="ivx">结束邀请</button>`;
@@ -4183,6 +4337,8 @@ mergeSave=function(a,b){const o=_ms1(a,b);if(!a||!b)return invFix(o);const mx=(x
  o.gotGifts=[...new Set([...(a.gotGifts||[]),...(b.gotGifts||[])])].sort((x,y)=>x-y).slice(-200);
  const nm=new Map();[...(a.notif||[]),...(b.notif||[])].forEach(n=>nm.set(n.id,n));o.notif=[...nm.values()].sort((x,y)=>x.id-y.id).slice(-40);
  o.notifSeen=Math.max(a.notifSeen||0,b.notifSeen||0);
+ const um=(x,y)=>{const m=new Map();[...(x||[]),...(y||[])].forEach(e=>{if(!e||!e.id)return;const p=m.get(e.id);m.set(e.id,p?Object.assign({},p,e,{rd:p.rd||e.rd}):e)});return [...m.values()].sort((p,q)=>(p.at||0)-(q.at||0))};
+ o.sibOut=um(a.sibOut,b.sibOut).filter(e=>Date.now()-(e.at||0)<SIB_KEEP);o.sibIn=um(a.sibIn,b.sibIn).slice(-60);o.sibSeen=mx(a.sibSeen,b.sibSeen);
  const fa=a.fr,fb=b.fr;o.fr=fa&&fb?((b.upd||0)>(a.upd||0)?fb:(a.upd||0)>(b.upd||0)?fa:(JSON.stringify(fa)>=JSON.stringify(fb)?fa:fb)):(fa||fb||undefined);if(!o.fr)delete o.fr;
  return invFix(o)};
 let _invKeys=new Set(Object.keys(S.inv||{}));
@@ -4191,7 +4347,7 @@ save=function(){S.acq=S.acq||{};for(const id of Object.keys(S.inv||{}))if(!_invK
 // ---------- public snapshot (whitelisted again on the server) ----------
 function homeSnap(s){const p=(s.pets||[])[s.active||0]||{};const w=s.w||{};
  return {sp:p.sp||"monkey",growth:p.growth||0,bond:p.bond||0,level:s.level||1,mastered:W.filter(x=>isMastS(w[x.w])).length,learned:W.filter(x=>w[x.w]&&w[x.w].k).length,
-  pets:(s.pets||[]).length,items:Object.keys(s.inv||{}).length,deco:(p.deco||[]).slice(0,12).map(d=>({i:d.i,x:d.x,y:d.y,r:d.r||0,s:d.s||1,z:d.z||1}))}}
+  pets:(s.pets||[]).length,items:Object.keys(s.inv||{}).length,deco:(p.deco||[]).slice(0,12).map(d=>({i:d.i,x:d.x,y:d.y,r:d.r||0,s:d.s||1,z:d.z||1})).concat((p.deco||[]).length<12&&SCN[p.sc]&&p.sc!=="room"?[{i:"zsc-"+p.sc,x:0,y:0,r:0,s:1,z:0}]:[]),sc:SCN[p.sc]?p.sc:"room"}}
 let GIFTQ=[];
 async function friendsAfterSync(){const st=SYST();if(!st.token)return;
  for(const k of allKids()){if(!k.fr||!k.fr.kid)continue;const snap=homeSnap(k),js=JSON.stringify(snap),key="wm.snap."+k.cid;
@@ -4207,23 +4363,48 @@ async function friendsAfterSync(){const st=SYST();if(!st.token)return;
  if(changed||ack.length){save();try{await rpc("kid_inbox_ack",{p_token:SYST().token,p_child:S.cid,p_ids:ack})}catch(e){}}
  frBadge();showGifts()}
 const _sn1=syncNow;
-syncNow=async function(){const r=await _sn1.apply(this,arguments);if(r&&r.ok){try{await friendsAfterSync()}catch(e){}}return r};
+syncNow=async function(){const r=await _sn1.apply(this,arguments);if(r&&r.ok){try{await friendsAfterSync()}catch(e){}}try{if(sibInbox()){frBadge();showGifts()}}catch(e){}return r};
 function unseenN(){return (S.notif||[]).filter(n=>n.id>(S.notifSeen||0)&&n.kind!=="gift").length}
-function frBadge(){const b=$("#nFr");if(!b)return;let d=b.querySelector(".dot");const n=unseenN();if(!n){d&&d.remove();return}if(!d){d=document.createElement("i");d.className="dot";b.appendChild(d)}d.textContent=n>9?"9+":n}
+function frBadge(){const hv=$("#goVisit");if(hv){const n2=unseenN()+sibUnseen(),hd=hv.querySelector(".dot");if(n2&&!hd)hv.insertAdjacentHTML("beforeend",`<i class="dot">${n2>9?"9+":n2}</i>`);else if(hd){if(n2)hd.textContent=n2>9?"9+":n2;else hd.remove()}}
+ const b=$("#nFr");if(!b)return;let d=b.querySelector(".dot");const n=unseenN()+sibUnseen();if(!n){d&&d.remove();return}if(!d){d=document.createElement("i");d.className="dot";b.appendChild(d)}d.textContent=n>9?"9+":n}
 // ---------- gift-opening moment ----------
 function showGifts(){if(!GIFTQ.length||document.querySelector(".modal"))return;if(!["home","friends","visit","pets","boxes","gallery"].includes(screen))return;const g=GIFTQ.shift();const it=ITEMS.find(i=>i.id===g.item);
- const m=modal(`<div class="giftbox" id="gb">🎁</div><h2>${g.from?esc(nickTxt(g.from.nick)):"好朋友"} 送你一份礼物！</h2><p class="muted">点一下礼物盒打开</p><div id="gr"></div><button class="btn full" id="gx" style="display:none">太棒了！</button>`);
+ const m=modal(`<div class="giftbox" id="gb">🎁</div><h2>${g.fromTxt?esc(g.fromTxt):g.from?esc(nickTxt(g.from.nick)):"好朋友"} 送你一份礼物！</h2><p class="muted">点一下礼物盒打开</p><div id="gr"></div><button class="btn full" id="gx" style="display:none">太棒了！</button>`);
  m.querySelector("#gb").onclick=()=>{const b=m.querySelector("#gb");if(b.classList.contains("open"))return;b.classList.add("open");sfx&&sfx("fan");setTimeout(()=>{b.style.display="none";
    m.querySelector("#gr").innerHTML=g.dust?`<div style="font-size:60px">✨</div><p><b>${it?esc(it.zh):"装饰"}</b> 你已经有啦，<br>变成了 <b>30 星尘</b>！</p>`:`<div class="giftItem">${itemSVG(g.item,120)}</div><p><b>${esc(it.zh)}</b> ${tierTag(it.t)}<br><small class="muted">已放进你的装饰收藏</small></p>`;
    burstAt&&burstAt(m.querySelector("#gr"),18,["🎉","✨","💖","🌟"]);m.querySelector("#gx").style.display=""},520)};
  m.querySelector("#gx").onclick=()=>{m.remove();setTimeout(showGifts,300)}}
+// ---------- SIBLINGS 家里的小伙伴: visits / likes / stickers / gifts between kids of one family, entirely through the synced saves ----------
+// Sender appends to its OWN save: S.sibOut=[{id,to,k:"like"|"sticker"|"gift",st,it,at,d}] ; recipient copies events addressed to it into S.sibIn (once, S.sibSeen).
+const SIB_GIFTS=3,SIB_STK=3,SIB_KEEP=40*864e5;
+function siblings(){return otherKids().filter(k=>k&&k.cid&&k.cid!==S.cid)}
+function sibAllOut(){const out=[];[S,...otherKids()].forEach(k=>(k.sibOut||[]).forEach(e=>out.push(Object.assign({from:k.cid},e))));return out}
+function sibToday(to,kind,from){const d=dk();return sibAllOut().filter(e=>e.to===to&&e.k===kind&&e.d===d&&(!from||e.from===from)).length}
+function sibLeft(to){return {liked:sibToday(to,"like",S.cid)>0,stk:Math.max(0,SIB_STK-sibToday(to,"sticker",S.cid)),gifts:Math.max(0,SIB_GIFTS-sibToday(to,"gift"))}}   // gifts: 3/day per recipient
+function sibLikes(cid){return sibAllOut().filter(e=>e.to===cid&&e.k==="like").length}
+function sibSend(to,k,extra){S.sibOut=(S.sibOut||[]).filter(e=>Date.now()-(e.at||0)<SIB_KEEP);const e=Object.assign({id:"sb-"+Date.now().toString(36)+"-"+rid("",5),to,k,at:Date.now(),d:dk()},extra||{});S.sibOut.push(e);S.upd=Date.now();save();try{markDirty(S.cid);syncSoon(400)}catch(_){}return e}
+function sibInbox(){S.sibSeen=S.sibSeen||{};S.sibIn=S.sibIn||[];let n=0;const now=Date.now();
+ siblings().forEach(k=>(k.sibOut||[]).forEach(e=>{if(e.to!==S.cid||S.sibSeen[e.id])return;S.sibSeen[e.id]=now;n++;
+  const it={id:e.id,from:k.cid,k:e.k,st:e.st,it:e.it,at:e.at||now};
+  if(e.k==="gift"){const owned=S.inv[e.it]&&!(((S.giftedOut||{})[e.it]||0)>=((S.acq||{})[e.it]||0));
+   if(owned||!ITEM[e.it]){S.dust=(S.dust||0)+30;GIFTQ.push({item:e.it,fromTxt:(k.cemo||"")+" "+kidName(k),dust:30})}else{S.inv[e.it]=1;S.acq=S.acq||{};S.acq[e.it]=now;_invKeys.add(e.it);GIFTQ.push({item:e.it,fromTxt:(k.cemo||"")+" "+kidName(k)})}}
+  S.sibIn.push(it)}));
+ Object.keys(S.sibSeen).forEach(id=>{if(now-S.sibSeen[id]>SIB_KEEP*2)delete S.sibSeen[id]});
+ if(n){S.sibIn=S.sibIn.sort((a,b)=>a.at-b.at).slice(-60);save()}return n}
+function sibUnseen(){return (S.sibIn||[]).filter(n=>!n.rd&&n.k!=="gift").length}
+function sibVisit(cid){const k=getKid(cid);if(!k)return toast("找不到这个小伙伴",1200);const L=sibLeft(cid);
+ VIS={sib:true,kid:cid,name:kidName(k),emo:k.cemo||"",snap:homeSnap(k),likes:sibLikes(cid),liked_today:L.liked,stickers_today:SIB_STK-L.stk,gifts_left:L.gifts};screen="visit";renderVisit()}
 // ---------- KID SIDE: friends screen ----------
 let FRL=null;
-function friendsScreen(){screen="friends";scrollTo(0,0);const st=SYST();
- app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">🤝 好朋友</h1><span style="width:52px"></span></div><div id="fs"></div>`;back(home);
+function friendsScreen(){screen="friends";scrollTo(0,0);const st=SYST();sibInbox();
+ const sibs=siblings(),sIn=(S.sibIn||[]).slice().reverse().slice(0,12),sibName=cid=>{const k=getKid(cid);return k?(k.cemo||"")+" "+esc(kidName(k)):"家里的小伙伴"};
+ const famHTML=sibs.length?`<div class="card"><h2>🏠 家里的小伙伴</h2><p class="muted" style="margin:-4px 0 8px;font-size:13px">一家人不用好友代码，随时可以串门、点赞、送礼物</p>${sibs.map(k=>{const p=(k.pets||[])[k.active||0]||{sp:"monkey",growth:0};return `<div class="frow"><span class="nav0">${mini(p.sp,ART(stageIdx(p)),46)}</span><div style="flex:1"><b>${k.cemo||""} ${esc(kidName(k))}</b><br><small class="muted">${lvBadge(k.level||1)} · ${(SP[p.sp]||SP.monkey).zh} · 👍 ${sibLikes(k.cid)}</small></div><button class="btn sm" data-sv="${k.cid}">🏡 串门</button></div>`}).join("")}</div>`+(sIn.length?`<div class="card"><h2>💌 家里人送来的 ${sibUnseen()?`<span class="newdot">${sibUnseen()} 新</span>`:""}</h2><div class="nlist">${sIn.map(n=>`<div class="nrow ${n.rd?"":"new"}"><span class="nav0" style="font-size:26px">${(getKid(n.from)||{}).cemo||"🧒"}</span><div style="flex:1"><b>${sibName(n.from)}</b><br><small class="muted">${n.k==="like"?"给你点了赞 👍":n.k==="sticker"?"送你一个贴纸":"送你一份礼物 🎁"}</small></div><span class="nbig">${n.k==="sticker"?STICKERS[n.st]||"🌟":n.k==="like"?"👍":"🎁"}</span></div>`).join("")}</div></div>`:""):"";
+ app.innerHTML=`<div class="top">${BACK}<h1 style="margin:0">🤝 好朋友</h1><span style="width:52px"></span></div>${famHTML}<div id="fs"></div>`;back(home);
+ app.querySelectorAll("[data-sv]").forEach(b=>b.onclick=()=>sibVisit(b.dataset.sv));
+ if(S.sibIn&&S.sibIn.some(n=>!n.rd)){S.sibIn.forEach(n=>n.rd=1);save()}frBadge();
  const box=$("#fs");
- if(!syncConfigured()||!st.token){box.innerHTML=`<div class="card center"><div style="font-size:54px">🏡</div><h2>和好朋友互相串门</h2><p class="muted">请家长先在 <b>家长中心 → 家庭同步</b> 开启同步，再设置好友名片。</p><button class="btn full" id="gp">👨‍👩‍👧 找家长设置</button></div>`;$("#gp").onclick=()=>parentGate(()=>parentCenter("friends"));return}
- if(!S.fr||!S.fr.kid){box.innerHTML=`<div class="card center"><div style="font-size:54px">🪪</div><h2>还没有好友名片</h2><p class="muted">请家长在 <b>家长中心 → 好友</b> 给你选一个昵称，就能加好朋友啦。</p><button class="btn full" id="gp">👨‍👩‍👧 找家长设置</button></div>`;$("#gp").onclick=()=>parentGate(()=>parentCenter("friends"));return}
+ if(!syncConfigured()||!st.token){box.innerHTML=`<div class="card center"><div style="font-size:54px">🏡</div><h2>${sibs.length?"还想和家外面的好朋友串门？":"和好朋友互相串门"}</h2><p class="muted">请家长先在 <b>家长中心 → 家庭同步</b> 开启同步，再设置好友名片。</p><button class="btn full" id="gp">👨‍👩‍👧 找家长设置</button></div>`;$("#gp").onclick=()=>parentGate(()=>parentCenter("friends"));return}
+ if(!S.fr||!S.fr.kid){box.innerHTML=`<div class="card center"><div style="font-size:54px">🪪</div><h2>${sibs.length?"想加家外面的好朋友？":"还没有好友名片"}</h2><p class="muted">请家长在 <b>家长中心 → 好友</b> 给你选一个昵称，就能加好朋友啦。</p><button class="btn full" id="gp">👨‍👩‍👧 找家长设置</button></div>`;$("#gp").onclick=()=>parentGate(()=>parentCenter("friends"));return}
  const p=P(),tot=S.frTot||{likes:0},seen=S.notifSeen||0,ns=(S.notif||[]).filter(n=>n.kind!=="visit").slice().reverse().slice(0,12);
  box.innerHTML=`<div class="card mecard"><div class="meav">${mini(p.sp,ART(stageIdx(p)),64)}</div><div style="flex:1"><b style="font-size:19px">${esc(nickTxt(S.fr.nick))}</b><br><small class="muted">${lvBadge(S.level)} · 👍 收到 ${tot.likes} 个赞</small></div></div>
  <div class="card"><h2>🔔 好朋友的点赞和礼物 ${unseenN()?`<span class="newdot">${unseenN()} 新</span>`:""}</h2>${ns.length?`<div class="nlist">${ns.map(n=>`<div class="nrow ${n.id>seen?"new":""}"><span class="nav0">${n.from?mini(n.from.sp,1,34):"❔"}</span><div style="flex:1"><b>${n.from?esc(nickTxt(n.from.nick)):"小伙伴"}</b><br><small class="muted">${n.kind==="like"?"给你点了赞 👍":n.kind==="sticker"?"送你一个贴纸":"送你一份礼物 🎁"}</small></div><span class="nbig">${n.kind==="sticker"?STICKERS[n.sticker]||"🌟":n.kind==="like"?"👍":n.kind==="gift"?"🎁":"👀"}</span></div>`).join("")}</div>`:`<p class="muted">还没有新消息。去好朋友家串门、点个赞吧！</p>`}</div>
@@ -4239,23 +4420,28 @@ let VIS=null;
 async function visitHome(kid){screen="visit";scrollTo(0,0);app.innerHTML=`<div class="top"><button class="iconbtn" id="back" aria-label="返回">⬅️</button><h1 style="margin:0">🏡 串门</h1><span style="width:52px"></span></div><div class="card center"><p class="muted">正在敲门… 🚪</p></div>`;back(friendsScreen);
  let v;try{v=await rpc("visit_friend",{p_token:SYST().token,p_child:S.cid,p_kid:kid})}catch(e){toast(frErr(e),1600);return friendsScreen()}
  VIS=Object.assign(v,{kid});renderVisit()}
-function renderVisit(){const v=VIS,s=v.snap,pet={sp:s.sp,growth:s.growth,deco:s.deco.filter(d=>ITEMS.some(i=>i.id===d.i))},sp=SP[s.sp]||SP.monkey;
- app.innerHTML=`<div class="top"><button class="iconbtn" id="back" aria-label="返回">⬅️</button><h1 style="margin:0;font-size:22px">🏡 ${esc(nickTxt(v.nick))}的家</h1><span style="width:52px"></span></div>
+function renderVisit(){const v=VIS,s=v.snap,mk=(s.deco||[]).find(d=>d&&typeof d.i==="string"&&d.i.indexOf("zsc-")===0),vsc=mk&&SCN[mk.i.slice(4)]?mk.i.slice(4):SCN[s.sc]?s.sc:"room",pet={sp:s.sp,growth:s.growth,sc:vsc,deco:(s.deco||[]).filter(d=>!!ITEM[d.i])},sp=SP[s.sp]||SP.monkey;
+ app.innerHTML=`<div class="top"><button class="iconbtn" id="back" aria-label="返回">⬅️</button><h1 style="margin:0;font-size:22px">🏡 ${v.sib?esc(v.emo+" "+v.name):esc(nickTxt(v.nick))}的家</h1><span style="width:52px"></span></div>
  <div class="visitwrap">${scene(pet,false)}<div class="vtag">${lvBadge(s.level,true)}</div><div class="vlike">👍 ${v.likes}</div><div id="stk"></div></div>
  <div class="card"><div class="vhead"><b style="font-size:19px">${esc(sp.zh)}</b> <small class="rt rt${sp.r||0}">${["⭐","⭐⭐","⭐⭐⭐","🌈"][sp.r||0]}</small><span class="vmood">💗 心情 Lv.${(s.bond||0)+1}</span></div>
   <div class="stats"><div class="stat"><b>${s.mastered}</b><small>🏅 已掌握</small></div><div class="stat"><b>${s.learned}</b><small>📚 已学单词</small></div><div class="stat"><b>${s.pets}</b><small>🐾 宠物</small></div><div class="stat"><b>${s.items}</b><small>🎀 装饰</small></div></div></div>
  <div class="card"><div class="row"><button class="btn ${v.liked_today?"gray":"pink"}" id="lk" style="flex:1" ${v.liked_today?"disabled":""}>${v.liked_today?"✅ 今天已点赞":"👍 点个赞"}</button><button class="btn ${v.gifts_left>0?"green":"gray"}" id="gf" style="flex:1" ${v.gifts_left>0?"":"disabled"}>${v.gifts_left>0?"🎁 送礼物":"🎁 今天送完啦"}</button></div>
   <p class="muted" style="margin:8px 0 0;font-size:13px;text-align:right">🎁 今天还能给 TA 送 ${Math.max(0,v.gifts_left||0)} 件礼物</p><p class="muted" style="margin:6px 0 4px;font-size:13px">送一个贴纸（每天 3 个，还剩 ${Math.max(0,3-v.stickers_today)} 个）</p><div class="stkrow">${STICKERS.map((e,i)=>`<button class="stkb" data-s="${i}" ${v.stickers_today>=3?"disabled":""}>${e}</button>`).join("")}</div></div>`;
  back(friendsScreen);const tok=SYST().token;
+ if(v.sib){$("#lk").onclick=()=>{if(sibLeft(v.kid).liked)return toast("今天已经点过赞啦",1200);sibSend(v.kid,"like");v.liked_today=true;v.likes++;sfx&&sfx("ok");renderVisit();burstAt($(".vlike"),12,["👍","💖","✨"])};
+  app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{const i=+b.dataset.s;if(sibLeft(v.kid).stk<=0)return toast("今天的贴纸送完啦",1200);sibSend(v.kid,"sticker",{st:i});v.stickers_today++;renderVisit();flySticker(STICKERS[i])});
+  $("#gf").onclick=()=>giftPicker(v);return}
  $("#lk").onclick=async()=>{try{const r=await rpc("react",{p_token:tok,p_child:S.cid,p_kid:v.kid,p_kind:"like"});if(r.ok){v.liked_today=true;v.likes++;sfx&&sfx("ok");renderVisit();burstAt($(".vlike"),12,["👍","💖","✨"])}else toast("今天已经点过赞啦",1200)}catch(e){toast(frErr(e),1400)}};
  app.querySelectorAll("[data-s]").forEach(b=>b.onclick=async()=>{const i=+b.dataset.s;try{const r=await rpc("react",{p_token:tok,p_child:S.cid,p_kid:v.kid,p_kind:"sticker",p_sticker:i});if(r.ok){v.stickers_today++;renderVisit();flySticker(STICKERS[i])}else toast("今天的贴纸送完啦",1200)}catch(e){toast(frErr(e),1400)}});
  $("#gf").onclick=()=>giftPicker(v)}
 function flySticker(e){const w=$("#stk");if(!w)return;const s=document.createElement("div");s.className="flystk";s.textContent=e;s.style.left=(20+Math.random()*60)+"%";w.appendChild(s);sfx&&sfx("pop");setTimeout(()=>s.remove(),1800)}
-function spareItems(){const placed=new Set((S.pets||[]).flatMap(p=>(p.deco||[]).map(d=>d.i)));return ITEMS.filter(i=>S.inv[i.id]&&!placed.has(i.id)).sort((a,b)=>a.t-b.t)}
+function spareItems(){const placed=new Set();(S.pets||[]).forEach(p=>{const L=scLayouts(p);Object.keys(L).forEach(k=>L[k].forEach(d=>placed.add(d.i)))});return ITEMS.filter(i=>S.inv[i.id]&&!placed.has(i.id)).sort((a,b)=>a.t-b.t)}
 function giftPicker(v){const items=spareItems();
- const m=modal(`<h2>🎁 送给 ${esc(nickTxt(v.nick))}</h2><p class="muted" style="font-size:13px">选一件没摆在房间里的装饰（每天给每个好朋友最多送 3 件，今天还能送 ${v.gifts_left} 件）</p>${items.length?`<div class="gpick">${items.slice(0,60).map(i=>`<button class="gpi" data-i="${i.id}"><span class="lz" data-id="${i.id}"></span><small>${esc(i.zh)}</small>${tierTag(i.t)}</button>`).join("")}</div>`:`<p>还没有可以送的装饰哦。开盲盒得到的、没摆出来的装饰可以送人。</p>`}<button class="btn gray full" id="gpx" style="margin-top:10px">取消</button>`);
+ const vn=v.sib?v.emo+" "+v.name:nickTxt(v.nick);const m=modal(`<h2>🎁 送给 ${esc(vn)}</h2><p class="muted" style="font-size:13px">选一件没摆在房间里的装饰（每天给每个好朋友最多送 3 件，今天还能送 ${v.gifts_left} 件）</p>${items.length?`<div class="gpick">${items.slice(0,60).map(i=>`<button class="gpi" data-i="${i.id}"><span class="lz" data-id="${i.id}"></span><small>${esc(i.zh)}</small>${tierTag(i.t)}</button>`).join("")}</div>`:`<p>还没有可以送的装饰哦。开盲盒得到的、没摆出来的装饰可以送人。</p>`}<button class="btn gray full" id="gpx" style="margin-top:10px">取消</button>`);
  lazySVG(m);m.querySelector("#gpx").onclick=()=>m.remove();
- m.querySelectorAll("[data-i]").forEach(b=>b.onclick=async()=>{const id=b.dataset.i,it=ITEMS.find(x=>x.id===id);if(!confirm(`把「${it.zh}」送给 ${nickTxt(v.nick)}？送出后就不是你的啦。`))return;
+ m.querySelectorAll("[data-i]").forEach(b=>b.onclick=async()=>{const id=b.dataset.i,it=ITEMS.find(x=>x.id===id);if(!confirm(`把「${it.zh}」送给 ${vn}？送出后就不是你的啦。`))return;
+  if(v.sib){if(sibLeft(v.kid).gifts<=0){toast("今天 TA 已经收到 3 件礼物啦，明天再送吧",1600);return}if(!spareItems().some(x=>x.id===id)){toast(frErr("placed"),1400);return}
+   const now=Date.now();delete S.inv[id];S.giftedOut=S.giftedOut||{};S.giftedOut[id]=now;_invKeys.delete(id);sibSend(v.kid,"gift",{it:id});m.remove();v.gifts_left=sibLeft(v.kid).gifts;renderVisit();toast(`🎁 已送出「${esc(it.zh)}」！<br><small>${esc(v.name)}下次打开时就能收到</small>`,1800);return}
   try{await syncNow();const r=await rpc("send_gift",{p_token:SYST().token,p_child:S.cid,p_kid:v.kid,p_item:id});if(!r.ok){toast(r.err==="daily_limit"?"今天已经给 TA 送了 3 件啦，明天再送吧":frErr(r.err),1600);return}
    delete S.inv[id];S.giftedOut=S.giftedOut||{};S.giftedOut[id]=r.gifted_at;_invKeys.delete(id);save();m.remove();v.gifts_left=r.gifts_left!=null?r.gifts_left:Math.max(0,(v.gifts_left||1)-1);renderVisit();toast(`🎁 已送出「${esc(it.zh)}」！<br><small>好朋友下次打开时就能收到</small>`,1800);syncSoon(300)}catch(e){toast(frErr(e),1500)}})}
 // ---------- PARENT SIDE: 🤝 好友 tab ----------
@@ -4263,10 +4449,10 @@ let FKID=null,FNICK=null;
 async function friendsPanel(){const st=SYST(),pc=$("#pc");
  if(!syncConfigured()||!st.token){pc.innerHTML=`<div class="card"><h2>🤝 好友</h2><p>好友功能需要先开启 <b>家庭同步</b>。</p><button class="btn full" id="gs">🔄 去开启家庭同步</button></div>`;$("#gs").onclick=()=>parentCenter("sync");return}
  const kids=allKids();if(!FKID||!kids.some(k=>k.cid===FKID))FKID=S.cid;const k=kids.find(x=>x.cid===FKID);
- const chips=kids.length>1?`<div class="kidbar">${kids.map(x=>`<button class="kidchip ${x.cid===FKID?"on":""}" data-fk="${x.cid}">${x.cemo} ${esc(x.cname)}</button>`).join("")}</div>`:"";
+ const chips=kids.length>1?`<div class="kidbar">${kids.map(x=>`<button class="kidchip ${x.cid===FKID?"on":""}" data-fk="${x.cid}">${kidTag(x)}</button>`).join("")}</div>`:"";
  const bindChips=()=>app.querySelectorAll("[data-fk]").forEach(b=>b.onclick=()=>{FKID=b.dataset.fk;FNICK=null;friendsPanel()});
  if(!k.fr||!k.fr.kid){FNICK=FNICK||randNick();
-  pc.innerHTML=chips+`<div class="card"><h2>🪪 ${k.cemo} ${esc(k.cname)} 的好友名片</h2><p class="muted" style="font-size:13px">好友只会看到下面这个<b>系统昵称</b>（不会显示真实姓名，也不能自由输入文字或聊天）。</p>
+  pc.innerHTML=chips+`<div class="card"><h2>🪪 ${kidTag(k)} 的好友名片</h2><p class="muted" style="font-size:13px">好友只会看到下面这个<b>系统昵称</b>（不会显示真实姓名，也不能自由输入文字或聊天）。</p>
   <div class="nickbig" id="nk">${esc(nickTxt(FNICK))}</div><div class="row"><select id="na" class="sel">${NICK_A.map((t,i)=>`<option value="${i}" ${i===FNICK[0]?"selected":""}>${t}</option>`).join("")}</select><select id="nb" class="sel">${NICK_B.map((t,i)=>`<option value="${i}" ${i===FNICK[1]?"selected":""}>${t}</option>`).join("")}</select><button class="btn gray sm" id="nr">🎲</button></div>
   <button class="btn full" id="mkp" style="margin-top:12px">✅ 创建好友名片</button></div>`;bindChips();
   const upd=()=>{FNICK=[+$("#na").value,+$("#nb").value];$("#nk").textContent=nickTxt(FNICK)};$("#na").onchange=upd;$("#nb").onchange=upd;$("#nr").onclick=()=>{FNICK=randNick();friendsPanel()};
@@ -4277,7 +4463,7 @@ async function friendsPanel(){const st=SYST(),pc=$("#pc");
  if(!prof){const d=getKid(k.cid);delete d.fr;setKid(k.cid,d);return friendsPanel()}
  const inc=reqs.incoming.filter(r=>r.child===k.cid),out=reqs.outgoing.filter(r=>r.child===k.cid),blk=reqs.blocked.filter(r=>r.child===k.cid);
  const card=f=>`<span class="nav0">${mini(f.sp,2,40)}</span><div style="flex:1"><b>${esc(nickTxt(f.nick))}</b><br><small class="muted">${lvBadge(f.level)}</small></div>`;
- pc.innerHTML=chips+`<div class="card center"><h2>🪪 ${esc(nickTxt(prof.nick))} <small class="muted" style="font-size:13px">（${k.cemo} ${esc(k.cname)}）</small></h2><p class="muted" style="font-size:13px;margin:0">好友代码（只发给认识的家长）</p>
+ pc.innerHTML=chips+`<div class="card center"><h2>🪪 ${esc(nickTxt(prof.nick))} <small class="muted" style="font-size:13px">（${kidTag(k)}）</small></h2><p class="muted" style="font-size:13px;margin:0">好友代码（只发给认识的家长）</p>
   <div class="bigcode">${fmtCode(prof.code)}</div><div class="qrwrap">${qrSVG(FR_PREFIX+prof.code,170)}</div>
   <div class="row" style="justify-content:center"><button class="btn gray sm" id="rg">🔁 换一个代码</button><button class="btn gray sm" id="rn">✏️ 改昵称</button></div></div>
   ${inc.length?`<div class="card hl"><h2>📨 等你批准（${inc.length}）</h2>${inc.map(r=>`<div class="frow">${card(r.from)}<button class="btn green sm" data-ok="${r.id}">允许</button><button class="btn gray sm" data-no="${r.id}">拒绝</button><button class="btn gray sm" data-bk="${r.from.kid}" title="屏蔽">🚫</button></div>`).join("")}<p class="muted" style="font-size:12px;margin:6px 0 0">对方家长已经同意。你也允许后，两个孩子才会成为好友。</p></div>`:""}
