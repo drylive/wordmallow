@@ -29,6 +29,7 @@
 <title>词团子 Wordmallow</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+input,textarea,select{user-select:text!important;-webkit-user-select:text!important;pointer-events:auto;touch-action:manipulation;-webkit-touch-callout:default}
 html,body{margin:0;height:100%}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,sans-serif;background:linear-gradient(160deg,#ffe1f0,#e0f0ff 50%,#e6ffe0);color:#4a3b5c;overscroll-behavior:none}
 #app{max-width:440px;margin:0 auto;min-height:100%;padding:calc(10px + env(safe-area-inset-top)) 14px calc(20px + env(safe-area-inset-bottom));position:relative}
@@ -770,6 +771,15 @@ let toastT;
 function toast(t,ms){const el=$("#toast");el.innerHTML=t;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),ms||1100)}
 function praise(){return pick1(["Great job! 太棒了","Awesome! 真厉害","Yes! 答对啦","Super! 好棒","Well done! 干得好"])}
 function modal(html){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="card">${html}</div>`;document.body.appendChild(m);return m}
+function askText(title,def,done,opts){
+ opts=opts||{};
+ const max=opts.max||40;
+ const m=modal(`<h2>${esc(title)}</h2>${opts.hint?`<p class="muted">${opts.hint}</p>`:""}<input id="askI" class="codeIn" type="text" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off" style="letter-spacing:0;font-size:20px;text-transform:none;font-weight:800"><div class="row" style="margin-top:12px"><button class="btn gray full" id="askX">取消</button><button class="btn full" id="askOk">确定</button></div>`);
+ const inp=m.querySelector("#askI");inp.value=def||"";
+ const go=()=>{const v=(inp.value||"").trim().slice(0,max);m.remove();if(v)done(v)};
+ m.querySelector("#askOk").onclick=go;m.querySelector("#askX").onclick=()=>m.remove();
+ inp.onkeydown=e=>{if(e.key==="Enter")go()};
+ setTimeout(()=>{try{inp.focus();inp.select()}catch(e){}},50)}
 function back(fn){const b=$("#back");if(b)b.onclick=()=>{speechSynthesis&&speechSynthesis.cancel&&speechSynthesis.cancel();(fn||home)()}}
 const BACK=`<button class="iconbtn" id="back" aria-label="返回">🏠</button>`;
 function mini(k,st,size){return petSVGAny(st,k).replace(/width="\d+" height="\d+"/,`width="${size}" height="${size}"`)}
@@ -1585,7 +1595,7 @@ function petsScreen(){
  app.querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>eggHatch(+b.dataset.h));
  if($("#zt"))$("#zt").onclick=()=>zodiacPicker(true);if($("#pt"))$("#pt").onclick=surprisePet;
  app.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{S.active=+b.dataset.p;save();say("Let's go, "+SP[P().sp].en+"!","c");petsScreen()});
- $("#alb").onclick=album;$("#rn").onclick=()=>{const n=prompt("给宠物起个名字：",P().name);if(n&&n.trim()){P().name=n.trim().slice(0,10);save();petsScreen()}};
+ $("#alb").onclick=album;$("#rn").onclick=()=>askText("给宠物起个名字",P().name,n=>{P().name=n;save();petsScreen()},{max:10});
 }
 
 // ---------- ALBUM 图鉴 (pet rarity tiers) ----------
@@ -3994,14 +4004,17 @@ function qrSVG(text,px){const q=qrcode(0,"M");q.addData(text);q.make();const n=q
 const QR_PREFIX="WMFAM:";
 // ---------- parent gate (arithmetic) ----------
 function parentGate(then){const a=6+Math.floor(Math.random()*4),b=3+Math.floor(Math.random()*7);
- const m=modal(`<h2>👨‍👩‍👧 家长验证</h2><p class="muted">请家长回答：</p><div style="font-size:34px;font-weight:900;margin:8px 0">${a} × ${b} = ?</div><input id="pgA" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="3" class="codeIn" style="width:180px;font-size:22px;letter-spacing:0"><div class="pgKeys" id="pgK">${[1,2,3,4,5,6,7,8,9,"⌫",0].map(k=>`<button type="button" class="btn gray" data-k="${k}">${k}</button>`).join("")}</div><div class="row" style="margin-top:12px"><button class="btn gray full" id="pgX">取消</button><button class="btn full" id="pgOk">确定</button></div>`);
- const inp=m.querySelector("#pgA");
- const go=()=>{if(+inp.value===a*b){m.remove();then()}else{inp.value="";inp.classList.add("shake");toast("答案不对哦",900)}};
- const setv=v=>{inp.value=String(v).replace(/\D/g,"").slice(0,3);if(inp.value.length===2&&+inp.value===a*b)go()};
- inp.oninput=()=>setv(inp.value);
+ const m=modal(`<h2>👨‍👩‍👧 家长验证</h2><p class="muted">请家长回答：</p><div style="font-size:34px;font-weight:900;margin:8px 0">${a} × ${b} = ?</div><input id="pgA" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocorrect="off" spellcheck="false" class="codeIn" style="width:180px;font-size:22px;letter-spacing:0"><div class="pgKeys" id="pgK">${[1,2,3,4,5,6,7,8,9,"⌫",0].map(k=>`<button type="button" class="btn gray" data-k="${k}">${k}</button>`).join("")}</div><div class="row" style="margin-top:12px"><button class="btn gray full" id="pgX">取消</button><button class="btn full" id="pgOk">确定</button></div>`);
+ const inp=m.querySelector("#pgA");const digits=v=>String(v||"").replace(/\D/g,"").slice(0,3);
+ const go=()=>{if(+digits(inp.value)===a*b){m.remove();then()}else{inp.value="";inp.classList.add("shake");toast("答案不对哦",900)}};
+ const setv=v=>{const n=digits(v);if(inp.value!==n)inp.value=n;if(n.length===2&&+n===a*b)go()};
+ inp.addEventListener("compositionstart",()=>inp.dataset.composing="1");
+ inp.addEventListener("compositionend",()=>{inp.dataset.composing="";const n=digits(inp.value);if(n.length===2&&+n===a*b)go()});
+ inp.addEventListener("input",e=>{if(e.isComposing||inp.dataset.composing==="1")return;if(digits(inp.value).length===2&&+digits(inp.value)===a*b)go()});
+ inp.onblur=()=>{const n=digits(inp.value);if(inp.value!==n)inp.value=n};
  m.querySelector("#pgOk").onclick=go;inp.onkeydown=e=>{if(e.key==="Enter")go()};m.querySelector("#pgX").onclick=()=>m.remove();
- m.querySelectorAll("#pgK [data-k]").forEach(btn=>btn.onclick=()=>{const k=btn.dataset.k;if(k==="⌫")setv(inp.value.slice(0,-1));else if(inp.value.length<3)setv(inp.value+k)});
- setTimeout(()=>inp.focus(),50)}
+ m.querySelectorAll("#pgK [data-k]").forEach(btn=>btn.onclick=()=>{const k=btn.dataset.k;if(k==="⌫")setv(digits(inp.value).slice(0,-1));else if(digits(inp.value).length<3)setv(digits(inp.value)+k)});
+ setTimeout(()=>{try{inp.focus()}catch(e){}},50)}
 // ---------- PARENT CENTER ----------
 let PTAB="report",PKID=null;
 function parentCenter(tab){if(tab)PTAB=tab;screen="parent";scrollTo(0,0);
@@ -4034,13 +4047,13 @@ function kidsPanel(){const kids=allKids();
  $("#pc").innerHTML=`<div class="card"><h2>🧒 孩子档案</h2><p class="muted" style="font-size:13px">每个孩子有自己的宠物、进度和装饰。不需要真实姓名，起个昵称就好。</p>
  ${kids.map(k=>`<div class="kidrow"><span style="font-size:30px">${k.cemo}</span><div style="flex:1"><b>${esc(k.cname)}</b>${k.cid===S.cid?` <small class="rt rt1">当前</small>`:""}<br><small class="muted">${lvBadge(k.level||1)} · 已学 ${W.filter(x=>k.w&&k.w[x.w]&&k.w[x.w].k).length} 词 · 宠物 ${(k.pets||[]).length}</small></div>
   ${k.cid===S.cid?`<button class="btn gray sm" data-ren="${k.cid}">✏️</button>`:`<button class="btn sm" data-sw="${k.cid}">切换</button><button class="btn gray sm" data-del="${k.cid}">🗑️</button>`}</div>`).join("")}
- <div class="row" style="margin-top:10px"><input id="kn" class="codeIn" style="flex:1;font-size:18px;letter-spacing:0" maxlength="10" placeholder="昵称，例如 小米"><button class="btn green" id="kadd">➕ 添加孩子</button></div>
+ <div class="row" style="margin-top:10px"><input id="kn" class="codeIn" type="text" style="flex:1;font-size:18px;letter-spacing:0;text-transform:none;font-weight:800" placeholder="昵称，例如 小米" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off"><button class="btn green" id="kadd">➕ 添加孩子</button></div>
  <div class="emorow">${KIDE.map((e,i)=>`<button class="emo ${i===1?"on":""}" data-e="${e}">${e}</button>`).join("")}</div></div>`;
  let emo=KIDE[1];app.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>{emo=b.dataset.e;app.querySelectorAll("[data-e]").forEach(x=>x.classList.toggle("on",x===b))});
  $("#kadd").onclick=()=>{const n=$("#kn").value.trim().slice(0,10);if(!n)return toast("先起个昵称吧",900);addKid(n,emo);toast("已添加 "+esc(n),900);kidsPanel()};
  app.querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>switchKid(b.dataset.sw));
  app.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const k=getKid(b.dataset.del);if(confirm(`删除「${k.cname}」的全部进度？${SYST().token?"（家庭里所有设备都会删除）":""}`)){deleteKid(b.dataset.del);kidsPanel()}});
- app.querySelectorAll("[data-ren]").forEach(b=>b.onclick=()=>{const n=prompt("新昵称",S.cname);if(n&&n.trim()){S.cname=n.trim().slice(0,10);save();kidsPanel()}})}
+ app.querySelectorAll("[data-ren]").forEach(b=>b.onclick=()=>askText("新昵称",S.cname,n=>{S.cname=n;save();kidsPanel()},{max:10}))}
 const JOINPK="wm.joinp";
 let JOINP=null,INVT=null,JOINPOLL=false;
 function readJOINP(){const j=LS.get(JOINPK,null);if(j&&j.id&&j.sec&&(j.until||0)>Date.now())return j;LS.del(JOINPK);return null}
@@ -4225,7 +4238,8 @@ async function friendsPanel(){const st=SYST(),pc=$("#pc");
   <div class="row" style="justify-content:center"><button class="btn gray sm" id="rg">🔁 换一个代码</button><button class="btn gray sm" id="rn">✏️ 改昵称</button></div></div>
   ${inc.length?`<div class="card hl"><h2>📨 等你批准（${inc.length}）</h2>${inc.map(r=>`<div class="frow">${card(r.from)}<button class="btn green sm" data-ok="${r.id}">允许</button><button class="btn gray sm" data-no="${r.id}">拒绝</button><button class="btn gray sm" data-bk="${r.from.kid}" title="屏蔽">🚫</button></div>`).join("")}<p class="muted" style="font-size:12px;margin:6px 0 0">对方家长已经同意。你也允许后，两个孩子才会成为好友。</p></div>`:""}
   <div class="card"><h2>➕ 添加好友</h2><p class="muted" style="font-size:13px">输入对方家长发来的好友代码，或扫描对方的二维码。对方家长也同意后才会成为好友。</p>
-   <div class="row"><input id="fc" class="codeIn" style="flex:1" maxlength="9" placeholder="XXXX-XXXX" autocomplete="off" autocapitalize="characters"><button class="btn" id="fsend">发送</button></div>
+   <div class="row"><input id="fc" class="codeIn" type="text" style="flex:1;text-transform:uppercase;letter-spacing:0" placeholder="XXXX-XXXX" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"><button class="btn" id="fsend">发送</button></div>
+   <p class="muted" style="font-size:12px;margin:6px 0 0">键盘打不了字？用下面的按键输入</p><div class="jcKeys" id="fcK">${"ABCDEFGHJKLMNPQRSTUVWXYZ23456789".split("").concat(["⌫"]).map(k=>`<button type="button" class="btn gray" data-k="${k}">${k}</button>`).join("")}</div>
    <button class="btn blue full" id="fscan" style="margin-top:8px">📷 扫二维码</button><div id="cam"></div><p id="fmsg" class="muted" style="min-height:20px;margin:6px 0 0"></p>
    ${out.length?`<h3 style="margin:8px 0 4px">⏳ 等待对方家长批准</h3>${out.map(r=>`<div class="frow">${card(r.to)}<button class="btn gray sm" data-cx="${r.id}">撤回</button></div>`).join("")}`:""}</div>
   <div class="card"><h2>🧑‍🤝‍🧑 好友（${fl.length}）</h2>${fl.length?fl.map(f=>`<div class="frow">${card(f)}<button class="btn gray sm" data-rm="${f.kid}">移除</button><button class="btn gray sm" data-bk="${f.kid}" title="屏蔽">🚫</button></div>`).join(""):`<p class="muted">还没有好友。</p>`}
@@ -4236,11 +4250,13 @@ async function friendsPanel(){const st=SYST(),pc=$("#pc");
  $("#rn").onclick=()=>{const m=modal(`<h2>✏️ 改昵称</h2><div class="nickbig" id="nk2">${esc(nickTxt(prof.nick))}</div><div class="row"><select id="na2" class="sel">${NICK_A.map((t,i)=>`<option value="${i}" ${i===prof.nick[0]?"selected":""}>${t}</option>`).join("")}</select><select id="nb2" class="sel">${NICK_B.map((t,i)=>`<option value="${i}" ${i===prof.nick[1]?"selected":""}>${t}</option>`).join("")}</select></div><div class="row" style="margin-top:10px"><button class="btn gray" id="c2" style="flex:1">取消</button><button class="btn" id="o2" style="flex:1">保存</button></div>`);
   const u=()=>m.querySelector("#nk2").textContent=nickTxt([+m.querySelector("#na2").value,+m.querySelector("#nb2").value]);m.querySelector("#na2").onchange=u;m.querySelector("#nb2").onchange=u;m.querySelector("#c2").onclick=()=>m.remove();
   m.querySelector("#o2").onclick=async()=>{const n=[+m.querySelector("#na2").value,+m.querySelector("#nb2").value];try{const r=await rpc("kid_profile_setup",{p_token:T,p_child:k.cid,p_nick_a:n[0],p_nick_b:n[1]});const d=getKid(k.cid);d.fr={kid:r.kid,nick:r.nick};d.upd=Date.now();setKid(k.cid,d);if(k.cid===S.cid)save();else markDirty(k.cid);m.remove();again()}catch(e){toast(frErr(e),1400)}}};
- const send=async code=>{const c=(code||$("#fc").value).toUpperCase().replace(/[^A-Z0-9]/g,"");if(c.length!==8){$("#fmsg").textContent="好友代码是 8 位哦";return}$("#fsend").disabled=true;
+ const send=async code=>{const c=jcNorm(code||$("#fc").value).slice(0,8);if(c.length!==8){$("#fmsg").textContent="好友代码是 8 位哦";return}$("#fsend").disabled=true;
   try{const r=await rpc("friend_request",{p_token:T,p_child:k.cid,p_code:c});
    $("#fmsg").innerHTML=r.status==="not_found"?"❌ "+frErr("not_found"):r.status==="friends"?`🎉 已成为好友：<b>${esc(nickTxt(r.friend.nick))}</b>`:r.status==="already_friends"?"已经是好友啦":"✅ 已发送，等对方家长批准";
    if(r.status!=="not_found")setTimeout(again,900)}catch(e){$("#fmsg").textContent="❌ "+frErr(e)}finally{const b=$("#fsend");b&&(b.disabled=false)}};
- $("#fsend").onclick=()=>send();$("#fc").onkeydown=e=>{if(e.key==="Enter")send()};$("#fscan").onclick=()=>scanFriendQR(send);
+ const fcI=$("#fc");if(fcI){fcI.onblur=()=>{const c=jcNorm(fcI.value).slice(0,8);fcI.value=c.length>4?fmtCode(c):c};fcI.onkeydown=e=>{if(e.key==="Enter")send()}}
+ const fk=$("#fcK");if(fk)fk.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=jcNorm(fcI.value);fcI.value=k==="⌫"?v.slice(0,-1):(v+k).slice(0,8);if(fcI.value.length===8)toast("代码输好啦，点「发送」",900)});
+ $("#fsend").onclick=()=>send();$("#fscan").onclick=()=>scanFriendQR(send);
  const act=(sel,fn)=>app.querySelectorAll(sel).forEach(b=>b.onclick=async()=>{b.disabled=true;try{await fn(b)}catch(e){toast(frErr(e),1400)}again()});
  act("[data-ok]",b=>rpc("answer_friend_request",{p_token:T,p_request:b.dataset.ok,p_ok:true}).then(()=>toast("🎉 已成为好友",1000)));
  act("[data-no]",b=>rpc("answer_friend_request",{p_token:T,p_request:b.dataset.no,p_ok:false}));
